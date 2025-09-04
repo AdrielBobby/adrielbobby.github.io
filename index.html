@@ -4,8 +4,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Adriel Bobby — Resume Website</title>
     <meta name="description" content="Breaking into cybersecurity, one packet at a time. Projects, education, and contact." />
-
-    <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -13,40 +11,30 @@
         theme: {
           extend: {
             colors: {
-              accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" },   // Violet accent
-              done: { DEFAULT: "#10B981" },                   // Green glow for finished projects
-              ongoing: { DEFAULT: "#F59E0B" },                // Amber glow for ongoing projects
+              accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" },
+              done: { DEFAULT: "#10B981" },      // finished projects
+              ongoing: { DEFAULT: "#F59E0B" },   // ongoing projects
             },
             boxShadow: { soft: "0 10px 30px -10px rgba(0,0,0,0.25)" },
-            keyframes: {
-              // Auto-fit typewriter uses CSS variable --n for width & step count
-              type: { from: { width: '0ch' }, to: { width: 'var(--n)ch' } },
-              caret: { '0%,100%': { opacity: '0' }, '50%': { opacity: '1' } },
-            },
-            animation: {
-              typing: 'type 3s steps(var(--n)) 0.3s 1 both',
-              caret: 'caret 1s step-end infinite',
-            },
           },
         },
       };
     </script>
-
-    <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-
     <style>
       .link-underline{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-size:0% 2px;background-position:0 100%;transition:background-size .2s ease}
       .link-underline:hover{background-size:100% 2px}
 
-      /* Typewriter utility (auto-fit via --n) */
-      .typewriter{
-        --n: 1; /* fallback if JS doesn't run */
-        display:inline-block;
-        overflow:hidden;
-        white-space:nowrap;
-        border-right:2px solid #8B5CF6;
-      }
+      /* --- Heading animations --- */
+      .shimmer{background:linear-gradient(90deg,currentColor 0%,#ffffff 20%,currentColor 40%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 1.6s ease-out .3s 1 both}
+      @keyframes shimmer{from{background-position:-150% 0}to{background-position:150% 0}}
+
+      /* --- Education timeline reveal + pulse markers --- */
+      .edu-item{opacity:0;transform:translateY(8px);transition:opacity .6s ease-out,transform .6s ease-out}
+      .edu-item.show{opacity:1;transform:none}
+      .dot{background:#8B5CF6}
+      @keyframes pulseDot{0%{transform:scale(1);box-shadow:0 0 0 rgba(139,92,246,0)}50%{transform:scale(1.2);box-shadow:0 0 16px rgba(139,92,246,.85)}100%{transform:scale(1)}}
+      .dot.pulse{animation:pulseDot .8s ease-out 1 both}
     </style>
   </head>
   <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans">
@@ -68,20 +56,13 @@
 
     <!-- Main -->
     <main id="home" class="max-w-6xl mx-auto px-4">
-
       <!-- Hero -->
       <section class="py-16 md:py-24">
-        <h1 class="text-4xl md:text-6xl font-extrabold">
-          <span class="typewriter font-mono text-accent animate-typing animate-caret">
-            Breaking into cybersecurity, one packet at a time.
-          </span>
+        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
+          <span class="block">Breaking into cybersecurity</span>
+          <span class="block text-accent shimmer">one packet at a time</span>
         </h1>
         <p class="mt-4 text-lg">I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
-        <div class="flex gap-3 mt-6 text-sm">
-          <a href="mailto:adrielbobby3@gmail.com" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5">Email</a>
-          <a href="https://github.com/AdrielBobby" target="_blank" rel="noopener" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5">GitHub</a>
-          <a href="https://www.linkedin.com/in/adriel-bobby-a06a692b9/" target="_blank" rel="noopener" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5">LinkedIn</a>
-        </div>
       </section>
 
       <!-- About -->
@@ -105,22 +86,22 @@
         </div>
       </section>
 
-      <!-- Education (timeline) -->
+      <!-- Education (timeline with pulse markers) -->
       <section id="education" class="py-12 border-t">
         <h2 class="text-2xl font-bold">Education</h2>
         <div class="relative mt-6 pl-6 border-l-2 border-accent/70">
-          <article class="relative mb-8">
-            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+          <article class="edu-item mb-8">
+            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">B.Tech, CSE — RSET <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2024 – 2027</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.0</p>
           </article>
-          <article class="relative mb-8">
-            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+          <article class="edu-item mb-8">
+            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">Class 12, CBSE — Rajagiri Public School <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2022 – 2024</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
           </article>
-          <article class="relative">
-            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+          <article class="edu-item">
+            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">Class 10, CBSE — The Charter School, Pukattupady <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2021 – 2022</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
           </article>
@@ -142,35 +123,18 @@
         </article>
       </section>
 
-      <!-- Projects -->
+      <!-- Projects (color-coded glows only) -->
       <section id="projects" class="py-12 border-t">
         <h2 class="text-2xl font-bold">Projects</h2>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(16,185,129,0.6)]">
-          <h3 class="font-semibold">Vaccine Dispatch Tracker</h3>
-          <p class="text-sm">Python + MySQL</p>
-        </article>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]">
-          <h3 class="font-semibold">ESP32 Marauder — Wi‑Fi & Bluetooth Pentesting Tool (Ongoing)</h3>
-          <p class="text-sm">ESP32, Arduino IDE, Wireshark</p>
-        </article>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]">
-          <h3 class="font-semibold">Homelab for Cybersecurity Practice (Ongoing)</h3>
-          <p class="text-sm">VirtualBox, Ubuntu Server, Kali Linux</p>
-        </article>
-        <p class="text-xs text-zinc-400 mt-3">
-          Legend:
-          <span class="inline-block w-2 h-2 rounded-full bg-done align-middle mr-1"></span>finished ·
-          <span class="inline-block w-2 h-2 rounded-full bg-ongoing align-middle mr-1"></span>ongoing
-        </p>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(16,185,129,0.6)]"><h3 class="font-semibold">Vaccine Dispatch Tracker</h3><p class="text-sm">Python + MySQL</p></article>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">ESP32 Marauder — Wi‑Fi & Bluetooth Pentesting Tool</h3><p class="text-sm">ESP32, Arduino IDE, Wireshark</p></article>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">Homelab for Cybersecurity Practice</h3><p class="text-sm">VirtualBox, Ubuntu Server, Kali Linux</p></article>
       </section>
 
       <!-- Leadership -->
       <section id="leadership" class="py-12 border-t">
         <h2 class="text-2xl font-bold">Leadership & Communities</h2>
-        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]">
-          <h3 class="font-semibold">Electronic Communications Coordinator — IEEE RSET SB</h3>
-          <p class="text-sm">Mar 2025 – Present</p>
-        </article>
+        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]"><h3 class="font-semibold">Electronic Communications Coordinator — IEEE RSET SB</h3><p class="text-sm">Mar 2025 – Present</p></article>
       </section>
 
       <!-- Contact -->
@@ -180,20 +144,23 @@
       </section>
     </main>
 
-    <footer class="py-10 text-center text-sm text-zinc-500">
-      © <span id="y"></span> Adriel Bobby · Updated Sep 2025
-    </footer>
+    <footer class="py-10 text-center text-sm text-zinc-500">© <span id="y"></span> Adriel Bobby · Updated Sep 2025</footer>
 
-    <!-- Auto-fit typewriter setup -->
     <script>
+      // Year
       document.getElementById('y').textContent = new Date().getFullYear();
-
-      // Auto-count characters for the typewriter headline
-      const tw = document.querySelector('.typewriter');
-      if (tw) {
-        const n = tw.textContent.length; // includes spaces & punctuation
-        tw.style.setProperty('--n', n);
-      }
+      // Pulse markers on scroll into view
+      const observer = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            e.target.classList.add('show');
+            const dot = e.target.querySelector('.dot');
+            if(dot) dot.classList.add('pulse');
+            observer.unobserve(e.target);
+          }
+        });
+      },{threshold:0.2});
+      document.querySelectorAll('.edu-item').forEach(el=>observer.observe(el));
     </script>
   </body>
 </html>
