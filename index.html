@@ -1,4 +1,4 @@
-full_html = """<!DOCTYPE html>
+
 <html lang="en" class="scroll-smooth dark">
   <head>
     <meta charset="UTF-8" />
@@ -18,11 +18,11 @@ full_html = """<!DOCTYPE html>
             },
             boxShadow: { soft: "0 10px 30px -10px rgba(0,0,0,0.25)" },
             keyframes: {
-              type: { from: { width: '0ch' }, to: { width: '28ch' } },
+              type: { from: { width: '0ch' }, to: { width: 'var(--n)ch' } },
               caret: { '0%, 100%': { opacity: '0' }, '50%': { opacity: '1' } },
             },
             animation: {
-              typing: 'type 2.8s steps(28) 0.3s 1 both',
+              typing: 'type 3s steps(var(--n) 0.3s 1 both',
               caret: 'caret 1s step-end infinite',
             },
           },
@@ -33,7 +33,7 @@ full_html = """<!DOCTYPE html>
     <style>
       .link-underline{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-size:0% 2px;background-position:0 100%;transition:background-size .2s ease}
       .link-underline:hover{background-size:100% 2px}
-      .typewriter{display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid #8B5CF6}
+      .typewriter{--n: 1;display:inline-block;overflow:hidden;white-space:nowrap;border-right:2px solid #8B5CF6}
     </style>
   </head>
   <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans">
