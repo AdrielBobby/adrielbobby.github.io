@@ -12,9 +12,9 @@
         theme: {
           extend: {
             colors: {
-              accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" },
-              done: { DEFAULT: "#10B981" },
-              ongoing: { DEFAULT: "#F59E0B" },
+              accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" }, // Violet accent
+              done: { DEFAULT: "#10B981" }, // green for finished
+              ongoing: { DEFAULT: "#F59E0B" }, // amber for ongoing
             },
             boxShadow: { soft: "0 10px 30px -10px rgba(0,0,0,0.25)" },
             keyframes: {
@@ -55,7 +55,81 @@
       <section class="py-16 md:py-24">
         <h1 class="text-4xl md:text-6xl font-extrabold">Breaking into cybersecurity, <span class="text-accent typewriter animate-typing after:content-[''] animate-caret">one packet at a time.</span></h1>
         <p class="mt-4 text-lg">I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
+        <div class="flex gap-3 mt-6 text-sm">
+          <a href="mailto:adrielbobby3@gmail.com" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5">Email</a>
+          <a href="https://github.com/AdrielBobby" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5" target="_blank" rel="noopener">GitHub</a>
+          <a href="https://www.linkedin.com/in/adriel-bobby-a06a692b9/" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+      </section>
+      <section id="about" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">About</h2>
+        <div class="grid md:grid-cols-12 gap-6 mt-4">
+          <div class="md:col-span-7 space-y-4">
+            <p>I’m a Computer Science Engineering student with a passion for cybersecurity, digital communication, and social media management. Aspiring cybersecurity specialist with strong interests in ethical hacking and cyber‑threat analysis.</p>
+            <p>What started as curiosity about how things break turned into a drive to understand how to protect them. From penetration testing labs to hosting websites, I enjoy learning through doing. I believe in clear communication, continuous learning, and building with intention.</p>
+          </div>
+          <div class="md:col-span-5">
+            <div class="rounded-2xl border p-5 bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-900 shadow-[0_0_40px_-10px_rgba(139,92,246,0.6)]">
+              <h3 class="font-semibold">Quick facts</h3>
+              <ul class="mt-3 text-sm space-y-2">
+                <li><span class="font-medium">Languages:</span> C, Python, C++, Java</li>
+                <li><span class="font-medium">Tools:</span> MySQL, Linux, Nmap, Gobuster, WPScan, Joomscan, SQLMap, Metasploit, Searchsploit, Hydra, John the Ripper, Hashcat, Netcat, Tor, Burp Suite, Steghide, Stegseek</li>
+                <li><span class="font-medium">Domains:</span> Cybersecurity, Web Application Security, Network Security, Social Media Management</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section id="education" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">Education</h2>
+        <div class="relative mt-6 pl-6 border-l-2 border-accent/70">
+          <article class="relative mb-8">
+            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+            <h3 class="font-semibold">B.Tech, CSE — RSET <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2024 – 2027</span></h3>
+            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.0</p>
+          </article>
+          <article class="relative mb-8">
+            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+            <h3 class="font-semibold">Class 12, CBSE — Rajagiri Public School <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2022 – 2024</span></h3>
+            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
+          </article>
+          <article class="relative">
+            <span class="absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_16px_rgba(139,92,246,0.8)]"></span>
+            <h3 class="font-semibold">Class 10, CBSE — The Charter School, Pukattupady <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2021 – 2022</span></h3>
+            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
+          </article>
+        </div>
+      </section>
+      <section id="certifications" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">Certifications</h2>
+        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]">
+          <h3 class="font-semibold">Certified Penetration Tester — RedTeam Academy</h3>
+          <p class="text-sm">May 2025 – Aug 2025</p>
+          <ul class="list-disc ml-5 mt-2 text-sm space-y-1">
+            <li>Hands-on ethical hacking, vulnerability scanning, exploitation.</li>
+            <li>Tools: Nmap, Burp Suite, Metasploit.</li>
+            <li>Scenarios: privilege escalation, post-exploitation.</li>
+            <li>Structured reporting of penetration test findings.</li>
+          </ul>
+        </article>
+      </section>
+      <section id="projects" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">Projects</h2>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(16,185,129,0.6)]"><h3 class="font-semibold">Vaccine Dispatch Tracker</h3><p class="text-sm">Python + MySQL</p></article>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">ESP32 Marauder — Wi‑Fi & Bluetooth Pentesting Tool (Ongoing)</h3><p class="text-sm">ESP32, Arduino IDE, Wireshark</p></article>
+        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">Homelab for Cybersecurity Practice (Ongoing)</h3><p class="text-sm">VirtualBox, Ubuntu Server, Kali Linux</p></article>
+        <p class="text-xs text-zinc-400 mt-3">Legend: <span class="inline-block w-2 h-2 rounded-full bg-done align-middle mr-1"></span>finished · <span class="inline-block w-2 h-2 rounded-full bg-ongoing align-middle mr-1"></span>ongoing</p>
+      </section>
+      <section id="leadership" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">Leadership & Communities</h2>
+        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]"><h3 class="font-semibold">Electronic Communications Coordinator — IEEE RSET SB</h3><p class="text-sm">Mar 2025 – Present</p></article>
+      </section>
+      <section id="contact" class="py-12 border-t">
+        <h2 class="text-2xl font-bold">Contact</h2>
+        <p class="mt-3">Email: <a class="link-underline" href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a></p>
       </section>
     </main>
+    <footer class="py-10 text-center text-sm text-zinc-500">© <span id="y"></span> Adriel Bobby · Updated Sep 2025</footer>
+    <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
   </body>
 </html>
