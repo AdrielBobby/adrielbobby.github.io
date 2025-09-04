@@ -53,7 +53,7 @@
     </header>
     <main id="home" class="max-w-6xl mx-auto px-4">
       <section class="py-16 md:py-24">
-        <h1 class="text-4xl md:text-6xl font-extrabold">Breaking into cybersecurity, <span class="text-accent typewriter animate-typing after:content-[''] animate-caret">one packet at a time.</span></h1>
+        <h1 class="text-4xl md:text-6xl font-extrabold"><span class="text-accent typewriter animate-typing animate-caret">Breaking into cybersecurity, one packet at a time.</span></h1>
         <p class="mt-4 text-lg">I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
         <div class="flex gap-3 mt-6 text-sm">
           <a href="mailto:adrielbobby3@gmail.com" class="px-4 py-2 rounded-full border border-zinc-600/40 transition hover:border-accent hover:shadow-[0_0_24px_rgba(139,92,246,0.55)] hover:-translate-y-0.5">Email</a>
@@ -131,5 +131,6 @@
     </main>
     <footer class="py-10 text-center text-sm text-zinc-500">© <span id="y"></span> Adriel Bobby · Updated Sep 2025</footer>
     <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+    <script>const tw = document.querySelector('.typewriter');if (tw) {const n = tw.textContent.length;tw.style.setProperty('--n', n);}</script>
   </body>
 </html>
