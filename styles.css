@@ -55,8 +55,24 @@ body {
 @media(min-width: 900px){ .about-grid { grid-template-columns: 2fr 1fr; } }
 .about-story p { margin: 0 0 12px; }
 .quick-box { padding: 16px; border: 1px solid var(--ring); border-radius: 14px; background: var(--panel); position: relative; }
-.purple-glow { box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6); }
-.purple-glow:hover { box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6); }
+
+/* Color shifting animation for Technical Skills box */
+@keyframes colorShift {
+  0% { box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6); } /* Purple */
+  33% { box-shadow: 0 -12px 40px -10px rgba(59, 130, 246, 0.6); } /* Blue */
+  66% { box-shadow: 0 -12px 40px -10px rgba(124, 58, 237, 0.6); } /* Violet */
+  100% { box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6); } /* Back to Purple */
+}
+
+.purple-glow { 
+  box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6);
+  animation: colorShift 4.5s ease-in-out infinite;
+}
+
+.purple-glow:hover { 
+  box-shadow: 0 -12px 40px -10px rgba(139, 92, 246, 0.6);
+  animation-play-state: paused;
+}
 
 .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
 .card { grid-column: span 12; padding: 16px; border: 1px solid var(--ring); background: var(--panel); border-radius: 12px; }
