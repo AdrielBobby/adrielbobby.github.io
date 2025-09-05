@@ -36,6 +36,12 @@ body {
 
 .hero { padding: 72px 20px 24px; }
 .hero-inner { max-width: 1100px; margin: 0 auto; padding: 24px; background: linear-gradient(180deg, rgba(124,147,255,0.08), rgba(124,147,255,0.0)); border: 1px solid var(--ring); border-radius: 16px; }
+.hero-heading { margin: 0 0 12px; font-size: 52px; line-height: 1.05; letter-spacing: -0.5px; }
+.hero-heading .line-1 { display: block; font-weight: 800; }
+.hero-heading .line-2 { display: block; font-weight: 900; color: #cfc7ff; }
+.glimmer { position: relative; background: linear-gradient(90deg, #cfc7ff, #8da1ff, #cfc7ff); -webkit-background-clip: text; background-clip: text; color: transparent; overflow: hidden; }
+.glimmer::after { content: ""; position: absolute; inset: 0; background: linear-gradient(120deg, transparent 0%, rgba(255,255,255,.25) 15%, transparent 30%); transform: translateX(-120%); animation: shimmer 3s infinite; }
+@keyframes shimmer { 0% { transform: translateX(-120%);} 60% { transform: translateX(120%);} 100% { transform: translateX(120%);} }
 .hero h1 { margin: 0 0 12px; font-size: 32px; line-height: 1.2; }
 .hero p { margin: 0 0 16px; color: var(--muted); }
 .hero-cta { display:flex; gap:12px; margin: 12px 0 8px; }
@@ -44,6 +50,14 @@ body {
 .section { max-width: 1100px; margin: 28px auto; padding: 0 20px; }
 .section h2 { font-size: 22px; margin: 0 0 14px; }
 
+/* About layout */
+.about-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+@media(min-width: 900px){ .about-grid { grid-template-columns: 2fr 1fr; } }
+.about-story p { margin: 0 0 12px; }
+.quick-box { padding: 16px; border: 1px solid var(--ring); border-radius: 14px; background: var(--panel); position: relative; }
+.purple-glow { box-shadow: 0 0 0 0 rgba(124,147,255,0.0); }
+.purple-glow:hover { box-shadow: 0 -12px 40px -10px rgba(124,147,255,0.35); }
+
 .cards { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
 .card { grid-column: span 12; padding: 16px; border: 1px solid var(--ring); background: var(--panel); border-radius: 12px; }
 @media(min-width: 700px){ .card { grid-column: span 4; } }
@@ -51,13 +65,20 @@ body {
 .card p { margin: 0 0 6px; color: var(--muted); }
 .card ul { margin: 0; padding-left: 18px; }
 
+/* Project legend and colored card underglows */
+.legend { color: var(--muted); margin: 6px 0 14px; }
+.legend .dot { display:inline-block; width:10px; height:10px; border-radius:50%; margin-right:6px; vertical-align: middle; }
+.legend .green { background:#26c281; }
+.legend .yellow { background:#f0b84b; }
+.glow-green { box-shadow: 0 0 0 0 rgba(38,194,129,0); transition: box-shadow .25s ease; }
+.glow-green:hover { box-shadow: 0 -14px 44px -12px rgba(38,194,129,.35); }
+.glow-yellow { box-shadow: 0 0 0 0 rgba(240,184,75,0); transition: box-shadow .25s ease; }
+.glow-yellow:hover { box-shadow: 0 -14px 44px -12px rgba(240,184,75,.35); }
+
 .list .list-item { padding: 16px; border: 1px solid var(--ring); border-radius: 12px; background: var(--panel); }
 .list .meta { margin-top: 4px; }
-
-.skills-grid { display: grid; gap: 14px; }
-@media(min-width: 700px){ .skills-grid { grid-template-columns: repeat(3, 1fr);} }
-.skills-grid h3 { margin: 0 0 6px; font-size: 16px; }
-.skills-grid p { margin: 0; color: var(--muted); }
+.purple-hover { transition: box-shadow .25s ease; }
+.purple-hover:hover { box-shadow: 0 -12px 40px -10px rgba(124,147,255,0.35); }
 
 .contact-inline { list-style: none; display:flex; flex-wrap: wrap; gap: 12px; padding: 0; margin: 10px 0 0; }
 .contact-inline a { color: var(--primary); text-decoration: none; }
