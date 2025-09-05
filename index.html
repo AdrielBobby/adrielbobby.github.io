@@ -1,194 +1,169 @@
-<!DOCTYPE html>
-<html lang="en" class="scroll-smooth dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Adriel Bobby — Resume Website</title>
-    <meta name="description" content="Breaking into cybersecurity, one packet at a time. Projects, education, and contact." />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-      tailwind.config = {
-        darkMode: "class",
-        theme: {
-          extend: {
-            colors: {
-              accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" },
-              done: { DEFAULT: "#10B981" },
-              ongoing: { DEFAULT: "#F59E0B" },
-            },
-            boxShadow: { soft: "0 10px 30px -10px rgba(0,0,0,0.25)" },
-          },
-        },
-      };
-    </script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-    <style>
-      .link-underline{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-size:0% 2px;background-position:0 100%;transition:background-size .2s ease}
-      .link-underline:hover{background-size:100% 2px}
-
-      /* --- Heading: gradient shimmer on view --- */
-      .shimmerBase{background:linear-gradient(90deg,#8B5CF6 0%,#ffffff 20%,#8B5CF6 40%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#8B5CF6}
-      .shimmerPlay{animation:shimmer 1.8s ease-out .1s 1 both}
-      .shimmerPlay{animation:shimmer 1.8s ease-out .1s 1 both}
-      @keyframes shimmer{from{background-position:-150% 0}to{background-position:150% 0}}
-
-      /* --- Education timeline: custom rail + pulse markers --- */
-      .edu-rail{position:relative;padding-left:1.5rem}
-      .edu-rail::before{content:"";position:absolute;left:.625rem; top:var(--rail-top,.6rem); bottom:0; width:2px; background:#8B5CF6; opacity:.7}
-      .edu-item{opacity:0;transform:translateY(8px);transition:opacity .6s ease-out,transform .6s ease-out}
-      .edu-item.show{opacity:1;transform:none}
-      .dot{background:#8B5CF6}
-      @keyframes pulseDot{0%{transform:scale(1);box-shadow:0 0 0 rgba(139,92,246,0)}50%{transform:scale(1.2);box-shadow:0 0 16px rgba(139,92,246,.85)}100%{transform:scale(1)}}
-      .dot.pulse{animation:pulseDot .8s ease-out 1 both}
-    </style>
-  </head>
-  <body class="bg-white text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans">
-    <!-- Header -->
-    <header class="sticky top-0 z-50 backdrop-blur border-b border-zinc-200/60 dark:border-zinc-800 supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-zinc-900/60">
-      <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-        <a href="#home" class="font-extrabold text-xl link-underline">Adriel Bobby</a>
-        <nav class="hidden md:flex gap-6 text-sm">
-          <a href="#about" class="link-underline">About</a>
-          <a href="#education" class="link-underline">Education</a>
-          <a href="#certifications" class="link-underline">Certifications</a>
-          <a href="#projects" class="link-underline">Projects</a>
-          <a href="#leadership" class="link-underline">Leadership</a>
-          <a href="#contact" class="link-underline">Contact</a>
-          <a href="/resume.pdf" download target="_blank" rel="noopener" class="px-3 py-1.5 rounded-full bg-accent text-white shadow-soft transition hover:shadow-[0_0_24px_rgba(139,92,246,0.55)]">Download CV</a>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Adriel Bobby • Portfolio</title>
+    <meta name="description" content="Portfolio and resume of Adriel Bobby — Cybersecurity and Computer Science.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header class="site-header">
+        <nav class="nav">
+            <a class="brand" href="#home">Adriel Bobby</a>
+            <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#experience">Certificates</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <li><a class="btn" href="#resume">Resume</a></li>
+            </ul>
         </nav>
-      </div>
     </header>
 
-    <!-- Main -->
-    <main id="home" class="max-w-6xl mx-auto px-4">
-      <!-- Hero -->
-      <section class="py-16 md:py-24">
-        <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
-          <span class="block">Breaking into cybersecurity</span>
-          <span id="shimmer" class="block text-accent shimmerBase">one packet at a time</span>
-        </h1>
-        <p class="mt-4 text-lg">I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
-      </section>
-
-      <!-- About -->
-      <section id="about" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">About</h2>
-        <div class="grid md:grid-cols-12 gap-6 mt-4">
-          <div class="md:col-span-7 space-y-4">
-            <p>I’m a Computer Science Engineering student with a passion for cybersecurity, digital communication, and social media management. Aspiring cybersecurity specialist with strong interests in ethical hacking and cyber-threat analysis.</p>
-            <p>What started as curiosity about how things break turned into a drive to understand how to protect them. From penetration testing labs to hosting websites, I enjoy learning through doing. I believe in clear communication, continuous learning, and building with intention.</p>
-          </div>
-          <div class="md:col-span-5">
-            <div class="rounded-2xl border p-5 bg-gradient-to-b from-white to-zinc-50 dark:from-zinc-900 dark:to-zinc-900 shadow-[0_0_40px_-10px_rgba(139,92,246,0.6)]">
-              <h3 class="font-semibold">Quick facts</h3>
-              <ul class="mt-3 text-sm space-y-2">
-                <li><span class="font-medium">Languages:</span> C, Python, C++, Java</li>
-                <li><span class="font-medium">Tools:</span> MySQL, Linux, Nmap, Gobuster, WPScan, Joomscan, SQLMap, Metasploit, Searchsploit, Hydra, John the Ripper, Hashcat, Netcat, Tor, Burp Suite, Steghide, Stegseek</li>
-                <li><span class="font-medium">Domains:</span> Cybersecurity, Web Application Security, Network Security, Social Media Management</li>
-              </ul>
+    <main id="home" class="hero">
+        <div class="hero-inner">
+            <h1>Cybersecurity Enthusiast & Computer Science Student</h1>
+            <p>Focused on ethical hacking, web security, and network defense. Building tools, learning daily, and sharing along the way.</p>
+            <div class="hero-cta">
+                <a class="btn primary" href="#projects">Explore My Work</a>
+                <a class="btn" href="#contact">Get in Touch</a>
             </div>
-          </div>
+            <div class="meta">
+                <span>2024–27</span>
+                <span>RSET, Kochi</span>
+            </div>
         </div>
-      </section>
-
-      <!-- Education (timeline with custom rail + pulse markers) -->
-      <section id="education" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">Education</h2>
-        <div class="edu-rail mt-6">
-          <article class="edu-item mb-8">
-            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
-            <h3 class="font-semibold">B.Tech, CSE — RSET <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2024 – 2027</span></h3>
-            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.0</p>
-          </article>
-          <article class="edu-item mb-8">
-            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
-            <h3 class="font-semibold">Class 12, CBSE — Rajagiri Public School <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2022 – 2024</span></h3>
-            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
-          </article>
-          <article class="edu-item">
-            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
-            <h3 class="font-semibold">Class 10, CBSE — The Charter School, Pukattupady <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2021 – 2022</span></h3>
-            <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
-          </article>
-        </div>
-      </section>
-
-      <!-- Certifications -->
-      <section id="certifications" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">Certifications</h2>
-        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]">
-          <h3 class="font-semibold">Certified Penetration Tester — RedTeam Academy</h3>
-          <p class="text-sm">May 2025 – Aug 2025</p>
-          <ul class="list-disc ml-5 mt-2 text-sm space-y-1">
-            <li>Hands-on ethical hacking, vulnerability scanning, exploitation.</li>
-            <li>Tools: Nmap, Burp Suite, Metasploit.</li>
-            <li>Scenarios: privilege escalation, post-exploitation.</li>
-            <li>Structured reporting of penetration test findings.</li>
-          </ul>
-        </article>
-      </section>
-
-      <!-- Projects (color-coded glows only) -->
-      <section id="projects" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">Projects</h2>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(16,185,129,0.6)]"><h3 class="font-semibold">Vaccine Dispatch Tracker</h3><p class="text-sm">Python + MySQL</p></article>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">ESP32 Marauder — Wi‑Fi & Bluetooth Pentesting Tool</h3><p class="text-sm">ESP32, Arduino IDE, Wireshark</p></article>
-        <article class="border p-5 rounded-2xl mt-6 shadow-[0_0_40px_-16px_rgba(245,158,11,0.6)]"><h3 class="font-semibold">Homelab for Cybersecurity Practice</h3><p class="text-sm">VirtualBox, Ubuntu Server, Kali Linux</p></article>
-      </section>
-
-      <!-- Leadership -->
-      <section id="leadership" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">Leadership & Communities</h2>
-        <article class="border p-5 rounded-2xl mt-6 transition hover:shadow-[0_0_24px_rgba(139,92,246,0.45)]"><h3 class="font-semibold">Electronic Communications Coordinator — IEEE RSET SB</h3><p class="text-sm">Mar 2025 – Present</p></article>
-      </section>
-
-      <!-- Contact -->
-      <section id="contact" class="py-12 border-t">
-        <h2 class="text-2xl font-bold">Contact</h2>
-        <p class="mt-3">Email: <a class="link-underline" href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a></p>
-      </section>
     </main>
 
-    <footer class="py-10 text-center text-sm text-zinc-500">© <span id="y"></span> Adriel Bobby · Updated Sep 2025</footer>
+    <section id="about" class="section">
+        <h2>About Me</h2>
+        <p>Computer Science Engineering student with a passion for cybersecurity, digital communication, and social media management. Aspiring cybersecurity specialist with strong interests in ethical hacking and cyber‑threat analysis.</p>
+        <ul class="contact-inline">
+            <li><a href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a></li>
+            <li><a href="https://linkedin.com/in/AdrielBobby" target="_blank" rel="noreferrer">LinkedIn</a></li>
+            <li><a href="https://github.com/AdrielBobby" target="_blank" rel="noreferrer">GitHub</a></li>
+        </ul>
+    </section>
 
-    <script>
-      // Year
-      document.getElementById('y').textContent = new Date().getFullYear();
+    <section id="education" class="section">
+        <h2>Education</h2>
+        <div class="cards">
+            <article class="card">
+                <h3>B.Tech., Computer Science Engineering</h3>
+                <p>Rajagiri School of Engineering and Technology, Kochi</p>
+                <p><strong>Year:</strong> 2024–27 &nbsp; <strong>CGPA:</strong> 7.9</p>
+            </article>
+            <article class="card">
+                <h3>Class 12, CBSE</h3>
+                <p>Rajagiri Public School, Kalamassery</p>
+                <p><strong>Year:</strong> 2022–24 &nbsp; <strong>CGPA:</strong> 8.9</p>
+            </article>
+            <article class="card">
+                <h3>Class 10, CBSE</h3>
+                <p>The Charter School, Pukattupady</p>
+                <p><strong>Year:</strong> 2021–22 &nbsp; <strong>CGPA:</strong> 8.9</p>
+            </article>
+        </div>
+    </section>
 
-      // 1) Shimmer only when the line enters viewport (replays on refresh/landing)
-      const shimmerEl = document.getElementById('shimmer');
-      const shimmerObs = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            shimmerEl.classList.remove('shimmerPlay'); // restart if needed
-            // force reflow so re-adding class retriggers animation
-            // eslint-disable-next-line no-unused-expressions
-            void shimmerEl.offsetWidth;
-            shimmerEl.classList.add('shimmerPlay');
-            shimmerObs.unobserve(shimmerEl);
-          }
-        });
-      },{threshold:0.6});
-      if(shimmerEl){ shimmerObs.observe(shimmerEl); requestAnimationFrame(()=>{ shimmerEl.classList.add('shimmerPlay'); }); }
+    <section id="experience" class="section">
+        <h2>Certificates</h2>
+        <div class="list">
+            <div class="list-item">
+                <h3>Certified Penetration Tester — RedTeam Academy</h3>
+                <p class="meta">May '25 – Aug '25</p>
+                <ul>
+                    <li>Hands-on ethical hacking, vulnerability scanning, and system exploitation.</li>
+                    <li>Used Nmap, Burp Suite, Metasploit; privilege escalation and post‑exploitation labs.</li>
+                    <li>Structured documentation and reporting of penetration test findings.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-      // 2) Education: fade-in + pulse markers on view
-      const eduObs = new IntersectionObserver((entries)=>{
-        entries.forEach(e=>{
-          if(e.isIntersecting){
-            e.target.classList.add('show');
-            const dot = e.target.querySelector('.dot');
-            if(dot) dot.classList.add('pulse');
-            eduObs.unobserve(e.target);
-          }
-        });
-      },{threshold:0.2});
-      document.querySelectorAll('.edu-item').forEach(el=>eduObs.observe(el));
-      const rail = document.querySelector('.edu-rail');
-      const firstDot = rail ? rail.querySelector('.dot') : null;
-      if(rail && firstDot){
-        const top = firstDot.offsetTop + (firstDot.offsetHeight/2);
-        rail.style.setProperty('--rail-top', top + 'px');
-      }
-    </script>
-  </body>
+    <section id="skills" class="section">
+        <h2>Technical Skills</h2>
+        <div class="skills-grid">
+            <div>
+                <h3>Programming & Scripting</h3>
+                <p>C, Python, C++, Java</p>
+            </div>
+            <div>
+                <h3>Tools & Libraries</h3>
+                <p>MySQL, Linux, Nmap, Gobuster, WPSCan, SQLMap, Metasploit, Searchsploit, Hydra, John the Ripper, Hashcat, Netcat, Tor, Burp Suite, Steghide, Stegseek</p>
+            </div>
+            <div>
+                <h3>Domains</h3>
+                <p>Cybersecurity, Web Application Security, Network Security, Social Media Management</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="section">
+        <h2>Major Projects</h2>
+        <div class="cards">
+            <article class="card">
+                <h3>Vaccine Dispatch Tracker</h3>
+                <ul>
+                    <li>System to manage vaccine inventory and distribution; order placement and reporting.</li>
+                    <li>Integrated stock updates and visualization for sales and dispatch.</li>
+                    <li><strong>Tech:</strong> Python, MySQL</li>
+                </ul>
+            </article>
+            <article class="card">
+                <h3>ESP32 Marauder (Wi‑Fi & Bluetooth Pentesting Tool)</h3>
+                <ul>
+                    <li>Setup/customization for wireless auditing: deauth, sniffing, scanning.</li>
+                    <li><strong>Tech:</strong> ESP32, Arduino IDE, Marauder Firmware, Wireshark</li>
+                </ul>
+            </article>
+            <article class="card">
+                <h3>Homelab for Cybersecurity</h3>
+                <ul>
+                    <li>Self‑hosted lab with VMs and vulnerable boxes for pentest practice.</li>
+                    <li>Workflow with Nmap, Metasploit, Burp Suite, and SIEMs.</li>
+                    <li><strong>Tech:</strong> VirtualBox, Ubuntu Server, Kali Linux, pfSense, Docker</li>
+                </ul>
+            </article>
+        </div>
+    </section>
+
+    <section id="contact" class="section">
+        <h2>Contact</h2>
+        <form class="contact-form" name="contact" netlify>
+            <label>
+                <span>Name</span>
+                <input type="text" name="name" required>
+            </label>
+            <label>
+                <span>Email</span>
+                <input type="email" name="email" required>
+            </label>
+            <label class="full">
+                <span>Message</span>
+                <textarea name="message" rows="5" required></textarea>
+            </label>
+            <button class="btn primary" type="submit">Send</button>
+        </form>
+    </section>
+
+    <section id="resume" class="section">
+        <h2>Resume</h2>
+        <p>Add your PDF to the repo as <code>resume.pdf</code> and update the link below.</p>
+        <a class="btn" href="resume.pdf" target="_blank" rel="noreferrer">Download Resume</a>
+    </section>
+
+    <footer class="footer">
+        <p>© <span id="year"></span> Adriel Bobby. Inspired by sktomsi.lol and layout like Ryyan Safar.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
 </html>
