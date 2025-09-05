@@ -18,9 +18,9 @@
             <ul class="nav-links">
                 <li><a href="#about">About</a></li>
                 <li><a href="#education">Education</a></li>
-                <li><a href="#experience">Certificates</a></li>
-                <li><a href="#skills">Skills</a></li>
+                <li><a href="#experience">Certifications</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#leadership">Leadership</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a class="btn" href="#resume">Resume</a></li>
             </ul>
@@ -29,8 +29,11 @@
 
     <main id="home" class="hero">
         <div class="hero-inner">
-            <h1>Cybersecurity Enthusiast & Computer Science Student</h1>
-            <p>Focused on ethical hacking, web security, and network defense. Building tools, learning daily, and sharing along the way.</p>
+            <h1 class="hero-heading">
+                <span class="line-1">Breaking into cybersecurity</span>
+                <span class="line-2 glimmer">one packet at a time</span>
+            </h1>
+            <p>I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
             <div class="hero-cta">
                 <a class="btn primary" href="#projects">Explore My Work</a>
                 <a class="btn" href="#contact">Get in Touch</a>
@@ -43,29 +46,40 @@
     </main>
 
     <section id="about" class="section">
-        <h2>About Me</h2>
-        <p>Computer Science Engineering student with a passion for cybersecurity, digital communication, and social media management. Aspiring cybersecurity specialist with strong interests in ethical hacking and cyber‑threat analysis.</p>
-        <ul class="contact-inline">
-            <li><a href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a></li>
-            <li><a href="https://linkedin.com/in/AdrielBobby" target="_blank" rel="noreferrer">LinkedIn</a></li>
-            <li><a href="https://github.com/AdrielBobby" target="_blank" rel="noreferrer">GitHub</a></li>
-        </ul>
+        <h2>About</h2>
+        <div class="about-grid">
+            <div class="about-story">
+                <p>I’m a Computer Science Engineering student with a passion for cybersecurity, digital communication, and social media management. Aspiring cybersecurity specialist with strong interests in ethical hacking and cyber‑threat analysis.</p>
+                <p>What started as curiosity about how things break turned into a drive to understand how to protect them. From penetration testing labs to hosting websites, I enjoy learning through doing. I believe in clear communication, continuous learning, and building with intention.</p>
+                <ul class="contact-inline">
+                    <li><a href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a></li>
+                    <li><a href="https://linkedin.com/in/AdrielBobby" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/AdrielBobby" target="_blank" rel="noreferrer">GitHub</a></li>
+                </ul>
+            </div>
+            <aside class="quick-box purple-glow">
+                <h3>Technical Skills</h3>
+                <p><strong>Languages:</strong> C, Python, C++, Java</p>
+                <p><strong>Tools:</strong> MySQL, Linux, Nmap, Gobuster, WPSCan, Joomscan, SQLMap, Metasploit, Searchsploit, Hydra, John the Ripper, Hashcat, Netcat, Tor, Burp Suite, Steghide, Stegseek</p>
+                <p><strong>Domains:</strong> Cybersecurity, Web Application Security, Network Security, Social Media Management</p>
+            </aside>
+        </div>
     </section>
 
     <section id="education" class="section">
         <h2>Education</h2>
         <div class="cards">
-            <article class="card">
+            <article class="card purple-hover">
                 <h3>B.Tech., Computer Science Engineering</h3>
                 <p>Rajagiri School of Engineering and Technology, Kochi</p>
                 <p><strong>Year:</strong> 2024–27 &nbsp; <strong>CGPA:</strong> 7.9</p>
             </article>
-            <article class="card">
+            <article class="card purple-hover">
                 <h3>Class 12, CBSE</h3>
                 <p>Rajagiri Public School, Kalamassery</p>
                 <p><strong>Year:</strong> 2022–24 &nbsp; <strong>CGPA:</strong> 8.9</p>
             </article>
-            <article class="card">
+            <article class="card purple-hover">
                 <h3>Class 10, CBSE</h3>
                 <p>The Charter School, Pukattupady</p>
                 <p><strong>Year:</strong> 2021–22 &nbsp; <strong>CGPA:</strong> 8.9</p>
@@ -74,9 +88,9 @@
     </section>
 
     <section id="experience" class="section">
-        <h2>Certificates</h2>
+        <h2>Certifications</h2>
         <div class="list">
-            <div class="list-item">
+            <div class="list-item purple-hover">
                 <h3>Certified Penetration Tester — RedTeam Academy</h3>
                 <p class="meta">May '25 – Aug '25</p>
                 <ul>
@@ -88,28 +102,11 @@
         </div>
     </section>
 
-    <section id="skills" class="section">
-        <h2>Technical Skills</h2>
-        <div class="skills-grid">
-            <div>
-                <h3>Programming & Scripting</h3>
-                <p>C, Python, C++, Java</p>
-            </div>
-            <div>
-                <h3>Tools & Libraries</h3>
-                <p>MySQL, Linux, Nmap, Gobuster, WPSCan, SQLMap, Metasploit, Searchsploit, Hydra, John the Ripper, Hashcat, Netcat, Tor, Burp Suite, Steghide, Stegseek</p>
-            </div>
-            <div>
-                <h3>Domains</h3>
-                <p>Cybersecurity, Web Application Security, Network Security, Social Media Management</p>
-            </div>
-        </div>
-    </section>
-
     <section id="projects" class="section">
-        <h2>Major Projects</h2>
+        <h2>Projects</h2>
+        <p class="legend">Legend: <span class="dot green"></span> Completed · <span class="dot yellow"></span> Ongoing</p>
         <div class="cards">
-            <article class="card">
+            <article class="card glow-green">
                 <h3>Vaccine Dispatch Tracker</h3>
                 <ul>
                     <li>System to manage vaccine inventory and distribution; order placement and reporting.</li>
@@ -117,14 +114,14 @@
                     <li><strong>Tech:</strong> Python, MySQL</li>
                 </ul>
             </article>
-            <article class="card">
+            <article class="card glow-yellow">
                 <h3>ESP32 Marauder (Wi‑Fi & Bluetooth Pentesting Tool)</h3>
                 <ul>
                     <li>Setup/customization for wireless auditing: deauth, sniffing, scanning.</li>
                     <li><strong>Tech:</strong> ESP32, Arduino IDE, Marauder Firmware, Wireshark</li>
                 </ul>
             </article>
-            <article class="card">
+            <article class="card glow-yellow">
                 <h3>Homelab for Cybersecurity</h3>
                 <ul>
                     <li>Self‑hosted lab with VMs and vulnerable boxes for pentest practice.</li>
@@ -132,6 +129,16 @@
                     <li><strong>Tech:</strong> VirtualBox, Ubuntu Server, Kali Linux, pfSense, Docker</li>
                 </ul>
             </article>
+        </div>
+    </section>
+
+    <section id="leadership" class="section">
+        <h2>Leadership & Communities</h2>
+        <div class="list">
+            <div class="list-item purple-hover">
+                <h3>Electronic Communications Coordinator — IEEE RSET SB</h3>
+                <p class="meta">Mar 2025 – Present</p>
+            </div>
         </div>
     </section>
 
@@ -156,11 +163,12 @@
 
     <section id="resume" class="section">
         <h2>Resume</h2>
+        <p>Add your PDF to the repo as <code>resume.pdf</code> and update the link below.</p>
         <a class="btn" href="resume.pdf" target="_blank" rel="noreferrer">Download Resume</a>
     </section>
 
     <footer class="footer">
-        <p>© <span id="year"></span> Adriel Bobby. 
+        <p>© <span id="year"></span> Adriel Bobby. Inspired by sktomsi.lol and layout like Ryyan Safar.</p>
     </footer>
 
     <script src="script.js"></script>
