@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en" class="scroll-smooth dark">
   <head>
     <meta charset="UTF-8" />
@@ -12,8 +13,8 @@
           extend: {
             colors: {
               accent: { DEFAULT: "#8B5CF6", fg: "#F2EFFF" },
-              done: { DEFAULT: "#10B981" },      // finished projects
-              ongoing: { DEFAULT: "#F59E0B" },   // ongoing projects
+              done: { DEFAULT: "#10B981" },
+              ongoing: { DEFAULT: "#F59E0B" },
             },
             boxShadow: { soft: "0 10px 30px -10px rgba(0,0,0,0.25)" },
           },
@@ -25,11 +26,15 @@
       .link-underline{background-image:linear-gradient(currentColor,currentColor);background-repeat:no-repeat;background-size:0% 2px;background-position:0 100%;transition:background-size .2s ease}
       .link-underline:hover{background-size:100% 2px}
 
-      /* --- Heading animations --- */
-      .shimmer{background:linear-gradient(90deg,currentColor 0%,#ffffff 20%,currentColor 40%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shimmer 1.6s ease-out .3s 1 both}
+      /* --- Heading: gradient shimmer on view --- */
+      .shimmerBase{background:linear-gradient(90deg,#8B5CF6 0%,#ffffff 20%,#8B5CF6 40%);background-size:200% 100%;-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:#8B5CF6}
+      .shimmerPlay{animation:shimmer 1.8s ease-out .1s 1 both}
+      .shimmerPlay{animation:shimmer 1.8s ease-out .1s 1 both}
       @keyframes shimmer{from{background-position:-150% 0}to{background-position:150% 0}}
 
-      /* --- Education timeline reveal + pulse markers --- */
+      /* --- Education timeline: custom rail + pulse markers --- */
+      .edu-rail{position:relative;padding-left:1.5rem}
+      .edu-rail::before{content:"";position:absolute;left:.625rem; top:var(--rail-top,.6rem); bottom:0; width:2px; background:#8B5CF6; opacity:.7}
       .edu-item{opacity:0;transform:translateY(8px);transition:opacity .6s ease-out,transform .6s ease-out}
       .edu-item.show{opacity:1;transform:none}
       .dot{background:#8B5CF6}
@@ -49,7 +54,7 @@
           <a href="#projects" class="link-underline">Projects</a>
           <a href="#leadership" class="link-underline">Leadership</a>
           <a href="#contact" class="link-underline">Contact</a>
-          <a href="./resume.pdf" target="_blank" rel="noopener" class="px-3 py-1.5 rounded-full bg-accent text-white shadow-soft transition hover:shadow-[0_0_24px_rgba(139,92,246,0.55)]">Download CV</a>
+          <a href="/resume.pdf" download target="_blank" rel="noopener" class="px-3 py-1.5 rounded-full bg-accent text-white shadow-soft transition hover:shadow-[0_0_24px_rgba(139,92,246,0.55)]">Download CV</a>
         </nav>
       </div>
     </header>
@@ -60,7 +65,7 @@
       <section class="py-16 md:py-24">
         <h1 class="text-4xl md:text-6xl font-extrabold leading-tight">
           <span class="block">Breaking into cybersecurity</span>
-          <span class="block text-accent shimmer">one packet at a time</span>
+          <span id="shimmer" class="block text-accent shimmerBase">one packet at a time</span>
         </h1>
         <p class="mt-4 text-lg">I’m Adriel Bobby — a Computer Science student with a growing passion for cybersecurity and digital systems.</p>
       </section>
@@ -86,22 +91,22 @@
         </div>
       </section>
 
-      <!-- Education (timeline with pulse markers) -->
+      <!-- Education (timeline with custom rail + pulse markers) -->
       <section id="education" class="py-12 border-t">
         <h2 class="text-2xl font-bold">Education</h2>
-        <div class="relative mt-6 pl-6 border-l-2 border-accent/70">
+        <div class="edu-rail mt-6">
           <article class="edu-item mb-8">
-            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
+            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">B.Tech, CSE — RSET <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2024 – 2027</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.0</p>
           </article>
           <article class="edu-item mb-8">
-            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
+            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">Class 12, CBSE — Rajagiri Public School <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2022 – 2024</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
           </article>
           <article class="edu-item">
-            <span class="dot absolute -left-[1.1rem] top-2 w-2.5 h-2.5 rounded-full"></span>
+            <span class="dot absolute -left-[.35rem] top-2 w-2.5 h-2.5 rounded-full"></span>
             <h3 class="font-semibold">Class 10, CBSE — The Charter School, Pukattupady <span class="text-xs ml-2 px-2 py-0.5 rounded-full border border-accent/50">2021 – 2022</span></h3>
             <p class="text-sm text-zinc-300/90 mt-1">CGPA: 8.9</p>
           </article>
@@ -149,18 +154,41 @@
     <script>
       // Year
       document.getElementById('y').textContent = new Date().getFullYear();
-      // Pulse markers on scroll into view
-      const observer = new IntersectionObserver((entries)=>{
+
+      // 1) Shimmer only when the line enters viewport (replays on refresh/landing)
+      const shimmerEl = document.getElementById('shimmer');
+      const shimmerObs = new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+          if(e.isIntersecting){
+            shimmerEl.classList.remove('shimmerPlay'); // restart if needed
+            // force reflow so re-adding class retriggers animation
+            // eslint-disable-next-line no-unused-expressions
+            void shimmerEl.offsetWidth;
+            shimmerEl.classList.add('shimmerPlay');
+            shimmerObs.unobserve(shimmerEl);
+          }
+        });
+      },{threshold:0.6});
+      if(shimmerEl){ shimmerObs.observe(shimmerEl); requestAnimationFrame(()=>{ shimmerEl.classList.add('shimmerPlay'); }); }
+
+      // 2) Education: fade-in + pulse markers on view
+      const eduObs = new IntersectionObserver((entries)=>{
         entries.forEach(e=>{
           if(e.isIntersecting){
             e.target.classList.add('show');
             const dot = e.target.querySelector('.dot');
             if(dot) dot.classList.add('pulse');
-            observer.unobserve(e.target);
+            eduObs.unobserve(e.target);
           }
         });
       },{threshold:0.2});
-      document.querySelectorAll('.edu-item').forEach(el=>observer.observe(el));
+      document.querySelectorAll('.edu-item').forEach(el=>eduObs.observe(el));
+      const rail = document.querySelector('.edu-rail');
+      const firstDot = rail ? rail.querySelector('.dot') : null;
+      if(rail && firstDot){
+        const top = firstDot.offsetTop + (firstDot.offsetHeight/2);
+        rail.style.setProperty('--rail-top', top + 'px');
+      }
     </script>
   </body>
 </html>
