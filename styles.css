@@ -87,6 +87,11 @@ body {
 .legend .green { background:#26c281; }
 .legend .yellow { background:#f0b84b; }
 
+/* Hackathon legend colors */
+.legend .gold { background:#ffd700; }
+.legend .silver { background:#c0c0c0; }
+.legend .bronze { background:#cd7f32; }
+
 /* Pulsating animations for project cards */
 @keyframes pulsateGreen {
   0%, 100% { box-shadow: 0 -16px 50px -12px rgba(38,194,129,.5); }
@@ -106,6 +111,37 @@ body {
 .glow-yellow { 
   box-shadow: 0 -16px 50px -12px rgba(240,184,75,.5);
   animation: pulsateYellow 3s ease-in-out infinite;
+}
+
+/* Pulsating animations for hackathon cards */
+@keyframes pulsateGold {
+  0%, 100% { box-shadow: 0 -16px 50px -12px rgba(255,215,0,.5); }
+  50% { box-shadow: 0 -20px 60px -10px rgba(255,215,0,.8); }
+}
+
+@keyframes pulsateSilver {
+  0%, 100% { box-shadow: 0 -16px 50px -12px rgba(192,192,192,.5); }
+  50% { box-shadow: 0 -20px 60px -10px rgba(192,192,192,.8); }
+}
+
+@keyframes pulsateBronze {
+  0%, 100% { box-shadow: 0 -16px 50px -12px rgba(205,127,50,.5); }
+  50% { box-shadow: 0 -20px 60px -10px rgba(205,127,50,.8); }
+}
+
+.glow-gold { 
+  box-shadow: 0 -16px 50px -12px rgba(255,215,0,.5);
+  animation: pulsateGold 3s ease-in-out infinite;
+}
+
+.glow-silver { 
+  box-shadow: 0 -16px 50px -12px rgba(192,192,192,.5);
+  animation: pulsateSilver 3s ease-in-out infinite;
+}
+
+.glow-bronze { 
+  box-shadow: 0 -16px 50px -12px rgba(205,127,50,.5);
+  animation: pulsateBronze 3s ease-in-out infinite;
 }
 
 .list .list-item { padding: 16px; border: 1px solid var(--ring); border-radius: 12px; background: var(--panel); }
