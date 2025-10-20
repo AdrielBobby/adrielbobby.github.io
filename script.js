@@ -159,6 +159,13 @@ class InteractivePegboard {
       }
     });
     
+    this.board.addEventListener('touchmove', (e) => {
+      e.preventDefault();
+      if (this.isDragging && e.touches[0]) {
+        this.updateDrag(e);
+      }
+    });
+    
     this.board.addEventListener('touchend', (e) => {
       e.preventDefault();
       const touch = e.changedTouches[0];
@@ -286,9 +293,13 @@ class InteractivePegboard {
     const rect = this.board.getBoundingClientRect();
     const elementRect = element.getBoundingClientRect();
     
+    // Handle both mouse and touch events
+    const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+    
     this.dragOffset = {
-      x: event.clientX ? event.clientX - elementRect.left : event.touches[0].clientX - elementRect.left,
-      y: event.clientY ? event.clientY - elementRect.top : event.touches[0].clientY - elementRect.top
+      x: clientX - elementRect.left,
+      y: clientY - elementRect.top
     };
     
     element.style.zIndex = '20';
@@ -299,8 +310,13 @@ class InteractivePegboard {
     if (!this.isDragging || !this.draggedElement) return;
     
     const rect = this.board.getBoundingClientRect();
-    const x = (event.clientX ? event.clientX : event.touches[0].clientX) - rect.left - this.dragOffset.x;
-    const y = (event.clientY ? event.clientY : event.touches[0].clientY) - rect.top - this.dragOffset.y;
+    
+    // Handle both mouse and touch events
+    const clientX = event.clientX || (event.touches && event.touches[0].clientX);
+    const clientY = event.clientY || (event.touches && event.touches[0].clientY);
+    
+    const x = clientX - rect.left - this.dragOffset.x;
+    const y = clientY - rect.top - this.dragOffset.y;
     
     // Constrain to board boundaries
     const constrainedX = Math.max(0, Math.min(x, this.board.offsetWidth - this.draggedElement.offsetWidth));
@@ -373,5 +389,6 @@ class InteractivePegboard {
 document.addEventListener('DOMContentLoaded', () => {
   new InteractivePegboard();
 });
+
 
 
