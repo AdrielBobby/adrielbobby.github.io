@@ -58,34 +58,101 @@ body {
 
 /* Header & Nav */
 .site-header {
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 24px;
+  left: 0;
+  right: 0;
   z-index: 100;
-  background: rgba(5, 5, 5, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--panel-border);
+  background: transparent;
+  border-bottom: none;
+  pointer-events: none;
+  /* Let clicks pass through empty space */
 }
 
 .nav {
+  pointer-events: auto;
+  /* Re-enable clicks on the nav itself */
   max-width: 1100px;
+  width: fit-content;
+  /* Shrink to fit content */
   margin: 0 auto;
+  /* Center horizontally */
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 24px;
+
+  /* AOD / Ghost State */
+  padding: 4px 16px;
+  /* Minimal padding */
+  background: rgba(20, 20, 22, 0.3);
+  /* Very transparent */
+  backdrop-filter: blur(4px);
+  /* Reduced blur */
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+  /* Dashed border */
+  border-radius: 999px;
+  transform: scale(0.95);
+  /* Slightly smaller */
+  opacity: 0.8;
+
+  transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.nav:hover {
+  /* Active State */
+  padding: 10px 32px;
+  /* Expanded padding */
+  background: rgba(20, 20, 22, 0.9);
+  /* Solid background */
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  /* Solid border */
+  transform: scale(1);
+  /* Normal size */
+  opacity: 1;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
 .brand {
   color: #fff;
   text-decoration: none;
-  font-weight: 800;
-  font-size: 1.25rem;
-  letter-spacing: -0.02em;
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: -0.05em;
+  font-family: monospace;
+  /* Terminal vibe */
   background: linear-gradient(to right, #fff, #a5b4fc);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  margin-right: 32px;
+  /* Space between brand and links */
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--primary);
+  /* Purple cursor */
+  animation: blink 1s step-end infinite;
+  -webkit-text-fill-color: var(--primary);
+  /* Override gradient for cursor */
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
 }
 
 .nav-toggle {
@@ -98,44 +165,82 @@ body {
 }
 
 .nav-links {
-  list-style: none;
-  margin: 0;
-  padding: 0;
   display: flex;
-  gap: 8px;
-  align-items: center;
+  gap: 4px;
+  /* Reduced gap for cohesive feel */
+  list-style: none;
+  position: relative;
+  /* Context for sliding background */
+  padding: 4px;
+  /* Padding for the pill container */
+  background: rgba(255, 255, 255, 0.03);
+  /* Subtle container bg */
+  border-radius: 99px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nav-background {
+  position: absolute;
+  top: 4px;
+  /* Match padding */
+  left: 0;
+  height: calc(100% - 8px);
+  /* Match padding */
+  background: rgba(255, 255, 255, 0.1);
+  /* Glassy highlight */
+  border-radius: 99px;
+  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  /* Springy ease */
+  z-index: 0;
+  opacity: 0;
+  /* Hidden by default */
+  pointer-events: none;
+}
+
+.nav-links li {
+  position: relative;
+  z-index: 1;
+  /* Above background */
 }
 
 .nav-links a {
   color: var(--text-muted);
   text-decoration: none;
-  padding: 8px 16px;
-  border-radius: 99px;
-  font-size: 0.9rem;
   font-weight: 500;
-  transition: var(--transition);
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+  padding: 8px 20px;
+  /* Larger click area */
+  display: block;
+  border-radius: 99px;
 }
 
-.nav-links a:hover {
+.nav-links a:hover,
+.nav-links a.active {
   color: #fff;
-  background: rgba(255, 255, 255, 0.05);
+  /* Background handled by .nav-background via JS */
 }
 
 .nav-links .btn {
+  margin-left: 8px;
   color: #fff;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  padding: 8px 20px;
 }
 
 .nav-links .btn:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
+  background: var(--primary-glow);
+  border-color: var(--primary);
+  box-shadow: 0 0 15px var(--primary-glow);
 }
 
 /* Hero Section */
 .hero {
-  padding: 140px 24px 100px;
-  min-height: 80vh;
+  padding: 140px 24px 40px;
+  /* Reduced bottom padding */
+  min-height: 100vh;
+  /* Full viewport height */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -147,19 +252,108 @@ body {
   text-align: center;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* Removed height: 100% to prevent layout issues */
 }
 
+/* Scroll Indicator */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0.7;
+}
+
+.scroll-text {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+.scroll-arrow {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom,
+      transparent 50%,
+      var(--primary) 50%);
+  background-size: 1px 12px;
+  /* Dotted effect */
+  /* Combine dot flow (scroll-down) and bobbing (arrow-bob) */
+  animation:
+    scroll-down 1.5s linear infinite,
+    arrow-bob 1.5s ease-in-out infinite;
+  position: relative;
+}
+
+.scroll-arrow::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-right: 1px solid var(--primary);
+  border-bottom: 1px solid var(--primary);
+  /* Fixed transform, movement handled by parent animation */
+  transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes scroll-down {
+  0% {
+    background-position: 0 -12px;
+  }
+
+  100% {
+    background-position: 0 0;
+  }
+}
+
+@keyframes arrow-bob {
+
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(10px);
+  }
+}
+
+.hero-inner {
+  max-width: 900px;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Hero Name with Liquid Gradient Animation */
 .hero-name {
   margin: 0 0 16px;
   font-size: clamp(3.5rem, 7vw, 6rem);
   line-height: 1.1;
   letter-spacing: -0.03em;
   font-weight: 900;
-  /* Added Purple Gradient */
-  background: linear-gradient(to right, #fff, #a78bfa);
+  /* Liquid Gradient Setup */
+  background: linear-gradient(to right, #fff, #a78bfa, #fff);
+  background-size: 200% auto;
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  transition: background-position 0.5s ease;
+}
+
+.hero-name:hover {
+  background-position: right center;
 }
 
 .hero-title {
@@ -622,6 +816,54 @@ body {
 .reveal.active {
   opacity: 1;
   transform: translateY(0);
+}
+
+/* Education Badges */
+.badge-container {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.purple-badge {
+  display: inline-block;
+  padding: 6px 16px;
+  border: 1px solid var(--primary);
+  color: var(--primary);
+  /* Purple text */
+  background: rgba(139, 92, 246, 0.05);
+  /* Very subtle tint */
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  box-shadow: 0 0 8px rgba(139, 92, 246, 0.3);
+  /* Purple Glow */
+  transition: var(--transition);
+}
+
+.purple-badge:hover {
+  background: rgba(139, 92, 246, 0.1);
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.5);
+  transform: translateY(-1px);
+}
+
+/* Text-only badges for Projects & Hackathons */
+#projects .purple-badge,
+#hackathons .purple-badge {
+  border: none;
+  background: none;
+  box-shadow: none;
+  padding: 0;
+  border-radius: 0;
+}
+
+#projects .purple-badge:hover,
+#hackathons .purple-badge:hover {
+  background: none;
+  box-shadow: none;
+  transform: none;
+  opacity: 0.8;
 }
 
 /* Mobile */
