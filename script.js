@@ -28,6 +28,35 @@ document.addEventListener('click', (e) => {
   }
 });
 
+// Sliding Navbar Animation
+const navLinksContainer = document.querySelector('.nav-links');
+const navBackground = document.querySelector('.nav-background');
+const navItems = document.querySelectorAll('.nav-links a');
+
+if (navLinksContainer && navBackground && navItems.length > 0) {
+  function moveBackground(element) {
+    const rect = element.getBoundingClientRect();
+    const containerRect = navLinksContainer.getBoundingClientRect();
+
+    const left = rect.left - containerRect.left;
+    const width = rect.width;
+
+    navBackground.style.width = `${width}px`;
+    navBackground.style.transform = `translateX(${left}px)`;
+    navBackground.style.opacity = '1';
+  }
+
+  navItems.forEach(item => {
+    item.addEventListener('mouseenter', (e) => {
+      moveBackground(e.target);
+    });
+  });
+
+  navLinksContainer.addEventListener('mouseleave', () => {
+    navBackground.style.opacity = '0';
+  });
+}
+
 // Year in footer
 const yearEl = document.getElementById('year');
 if (yearEl) yearEl.textContent = String(new Date().getFullYear());
@@ -76,3 +105,4 @@ if (emailPill) {
     }
   });
 }
+
