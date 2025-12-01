@@ -18,9 +18,10 @@
 <body>
     <header class="site-header">
         <nav class="nav">
-            <a class="brand" href="#home">Adriel Bobby</a>
+            <a href="#" class="brand">kv<span class="cursor">_</span></a>
             <button class="nav-toggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
             <ul class="nav-links">
+                <div class="nav-background"></div>
                 <li><a href="#about">About</a></li>
                 <li><a href="#education">Education</a></li>
                 <li><a href="#experience">Certifications</a></li>
@@ -33,7 +34,7 @@
 
     <main id="home" class="hero reveal">
         <div class="hero-inner">
-            <h1 class="hero-name">Adriel Bobby</h1>
+            <h1 class="hero-name" data-text="Adriel Bobby">Adriel Bobby</h1>
             <h2 class="hero-title">Computer Science Engineer</h2>
             <p class="hero-tagline">
                 Breaking into cybersecurity<br>
@@ -45,6 +46,11 @@
                     Resume <i class="fa-solid fa-download" style="margin-left: 8px;"></i>
                 </a>
             </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span class="scroll-text">Scroll</span>
+            <div class="scroll-arrow"></div>
         </div>
     </main>
 
@@ -80,17 +86,26 @@
             <article class="card">
                 <h3>B.Tech., Computer Science Engineering</h3>
                 <p>Rajagiri School of Engineering and Technology, Kochi</p>
-                <p><strong>Year:</strong> 2024–28 &nbsp; <strong>CGPA:</strong> 7.9</p>
+                <div class="badge-container">
+                    <span class="purple-badge">Year: 2024–28</span>
+                    <span class="purple-badge">CGPA: 7.9</span>
+                </div>
             </article>
             <article class="card">
                 <h3>Class 12, CBSE</h3>
                 <p>Rajagiri Public School, Kalamassery</p>
-                <p><strong>Year:</strong> 2022–24 &nbsp; <strong>CGPA:</strong> 8.9</p>
+                <div class="badge-container">
+                    <span class="purple-badge">Year: 2022–24</span>
+                    <span class="purple-badge">CGPA: 8.9</span>
+                </div>
             </article>
             <article class="card">
                 <h3>Class 10, CBSE</h3>
                 <p>The Charter School, Pukattupady</p>
-                <p><strong>Year:</strong> 2021–22 &nbsp; <strong>CGPA:</strong> 8.9</p>
+                <div class="badge-container">
+                    <span class="purple-badge">Year: 2021–22</span>
+                    <span class="purple-badge">CGPA: 8.9</span>
+                </div>
             </article>
         </div>
     </section>
@@ -122,32 +137,51 @@
                 <ul>
                     <li>System to manage vaccine inventory and distribution; order placement and reporting.</li>
                     <li>Integrated stock updates and visualization for sales and dispatch.</li>
-                    <li><strong>Tech:</strong> Python, MySQL</li>
                 </ul>
+                <div class="badge-container">
+                    <span class="purple-badge">Python</span>
+                    <span class="purple-badge">MySQL</span>
+                </div>
             </article>
             <article class="card glow-green">
                 <h3>ESP32 Marauder (Wi‑Fi & Bluetooth Pentesting Tool)</h3>
                 <ul>
                     <li>Setup/customization for wireless auditing: deauth, sniffing, scanning.</li>
-                    <li><strong>Tech:</strong> ESP32, Arduino IDE, Marauder Firmware, Wireshark</li>
                 </ul>
+                <div class="badge-container">
+                    <span class="purple-badge">ESP32</span>
+                    <span class="purple-badge">Arduino IDE</span>
+                    <span class="purple-badge">Marauder Firmware</span>
+                    <span class="purple-badge">Wireshark</span>
+                </div>
             </article>
             <article class="card glow-green">
                 <h3>MIS-COMMUNICATION-NATER</h3>
                 <ul>
                     <li>Two AI models communicate with each other rather than answering user queries</li>
                     <li>Maximizes computer resources to produce unusable results</li>
-                    <li><strong>Tech:</strong> Raspberry Pi 4 Model B, Raspberry OS Lite, StableLM Zephyr 3B.Q2_K, LEDs,
-                        Web UI</li>
                 </ul>
+                <div class="badge-container">
+                    <span class="purple-badge">Raspberry Pi 4 Model B</span>
+                    <span class="purple-badge">Raspberry OS Lite</span>
+                    <span class="purple-badge">StableLM Zephyr 3B.Q2_K</span>
+                    <span class="purple-badge">LEDs</span>
+                    <span class="purple-badge">Web UI</span>
+                </div>
             </article>
             <article class="card glow-yellow">
                 <h3>Homelab for Cybersecurity</h3>
                 <ul>
                     <li>Self‑hosted lab with VMs and vulnerable boxes for pentest practice.</li>
                     <li>Workflow with Nmap, Metasploit, Burp Suite, and SIEMs.</li>
-                    <li><strong>Tech:</strong> VirtualBox, Ubuntu Server, Kali Linux, pfSense, Docker</li>
                 </ul>
+                <div class="badge-container">
+                    <span class="purple-badge">VirtualBox</span>
+                    <span class="purple-badge">Ubuntu Server</span>
+                    <span class="purple-badge">Kali Linux</span>
+                    <span class="purple-badge">pfSense</span>
+                    <span class="purple-badge">Docker</span>
+                </div>
             </article>
         </div>
     </section>
@@ -165,8 +199,14 @@
                 <ul>
                     <li>VAWT-powered street lamp that generates and stores electricity.</li>
                     <li>Battery-backed LED with ambient light auto‑on via LDR.</li>
-                    <li><strong>Core:</strong> VAWT, generator, battery, LDR control, LED.</li>
                 </ul>
+                <div class="badge-container">
+                    <span class="purple-badge">VAWT</span>
+                    <span class="purple-badge">Generator</span>
+                    <span class="purple-badge">Battery</span>
+                    <span class="purple-badge">LDR Control</span>
+                    <span class="purple-badge">LED</span>
+                </div>
             </article>
         </div>
     </section>
@@ -176,7 +216,9 @@
         <div class="cards">
             <article class="card">
                 <h3>Electronic Communications Coordinator — IEEE RSET SB</h3>
-                <p>Mar 2025 – Present</p>
+                <div class="badge-container">
+                    <span class="purple-badge">Mar 2025 – Present</span>
+                </div>
                 <ul>
                     <li>Responsible for handling all official announcements and communication for the Student Branch
                     </li>
