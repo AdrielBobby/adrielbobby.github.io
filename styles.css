@@ -268,6 +268,14 @@ body {
   flex-direction: column;
   align-items: center;
   gap: 12px;
+  opacity: 0;
+  /* Initially hidden */
+  transition: opacity 0.5s ease-out;
+  transition-delay: 1.2s;
+  /* Wait for hero text reveal */
+}
+
+.hero-animate-in .scroll-indicator {
   opacity: 0.7;
 }
 
@@ -281,17 +289,21 @@ body {
 
 .scroll-arrow {
   width: 1px;
-  height: 60px;
+  height: 0;
+  /* Start with 0 height */
   background: linear-gradient(to bottom,
       transparent 50%,
       var(--primary) 50%);
   background-size: 1px 12px;
-  /* Dotted effect */
-  /* Combine dot flow (scroll-down) and bobbing (arrow-bob) */
-  animation:
-    scroll-down 1.5s linear infinite,
-    arrow-bob 1.5s ease-in-out infinite;
   position: relative;
+}
+
+.hero-animate-in .scroll-arrow {
+  animation:
+    grow-arrow 1s ease-out forwards 1.2s,
+    scroll-down 1.5s linear infinite 1.2s,
+    arrow-bob 1.5s ease-in-out infinite 2.2s;
+  /* Start bobbing after grow */
 }
 
 .scroll-arrow::after {
@@ -303,8 +315,17 @@ body {
   height: 6px;
   border-right: 1px solid var(--primary);
   border-bottom: 1px solid var(--primary);
-  /* Fixed transform, movement handled by parent animation */
   transform: translateX(-50%) rotate(45deg);
+}
+
+@keyframes grow-arrow {
+  0% {
+    height: 0;
+  }
+
+  100% {
+    height: 60px;
+  }
 }
 
 @keyframes scroll-down {
@@ -896,4 +917,129 @@ body {
   .about-grid {
     grid-template-columns: 1fr;
   }
+}
+
+/* Loading Screen */
+/* Loading Screen */
+/* Loading Screen */
+#loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+}
+
+.terminal-loader {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 1.5rem;
+  /* Standard terminal size */
+  color: #fff;
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+}
+
+.terminal-line {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.prompt-path {
+  color: #a0a0a0;
+  /* Subtle gray for path */
+}
+
+.typed-text {
+  color: #fff;
+  font-weight: bold;
+}
+
+.cursor {
+  color: #9d00ff;
+  /* Purple cursor */
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+
+  0%,
+  100% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 0;
+  }
+}
+
+/* Enter Key Hint (Optional, can be added via JS if needed) */
+.enter-hint {
+  display: inline-block;
+  margin-left: 10px;
+  font-size: 0.8em;
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.enter-hint.visible {
+  opacity: 1;
+}
+
+/* Exit Animation */
+.loader-exiting {
+  background-color: transparent !important;
+  pointer-events: none;
+}
+
+.loader-exiting .prompt-path,
+.loader-exiting .cursor,
+.loader-exiting .terminal-line>*:not(.typed-text) {
+  opacity: 0;
+  transition: opacity 0.3s ease-out;
+}
+
+/* The typed text will be animated via JS */
+.typed-text {
+  color: #fff;
+  font-weight: 700;
+  display: inline-block;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+/* Hero Reveal Animation */
+/* Initially hide hero content */
+.hero-inner>* {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* Reveal state */
+.hero-animate-in .hero-inner>* {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays */
+.hero-animate-in .hero-inner>*:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.hero-animate-in .hero-inner>*:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.hero-animate-in .hero-inner>*:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.hero-animate-in .hero-inner>*:nth-child(4) {
+  transition-delay: 0.4s;
 }
