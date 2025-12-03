@@ -11,17 +11,20 @@ if (toggle && links) {
 // Smooth scroll for same-page links
 document.addEventListener('click', (e) => {
   const target = e.target;
-  if (target instanceof HTMLElement && target.tagName === 'A') {
-    const href = target.getAttribute('href');
-    if (href && href.startsWith('#')) {
-      e.preventDefault();
-      const el = document.querySelector(href);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // Close mobile menu if open
-        if (links && links.classList.contains('show')) {
-          links.classList.remove('show');
-          toggle.setAttribute('aria-expanded', 'false');
+  if (target instanceof HTMLElement) {
+    const link = target.closest('a');
+    if (link) {
+      const href = link.getAttribute('href');
+      if (href && href.startsWith('#')) {
+        e.preventDefault();
+        const el = document.querySelector(href);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          // Close mobile menu if open
+          if (links && links.classList.contains('show')) {
+            links.classList.remove('show');
+            toggle.setAttribute('aria-expanded', 'false');
+          }
         }
       }
     }
@@ -106,3 +109,75 @@ if (emailPill) {
   });
 }
 
+// Loading Screen Logic
+window.addEventListener('load', () => {
+  const loader = document.getElementById('loader');
+  const typedTextSpan = document.querySelector('.typed-text');
+  const cursorSpan = document.querySelector('.cursor');
+
+  if (loader && typedTextSpan) {
+    const textToType = "kv";
+    const typingDelay = 200; // ms per char
+    const startDelay = 500; // ms before typing starts
+    const enterDelay = 300; // ms before "enter" effect
+
+    // Function to type text
+    function typeText(text, index) {
+      if (index < text.length) {
+        typedTextSpan.textContent += text.charAt(index);
+        setTimeout(() => typeText(text, index + 1), typingDelay);
+      } else {
+        // Typing finished, simulate Enter
+        setTimeout(() => {
+          // Visual feedback for Enter
+          if (cursorSpan) cursorSpan.style.animationDuration = '0.1s';
+
+          // Trigger exit animation (Move to Navbar)
+          setTimeout(() => {
+            const navbarBrand = document.querySelector('.brand');
+
+            if (navbarBrand) {
+              // 1. Get positions
+              const startRect = typedTextSpan.getBoundingClientRect();
+              const endRect = navbarBrand.getBoundingClientRect();
+
+              // 2. Calculate deltas
+              const deltaX = endRect.left - startRect.left;
+              const deltaY = endRect.top - startRect.top;
+
+              // 3. Add exiting class to fade out other elements
+              loader.classList.add('loader-exiting');
+
+              // 4. Animate the text
+              typedTextSpan.style.transition = 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
+              typedTextSpan.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+
+              // 5. Cleanup after transition
+              typedTextSpan.addEventListener('transitionend', () => {
+                loader.remove();
+
+                // Trigger hero reveal
+                const heroSection = document.getElementById('home');
+                if (heroSection) {
+                  heroSection.classList.add('hero-animate-in');
+                }
+              }, { once: true });
+
+            } else {
+              // Fallback if navbar brand not found
+              loader.classList.add('loader-hidden');
+              setTimeout(() => loader.remove(), 500);
+            }
+
+          }, 500); // Short delay after "Enter"
+
+        }, enterDelay);
+      }
+    }
+
+    // Start sequence
+    setTimeout(() => {
+      typeText(textToType, 0);
+    }, startDelay);
+  }
+});
