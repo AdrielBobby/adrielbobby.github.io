@@ -181,3 +181,70 @@ window.addEventListener('load', () => {
     }, startDelay);
   }
 });
+
+// --- Custom Cursor Logic ---
+document.addEventListener('DOMContentLoaded', () => {
+  const cursorDot = document.querySelector('.cursor-dot');
+  const cursorOutline = document.querySelector('.cursor-outline');
+
+  // Only activate on desktop
+  if (window.matchMedia("(min-width: 769px)").matches && cursorDot && cursorOutline) {
+
+    let mouseX = 0;
+    let mouseY = 0;
+    let outlineX = 0;
+    let outlineY = 0;
+
+    // Track mouse position
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+
+      // Dot follows immediately
+      cursorDot.style.top = `${mouseY}px`;
+      cursorDot.style.left = `${mouseX}px`;
+    });
+
+    // Smooth outline animation
+    const animateCursor = () => {
+      // Linear interpolation for smooth trailing
+      outlineX += (mouseX - outlineX) * 0.15;
+      outlineY += (mouseY - outlineY) * 0.15;
+
+      cursorOutline.style.top = `${outlineY}px`;
+      cursorOutline.style.left = `${outlineX}px`;
+
+      requestAnimationFrame(animateCursor);
+    };
+    animateCursor();
+
+    // Hover effects
+    const interactables = document.querySelectorAll('a, button, .card, .email-pill, .social-icons a, .hero-ascii-container');
+
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => {
+        document.body.classList.add('cursor-hover');
+      });
+      el.addEventListener('mouseleave', () => {
+        document.body.classList.remove('cursor-hover');
+      });
+    });
+
+    // Spotlight Reveal Logic for Hero Text
+    const heroContainer = document.querySelector('.hero-ascii-container');
+    const heroSolid = document.querySelector('.hero-name-solid');
+
+    if (heroContainer && heroSolid) {
+      heroContainer.addEventListener('mousemove', (e) => {
+        const rect = heroContainer.getBoundingClientRect(); // Relative to container now
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        // Set vars on container so both mask and solid text can use them
+        heroContainer.style.setProperty('--x', `${x}px`);
+        heroContainer.style.setProperty('--y', `${y}px`);
+      });
+    }
+  }
+});
+
