@@ -237,8 +237,8 @@ body {
 
 /* Hero Section */
 .hero {
-  padding: 140px 24px 40px;
-  /* Reduced bottom padding */
+  padding: 140px 24px 80px;
+  /* Increased bottom padding to shift center up */
   min-height: 100vh;
   /* Full viewport height */
   display: flex;
@@ -357,24 +357,161 @@ body {
   z-index: 1;
 }
 
-/* Hero Name with Liquid Gradient Animation */
-.hero-name {
-  margin: 0 0 16px;
-  font-size: clamp(3.5rem, 7vw, 6rem);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  font-weight: 900;
-  /* Liquid Gradient Setup */
-  background: linear-gradient(to right, #fff, #a78bfa, #fff);
-  background-size: 200% auto;
+/* Hero ASCII Art */
+.hero-ascii-container {
+  margin: 0 0 24px;
+  /* overflow: hidden;  Removed to allow absolute positioning of solid text if needed, though centered inside is fine */
+  display: flex;
+  justify-content: center;
+  position: relative;
+  /* For absolute positioning of solid text */
+  cursor: default;
+  /* Or pointer if clickable */
+}
+
+.hero-ascii {
+  transition: opacity 0.3s ease;
+}
+
+.hero-ascii-container:hover .hero-ascii {
+  /* opacity: 0;  Removed to keep ASCII visible (X-Ray effect) */
+}
+
+/* Wrapper that acts as the "Eraser" / Spotlight */
+.spotlight-mask {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+
+  /* The Magic: Background matches body to hide ASCII, but clipped to cursor */
+  background-color: var(--bg);
+  /* Also add the background pattern so it blends perfectly? 
+     Ideally yes, but simple color is usually enough if pattern is subtle.
+     Let's try just color first. */
+
+  /* Default: hidden */
+  clip-path: inset(50% 50% 50% 50%);
+  transition: clip-path 0.1s ease-out;
+
+  /* Center the solid text inside this wrapper */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-ascii-container:hover .spotlight-mask {
+  /* Reveal 60px box around cursor */
+  clip-path: inset(calc(var(--y) - 30px) calc(100% - var(--x) - 30px) calc(100% - var(--y) - 30px) calc(var(--x) - 30px));
+}
+
+.hero-name-solid {
+  /* Position is now relative to flex container .spotlight-mask */
+  position: relative;
+  top: auto;
+  left: auto;
+  transform: none;
+  margin: 0;
+
+  font-family: 'Fira Code', monospace;
+  /* New Font */
+  font-size: clamp(4rem, 9vw, 7.5rem);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  white-space: nowrap;
+  opacity: 1;
+
+  /* Gradient */
+  background: linear-gradient(to right, #fff, #a78bfa);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  transition: background-position 0.5s ease;
 }
 
-.hero-name:hover {
-  background-position: right center;
+.hero-ascii {
+  font-family: 'Fira Code', monospace;
+  /* New Font */
+  font-size: clamp(0.8rem, 2vw, 1.4rem);
+  line-height: 0.6;
+  letter-spacing: -0.05em;
+  font-weight: 700;
+  color: #fff;
+  white-space: pre;
+  text-align: left;
+  /* Gradient Effect */
+  background: linear-gradient(to right, #fff, #a78bfa, #fff);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+  animation: shine 3s linear infinite;
+  margin: 0;
+}
+
+background: linear-gradient(to right, #fff, #a78bfa, #fff);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+background-size: 200% auto;
+animation: shine 3s linear infinite;
+margin: 0;
+/* Remove default pre margin */
+}
+
+@keyframes shine {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.ascii-line {
+  display: block;
+  opacity: 0;
+  overflow: hidden;
+  height: 0;
+  transition: opacity 0.1s, height 0.1s;
+}
+
+/* Printer Animation Triggered by .hero-animate-in */
+.hero-animate-in .ascii-line {
+  opacity: 1;
+  height: auto;
+}
+
+/* Staggered delays for "printing" effect */
+.hero-animate-in .ascii-line:nth-child(1) {
+  transition-delay: 0.1s;
+}
+
+.hero-animate-in .ascii-line:nth-child(2) {
+  transition-delay: 0.2s;
+}
+
+.hero-animate-in .ascii-line:nth-child(3) {
+  transition-delay: 0.3s;
+}
+
+.hero-animate-in .ascii-line:nth-child(4) {
+  transition-delay: 0.4s;
+}
+
+.hero-animate-in .ascii-line:nth-child(5) {
+  transition-delay: 0.5s;
+}
+
+.hero-animate-in .ascii-line:nth-child(6) {
+  transition-delay: 0.6s;
+}
+
+/* Mobile Fallback: Scale down or hide if too small */
+@media (max-width: 600px) {
+  .hero-ascii {
+    font-size: 0.6rem;
+    /* Smaller font for mobile */
+  }
 }
 
 .hero-title {
@@ -389,7 +526,8 @@ body {
 .hero-tagline {
   font-size: 1.1rem;
   color: var(--text-muted);
-  margin: 0 auto 40px;
+  margin: 0 auto 32px;
+  /* Reduced from 40px */
   max-width: 600px;
 }
 
@@ -1028,18 +1166,138 @@ body {
 }
 
 /* Stagger delays */
-.hero-animate-in .hero-inner>*:nth-child(1) {
-  transition-delay: 0.1s;
+/* 1. ASCII Container - appears immediately so lines can animate */
+.hero-animate-in .hero-inner>.hero-ascii-container {
+  transition-delay: 0s;
 }
 
-.hero-animate-in .hero-inner>*:nth-child(2) {
-  transition-delay: 0.2s;
+/* 2. Rest of Content - Starts after ASCII (0.8s+) */
+.hero-animate-in .hero-inner>.hero-title {
+  transition-delay: 0.8s;
 }
 
-.hero-animate-in .hero-inner>*:nth-child(3) {
-  transition-delay: 0.3s;
+.hero-animate-in .hero-inner>.hero-tagline {
+  transition-delay: 1.0s;
 }
 
-.hero-animate-in .hero-inner>*:nth-child(4) {
-  transition-delay: 0.4s;
+.hero-animate-in .hero-inner>.hero-cta {
+  transition-delay: 1.2s;
+}
+
+/* 3. Scroll Indicator - Starts after content (1.6s+) */
+.scroll-indicator {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  opacity: 0;
+  /* Initially hidden */
+  transition: opacity 0.5s ease-out;
+  transition-delay: 1.6s;
+  /* Wait for text reveal */
+}
+
+.hero-animate-in .scroll-indicator {
+  opacity: 0.7;
+}
+
+.hero-animate-in .scroll-arrow {
+  animation:
+    grow-arrow 1s ease-out forwards 1.6s,
+    scroll-down 1.5s linear infinite 1.6s,
+    arrow-bob 1.5s ease-in-out infinite 2.6s;
+  /* Start bobbing after grow */
+}
+
+/* Custom Cursor */
+* {
+  cursor: none !important;
+  /* Hide default cursor everywhere */
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background-color: var(--primary);
+  /* Purple dot */
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 0;
+  /* Square block for terminal feel */
+  z-index: 9999;
+  pointer-events: none;
+  mix-blend-mode: difference;
+  /* Cool effect over white backgrounds */
+}
+
+.cursor-outline {
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  transform: translate(-50%, -50%);
+  border-radius: 0;
+  /* Square reticle */
+  z-index: 9998;
+  pointer-events: none;
+  transition: width 0.2s, height 0.2s, background-color 0.2s, border-color 0.2s;
+  /* Crosshair markings */
+  background:
+    linear-gradient(to right, rgba(255, 255, 255, 0.5) 1px, transparent 1px) center/10px 100% no-repeat,
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.5) 1px, transparent 1px) center/100% 10px no-repeat;
+}
+
+/* Hover State - "Lock On" */
+body.cursor-hover .cursor-outline {
+  width: 60px;
+  height: 60px;
+  border-color: var(--primary);
+  background: none;
+  /* Remove crosshair */
+  /* Bracket effect */
+  background:
+    linear-gradient(to right, var(--primary) 2px, transparent 2px) 0 0/10px 10px no-repeat,
+    linear-gradient(to bottom, var(--primary) 2px, transparent 2px) 0 0/10px 10px no-repeat,
+    linear-gradient(to left, var(--primary) 2px, transparent 2px) 100% 0/10px 10px no-repeat,
+    linear-gradient(to bottom, var(--primary) 2px, transparent 2px) 100% 0/10px 10px no-repeat,
+    linear-gradient(to right, var(--primary) 2px, transparent 2px) 0 100%/10px 10px no-repeat,
+    linear-gradient(to top, var(--primary) 2px, transparent 2px) 0 100%/10px 10px no-repeat,
+    linear-gradient(to left, var(--primary) 2px, transparent 2px) 100% 100%/10px 10px no-repeat,
+    linear-gradient(to top, var(--primary) 2px, transparent 2px) 100% 100%/10px 10px no-repeat;
+  animation: rotate-lock 0.4s ease-out;
+}
+
+body.cursor-hover .cursor-dot {
+  transform: translate(-50%, -50%) scale(1.5);
+  background-color: #fff;
+}
+
+@keyframes rotate-lock {
+  0% {
+    transform: translate(-50%, -50%) rotate(45deg) scale(1.2);
+  }
+
+  100% {
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+}
+
+/* Mobile - Restore default cursor */
+@media (max-width: 768px) {
+  * {
+    cursor: auto !important;
+  }
+
+  .cursor-dot,
+  .cursor-outline {
+    display: none;
+  }
 }
