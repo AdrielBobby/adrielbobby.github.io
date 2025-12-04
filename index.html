@@ -6,26 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Adriel Bobby • Portfolio</title>
     <meta name="description" content="Portfolio and resume of Adriel Bobby — Cybersecurity and Computer Science.">
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600;700&family=Inter:wght@300;400;600;800&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <!-- Font Awesome for Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <!-- Loading Screen -->
-    <!-- Loading Screen -->
     <div id="loader">
         <div class="terminal-loader">
             <div class="terminal-line">
-                <span class="prompt-path">Adriel:\Projects\Website&gt;</span>
-                <span class="typed-text"></span><span class="cursor">_</span>
+                <span class="prompt-path">C:\Users\Adriel></span>
+                <span class="typed-text"></span><span class="cursor">█</span>
             </div>
         </div>
     </div>
+
     <header class="site-header">
         <nav class="nav">
             <a href="#home" class="brand">kv<span class="cursor">_</span></a>
@@ -33,9 +34,9 @@
             <ul class="nav-links">
                 <div class="nav-background"></div>
                 <li><a href="#about">About</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#experience">Certifications</a></li>
+                <li><a href="#experience">Experience</a></li>
                 <li><a href="#projects">Projects</a></li>
+                <li><a href="#hackathons">Hackathons</a></li>
                 <li><a href="#leadership">Leadership</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -44,7 +45,19 @@
 
     <main id="home" class="hero reveal">
         <div class="hero-inner">
-            <h1 class="hero-name" data-text="Adriel Bobby">Adriel Bobby</h1>
+            <div class="hero-ascii-container">
+                <pre class="hero-ascii">
+<span class="ascii-line">    ___       __     _      __   ____        __    __</span>
+<span class="ascii-line">   /   | ____/ /____(_)__  / /  / __ )____  / /_  / /_  __  __</span>
+<span class="ascii-line">  / /| |/ __  / ___/ / _ \/ /  / __  / __ \/ __ \/ __ \/ / / /</span>
+<span class="ascii-line"> / ___ / /_/ / /  / /  __/ /  / /_/ / /_/ / /_/ / /_/ / /_/ /</span>
+<span class="ascii-line">/_/  |_\__,_/_/  /_/\___/_/  /_____/\____/_.___/_.___/\__, /</span>
+<span class="ascii-line">                                                     /____/</span>
+                </pre>
+                <div class="spotlight-mask">
+                    <h1 class="hero-name-solid">AdrielBobby</h1>
+                </div>
+            </div>
             <h2 class="hero-title">Computer Science Engineer</h2>
             <p class="hero-tagline">
                 Breaking into cybersecurity<br>
@@ -267,6 +280,10 @@
         <p> Here a medal for making this far 🎖️ </p>
         <p> .˚ 　.　 ✦˚　　 　　.　　˚　　. ✦　　˚　.　˚　　　. ✦ 　　　. 　 　　　˚　　　　　*　　 　　Nice Stars elle </p>
     </footer>
+
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
 
     <script src="script.js" defer></script>
 </body>
