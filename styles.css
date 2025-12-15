@@ -507,10 +507,42 @@ margin: 0;
 }
 
 /* Mobile Fallback: Scale down or hide if too small */
-@media (max-width: 600px) {
+/* Mobile Fallback: Scale down or hide if too small */
+@media (max-width: 768px) {
   .hero-ascii {
-    font-size: 0.6rem;
-    /* Smaller font for mobile */
+    opacity: 0.1;
+    /* Fade out ASCII significantly or hide it */
+  }
+
+  /* Disable Spotlight/X-Ray on Mobile */
+  .spotlight-mask {
+    clip-path: none !important;
+    /* Revealing the mask covers the ASCII */
+    background: transparent !important;
+    /* But we want to see the text, wait. */
+    /* Strategy: 
+       If we make bg transparent, ASCII is visible (and overlapping).
+       If we keep bg color, ASCII is hidden.
+       Let's keep bg color to hide the messy ASCII.
+    */
+    background-color: var(--bg) !important;
+  }
+
+  .hero-name-solid {
+    opacity: 1 !important;
+    clip-path: none !important;
+    /* Ensure font size is readable */
+    font-size: clamp(2.5rem, 10vw, 4rem);
+    white-space: normal;
+    /* Allow wrapping if needed on very small screens? No, keep single line */
+    text-align: center;
+  }
+
+  .hero-ascii-container {
+    height: auto;
+    /* Let it collapse if needed */
+    min-height: 200px;
+    /* Ensure space */
   }
 }
 
@@ -1149,6 +1181,21 @@ margin: 0;
   display: inline-block;
   transform-origin: top left;
   will-change: transform;
+  transform-origin: top left;
+  will-change: transform;
+}
+
+/* Lock-On Click Animation */
+.cursor-click .cursor-outline {
+  transform: translate(-50%, -50%) rotate(45deg) scale(0.8) !important;
+  border-color: var(--primary) !important;
+  border-width: 2px;
+  background-color: rgba(139, 92, 246, 0.1);
+}
+
+.cursor-click .cursor-dot {
+  transform: translate(-50%, -50%) scale(1.5) !important;
+  background-color: #fff;
 }
 
 /* Hero Reveal Animation */
