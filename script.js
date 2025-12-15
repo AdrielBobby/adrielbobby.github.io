@@ -245,6 +245,14 @@ document.addEventListener('DOMContentLoaded', () => {
         heroContainer.style.setProperty('--y', `${y}px`);
       });
     }
+
+    // Click Animation (Lock-On)
+    document.addEventListener('mousedown', () => {
+      document.body.classList.add('cursor-click');
+    });
+
+    document.addEventListener('mouseup', () => {
+      document.body.classList.remove('cursor-click');
+    });
   }
 });
-
