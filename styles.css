@@ -378,57 +378,15 @@ body {
 }
 
 /* Wrapper that acts as the "Eraser" / Spotlight */
-.spotlight-mask {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 2;
+/* REMOVED: Replaced with JS Scramble Effect */
 
-  /* The Magic: Background matches body to hide ASCII, but clipped to cursor */
-  background-color: var(--bg);
-  /* Also add the background pattern so it blends perfectly? 
-     Ideally yes, but simple color is usually enough if pattern is subtle.
-     Let's try just color first. */
-
-  /* Default: hidden */
-  clip-path: inset(50% 50% 50% 50%);
-  transition: clip-path 0.1s ease-out;
-
-  /* Center the solid text inside this wrapper */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.hero-ascii-container:hover .spotlight-mask {
-  /* Reveal 60px box around cursor */
-  clip-path: inset(calc(var(--y) - 30px) calc(100% - var(--x) - 30px) calc(100% - var(--y) - 30px) calc(var(--x) - 30px));
-}
-
-.hero-name-solid {
-  /* Position is now relative to flex container .spotlight-mask */
-  position: relative;
-  top: auto;
-  left: auto;
-  transform: none;
-  margin: 0;
-
-  font-family: 'Fira Code', monospace;
-  /* New Font */
-  font-size: clamp(4rem, 9vw, 7.5rem);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  white-space: nowrap;
-  opacity: 1;
-
-  /* Gradient */
-  background: linear-gradient(to right, #fff, #a78bfa);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+/* Decrypted State (Filled & Glowing) */
+.hero-ascii.decrypted {
+  color: var(--primary);
+  text-shadow: 0 0 10px var(--primary-glow), 0 0 20px var(--primary);
+  background: none;
+  -webkit-background-clip: border-box;
+  background-clip: border-box;
 }
 
 .hero-ascii {
@@ -451,15 +409,7 @@ body {
   margin: 0;
 }
 
-background: linear-gradient(to right, #fff, #a78bfa, #fff);
--webkit-background-clip: text;
-background-clip: text;
-color: transparent;
-background-size: 200% auto;
-animation: shine 3s linear infinite;
-margin: 0;
-/* Remove default pre margin */
-}
+
 
 @keyframes shine {
   to {
@@ -515,34 +465,31 @@ margin: 0;
   }
 
   /* Disable Spotlight/X-Ray on Mobile */
-  .spotlight-mask {
-    clip-path: none !important;
-    /* Revealing the mask covers the ASCII */
-    background: transparent !important;
-    /* But we want to see the text, wait. */
-    /* Strategy: 
-       If we make bg transparent, ASCII is visible (and overlapping).
-       If we keep bg color, ASCII is hidden.
-       Let's keep bg color to hide the messy ASCII.
-    */
-    background-color: var(--bg) !important;
-  }
+  /* No special masks needed now, just simple opacity or hide */
+}
 
-  .hero-name-solid {
-    opacity: 1 !important;
-    clip-path: none !important;
-    /* Ensure font size is readable */
-    font-size: clamp(2.5rem, 10vw, 4rem);
-    white-space: normal;
-    /* Allow wrapping if needed on very small screens? No, keep single line */
-    text-align: center;
+/* Add Mobile Only Title */
+.mobile-hero-title {
+  display: none;
+  font-size: clamp(2.5rem, 10vw, 4rem);
+  font-family: 'Fira Code', monospace;
+  font-weight: 700;
+  text-align: center;
+  background: linear-gradient(to right, #fff, #a78bfa);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+  .mobile-hero-title {
+    display: block;
   }
 
   .hero-ascii-container {
-    height: auto;
-    /* Let it collapse if needed */
-    min-height: 200px;
-    /* Ensure space */
+    display: none;
+    /* Hide the complex ASCII setup on mobile entirely? */
   }
 }
 
@@ -691,14 +638,87 @@ margin: 0;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
 }
 
+/* Holographic Scanner Effect */
+.scan-card {
+  position: relative;
+  overflow: hidden;
+  /* Contain the laser */
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.scan-card:hover {
+  border-color: rgba(139, 92, 246, 0.5);
+  /* Purple glow */
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.2);
+}
+
+.scan-card:hover h3 {
+  color: var(--primary);
+  /* Turn title purple */
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.6);
+}
+
+.scan-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(139, 92, 246, 0.1) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(139, 92, 246, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+
+.scan-card:hover .scan-grid {
+  opacity: 1;
+}
+
+.scan-line {
+  position: absolute;
+  top: -10%;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  /* Laser thickness */
+  background: var(--primary);
+  box-shadow: 0 0 10px var(--primary), 0 0 20px var(--primary);
+  /* strong laser glow */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.scan-card:hover .scan-line {
+  opacity: 1;
+  animation: scan-vertical 2s linear infinite;
+}
+
+@keyframes scan-vertical {
+  0% {
+    top: -10%;
+  }
+
+  100% {
+    top: 110%;
+  }
+}
+
 .quick-box h3 {
   margin-top: 0;
   color: #fff;
+  position: relative;
+  z-index: 1;
+  transition: color 0.3s;
 }
 
 .quick-box p {
   color: var(--text-muted);
   margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
 }
 
 .quick-box strong {
