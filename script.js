@@ -182,77 +182,119 @@ window.addEventListener('load', () => {
   }
 });
 
-// --- Custom Cursor Logic ---
+// --- Custom Cursor & Spotlight Logic ---
 document.addEventListener('DOMContentLoaded', () => {
   const cursorDot = document.querySelector('.cursor-dot');
   const cursorOutline = document.querySelector('.cursor-outline');
+  const heroContainer = document.querySelector('.hero-ascii-container');
+  const heroAscii = document.querySelector('.hero-ascii');
+  const spotlightMask = document.querySelector('.spotlight-mask');
 
   // Only activate on desktop
-  if (window.matchMedia("(min-width: 769px)").matches && cursorDot && cursorOutline) {
+  if (window.matchMedia("(min-width: 769px)").matches) {
 
     let mouseX = 0;
     let mouseY = 0;
     let outlineX = 0;
     let outlineY = 0;
 
-    // Track mouse position
+    // Track mouse position globally
     window.addEventListener('mousemove', (e) => {
       mouseX = e.clientX;
       mouseY = e.clientY;
 
       // Dot follows immediately
-      cursorDot.style.top = `${mouseY}px`;
-      cursorDot.style.left = `${mouseX}px`;
+      if (cursorDot) {
+        cursorDot.style.top = `${mouseY}px`;
+        cursorDot.style.left = `${mouseX}px`;
+      }
     });
 
-    // Smooth outline animation
-    const animateCursor = () => {
-      // Linear interpolation for smooth trailing
-      outlineX += (mouseX - outlineX) * 0.15;
-      outlineY += (mouseY - outlineY) * 0.15;
+    // Decryption / Scramble Effect
+    if (heroContainer && heroAscii) {
+      // Robust extraction: Get text from spans if they exist (cleanest), or fallback to textContent
+      // This avoids capturing raw HTML indentation which causes shifting
+      const spans = heroAscii.querySelectorAll('.ascii-line');
+      const originalText = spans.length > 0
+        ? Array.from(spans).map(s => s.textContent).join('\n')
+        : heroAscii.textContent;
 
-      cursorOutline.style.top = `${outlineY}px`;
-      cursorOutline.style.left = `${outlineX}px`;
+      // Removed '—' (em-dash) as it often has different width/rendering issues
+      const letters = "!<>-_\\/[]{}#________";
+      let interval = null;
 
-      requestAnimationFrame(animateCursor);
-    };
-    animateCursor();
+      heroContainer.addEventListener('mouseenter', () => {
+        let iteration = 0;
 
-    // Hover effects
-    const interactables = document.querySelectorAll('a, button, .card, .email-pill, .social-icons a, .hero-ascii-container');
+        clearInterval(interval);
 
-    interactables.forEach(el => {
-      el.addEventListener('mouseenter', () => {
-        document.body.classList.add('cursor-hover');
+        interval = setInterval(() => {
+          heroAscii.textContent = originalText
+            .split("")
+            .map((letter, index) => {
+              if (letter.match(/\s/)) return letter; // Preserve spaces/newlines exactly!
+
+              if (index < iteration) {
+                return '#'; // Lock to filled char
+              }
+
+              return letters[Math.floor(Math.random() * letters.length)];
+            })
+            .join("");
+
+          if (iteration >= originalText.length) {
+            clearInterval(interval);
+            heroAscii.classList.add('decrypted'); // Add glow
+          }
+
+          // Speed of scramble
+          iteration += 1 / 3;
+        }, 10);
       });
-      el.addEventListener('mouseleave', () => {
-        document.body.classList.remove('cursor-hover');
-      });
-    });
 
-    // Spotlight Reveal Logic for Hero Text
-    const heroContainer = document.querySelector('.hero-ascii-container');
-    const heroSolid = document.querySelector('.hero-name-solid');
-
-    if (heroContainer && heroSolid) {
-      heroContainer.addEventListener('mousemove', (e) => {
-        const rect = heroContainer.getBoundingClientRect(); // Relative to container now
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        // Set vars on container so both mask and solid text can use them
-        heroContainer.style.setProperty('--x', `${x}px`);
-        heroContainer.style.setProperty('--y', `${y}px`);
+      heroContainer.addEventListener('mouseleave', () => {
+        clearInterval(interval);
+        heroAscii.classList.remove('decrypted');
+        // Restore structure immediately
+        heroAscii.textContent = originalText;
       });
     }
 
-    // Click Animation (Lock-On)
-    document.addEventListener('mousedown', () => {
-      document.body.classList.add('cursor-click');
+    // Unified Animation Loop
+    const animate = () => {
+      // 1. Cursor Outline Physics
+      if (cursorOutline) {
+        outlineX += (mouseX - outlineX) * 0.15;
+        outlineY += (mouseY - outlineY) * 0.15;
+        cursorOutline.style.top = `${outlineY}px`;
+        cursorOutline.style.left = `${outlineX}px`;
+      }
+
+      // 2. Spotlight Position (Performance Optimization)
+      if (heroContainer) {
+        const rect = heroContainer.getBoundingClientRect();
+        // Calculate relative coordinates
+        const relativeX = mouseX - rect.left;
+        const relativeY = mouseY - rect.top;
+
+        // Update CSS variables
+        heroContainer.style.setProperty('--x', `${relativeX}px`);
+        heroContainer.style.setProperty('--y', `${relativeY}px`);
+      }
+
+      requestAnimationFrame(animate);
+    };
+    animate();
+
+    // Hover effects
+    const interactables = document.querySelectorAll('a, button, .card, .email-pill, .social-icons a, .hero-ascii-container, .scan-card');
+    interactables.forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
 
-    document.addEventListener('mouseup', () => {
-      document.body.classList.remove('cursor-click');
-    });
+    // Click Animation (Lock-On)
+    document.addEventListener('mousedown', () => document.body.classList.add('cursor-click'));
+    document.addEventListener('mouseup', () => document.body.classList.remove('cursor-click'));
   }
 });
