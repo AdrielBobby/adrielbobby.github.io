@@ -20,7 +20,7 @@ Live site: https://adrielbobby.github.io/
 
 ## Tech stack
 
-- HTML for structure (`index.html`).[page:2]
-- CSS for layout, theming, and animations (`styles.css`).[page:2]
-- JavaScript for interactive elements like navigation behavior and the secure uplink console (`script.js`).[page:2]
-- Assets (icons, images) served from the `/assets` directory.[page:2]
+- HTML for structure (`index.html`)
+- CSS for layout, theming, and animations (`styles.css`)
+- JavaScript for interactive elements like navigation behavior and the secure uplink console (`script.js`)
+- Assets (icons, images) served from the `/assets` 
