@@ -26,6 +26,14 @@ const hackathons = [
   }
 ];
 
+// Returns a color based on prize rank
+function getPrizeColor(prize) {
+  if (prize.includes('1st')) return '#D4AF37';   // gold
+  if (prize.includes('2nd')) return '#C0C0C0';   // silver
+  if (prize.includes('3rd')) return '#CD7F32';   // bronze
+  return '#c4a1ff';                              // default purple for others
+}
+
 export default function Hackathons() {
   return (
     // id="hackathons" — Navbar "Hackathons" link scrolls here.
@@ -45,7 +53,7 @@ export default function Hackathons() {
               {/* Flex header spanning title and prize: We'll put Prize inline to match the flow */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.5rem' }}>
                 <h3 style={{ margin: 0 }}>{hack.title}</h3>
-                <span style={{ fontSize: '0.9rem', color: '#58a6ff', fontStyle: 'italic' }}>
+                <span style={{ fontSize: '0.9rem', color: getPrizeColor(hack.prize), fontStyle: 'italic' }}>
                   {hack.prize}
                 </span>
               </div>
