@@ -1,0 +1,658 @@
+/* ============================================================
+   index.css — Global stylesheet for the entire portfolio.
+   This file is imported once in main.jsx and applies to all components.
+   CSS in React works the same as regular CSS — class names in JSX use
+   'className' instead of 'class', but the CSS rules themselves are identical.
+   ============================================================ */
+
+
+/* ===== Reset & Base =====
+   Browsers have their own default styles (margins, padding, font sizes).
+   We override them here so our design looks the same across all browsers. */
+
+/* The * selector matches EVERY element on the page.
+   '::before' and '::after' match pseudo-elements (decorative content added via CSS). */
+*,
+*::before,
+*::after {
+  /* box-sizing: border-box means padding and border are included IN an element's width/height.
+     Without this, adding padding to a 100px wide div would make it wider than 100px — confusing!
+     With border-box, width always means "total outer size". */
+  box-sizing: border-box;
+
+  /* Remove all browser-default margins and padding so we start with a clean slate. */
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  /* scroll-behavior: smooth makes anchor link clicks (#about, #projects, etc.)
+     animate smoothly instead of snapping instantly to the target section. */
+  scroll-behavior: smooth;
+
+  /* Base font size: 1rem = 16px everywhere on the page.
+     Using rem units for other sizes scales proportionally if the user
+     changes their browser's default font size (accessibility). */
+  font-size: 16px;
+}
+
+body {
+  /* The font stack: try 'Segoe UI' first (Windows), then system-ui (Mac/Linux),
+     then -apple-system (older Apple), then generic sans-serif as a fallback. */
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+  /* Dark background — #0d0d0d is near-black, slightly warmer than pure #000000. */
+  background-color: #0d0d0d;
+
+  /* Main text color — a light grey instead of pure white to reduce eye strain. */
+  color: #e0e0e0;
+
+  /* line-height controls the vertical space between lines of text.
+     1.6 = 160% of the font size, which is comfortable for reading body text. */
+  line-height: 1.6;
+}
+
+/* Default link styles — all <a> tags on the page unless overridden by a more specific rule. */
+a {
+  /* A medium blue that works well on the dark background. */
+  color: #8b5cf6;
+
+  /* Remove the default underline so links in the navbar don't look messy.
+     We'll add underlines back only on hover for non-button links. */
+  text-decoration: none;
+}
+
+a:hover {
+  /* ':hover' is a pseudo-class — the rule applies only when the mouse is over the element.
+     Re-add underline on hover to confirm to the user that the link is clickable. */
+  text-decoration: underline;
+}
+
+ul {
+  /* Remove the browser's default bullet markers and left indentation from all lists.
+     We'll add custom bullets in specific components where we want them. */
+  list-style: none;
+}
+
+
+/* ===== Layout Container =====
+   A .container div is used inside every section to prevent content from
+   stretching to the full width of the screen on large monitors. */
+.container {
+  /* Never wider than 960px — keeps lines of text readable on big screens. */
+  max-width: 960px;
+
+  /* 'margin: 0 auto' centers the container horizontally on the page.
+     '0' = no top/bottom margin, 'auto' = equal left+right margins = centered. */
+  margin: 0 auto;
+
+  /* 1.25rem of horizontal padding (= 20px) so text doesn't touch screen edges on mobile. */
+  padding: 0 1.25rem;
+}
+
+
+/* ===== Sections =====
+   Rules that apply to every <section> element across all components. */
+section {
+  /* 4rem (64px) of vertical breathing room above and below each section's content. */
+  padding: 4rem 0;
+
+  /* A subtle dark line between sections to visually separate them. */
+  border-bottom: 1px solid #1e1e1e;
+}
+
+/* The big heading ("About", "Education", etc.) at the top of each section. */
+.section-title {
+  font-size: 1.75rem;
+  /* 28px */
+  font-weight: 700;
+  /* Bold */
+  margin-bottom: 1.5rem;
+  color: #ffffff;
+  /* Pure white so it pops against the dark background */
+
+  /* A 4px left border in our accent blue — acts as a visual "tab" marker. */
+  border-left: 4px solid #8b5cf6;
+  padding-left: 0.75rem;
+  /* Space between the blue border and the text */
+}
+
+
+/* ===== Navbar ===== */
+.navbar {
+  /* 'sticky' positioning keeps the navbar visible at the top as the user scrolls.
+     'top: 0' means "stick 0px from the top of the viewport". */
+  position: sticky;
+  top: 0;
+
+  /* Same dark background as the page so it doesn't look out of place. */
+  background-color: #0d0d0d;
+
+  /* A subtle bottom border to separate the navbar from the page content below. */
+  border-bottom: 1px solid #1e1e1e;
+
+  /* z-index controls overlap order. 100 means the navbar will appear on TOP of any
+     other element with a lower z-index (like cards, images, etc.). */
+  z-index: 100;
+
+  padding: 0.85rem 0;
+}
+
+/* The .container inside the navbar uses flexbox to position the brand and links. */
+.navbar .container {
+  display: flex;
+  /* Enable flexbox layout */
+  align-items: center;
+  /* Vertically center children */
+  justify-content: space-between;
+  /* Push brand to the left, links to the right */
+  gap: 1rem;
+  /* Minimum gap between the two sides */
+  flex-wrap: wrap;
+  /* If the screen is too narrow, links drop to the next line */
+}
+
+/* "Adriel Bobby" brand name on the left of the navbar. */
+.navbar-brand {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #ffffff;
+  white-space: nowrap;
+  /* Prevent the name from wrapping to two lines */
+}
+
+/* The group of nav links on the right side. */
+.navbar-links {
+  display: flex;
+  /* Row layout for the links */
+  align-items: center;
+  gap: 1.25rem;
+  /* Space between each link */
+  flex-wrap: wrap;
+  /* Allow links to wrap on small screens */
+}
+
+.navbar-links a {
+  color: #b0b0b0;
+  /* Muted grey — less prominent than the brand name */
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.navbar-links a:hover {
+  color: #ffffff;
+  /* Brighten on hover */
+  text-decoration: none;
+  /* Don't show underline inside the navbar */
+}
+
+/* The "Resume" button in the navbar — styled differently from the plain text links. */
+.btn-resume-nav {
+  background-color: #8b5cf6;
+  /* Solid blue background */
+  color: #0d0d0d !important;
+  /* Dark text on blue — '!important' overrides the
+                                     general 'a { color: #58a6ff }' rule above */
+  padding: 0.3rem 0.85rem;
+  border-radius: 4px;
+  /* Slightly rounded corners */
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.btn-resume-nav:hover {
+  background-color: #8b5cf6;
+  /* Lighter blue on hover */
+  text-decoration: none !important;
+  /* No underline on the button */
+}
+
+
+/* ===== Hero ===== */
+.hero {
+  background-color: #0d0d0d;
+
+  /* More top padding than a regular section for the big hero area. */
+  padding: 5rem 0 4rem;
+  /* top right/left bottom — shorthand: top | sides | bottom */
+}
+
+/* The fake terminal prompt line ("C:\Users\Adriel>"). */
+.hero-prompt {
+  /* Monospace font makes it look like a real terminal. */
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  color: #6e7681;
+  /* Dim grey — it's a decorative secondary element */
+  margin-bottom: 0.5rem;
+}
+
+/* The large "Adriel Bobby" name heading. */
+.hero-name {
+  /* clamp(min, preferred, max) makes the font size FLUID.
+     On small screens it won't go below 2.4rem; on big screens it won't exceed 3.5rem.
+     '6vw' means 6% of the viewport width — so it scales with the screen. */
+  font-size: clamp(2.4rem, 6vw, 3.5rem);
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.15;
+  /* Tighter line-height for large display text */
+}
+
+/* "Computer Science Engineer" subtitle */
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #8b5cf6;
+  /* Accent blue to contrast with the white name above */
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+/* The tagline below the subtitle */
+.hero-tagline {
+  margin-top: 0.75rem;
+  color: #8b949e;
+  /* Dimmer grey — this is tertiary information */
+  font-size: 1rem;
+  max-width: 480px;
+  /* Limit line length so it doesn't stretch too wide */
+}
+
+/* Wrapper for the two CTA buttons */
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+  /* Stack buttons on narrow screens */
+}
+
+/* Base button styles shared by .btn-primary and .btn-outline */
+.btn {
+  display: inline-block;
+  /* <a> tags are inline by default; this lets us set padding */
+  padding: 0.6rem 1.4rem;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  /* Show a hand cursor on hover */
+  border: none;
+}
+
+/* Solid blue "View My Work" button */
+.btn-primary {
+  background-color: #8b5cf6;
+  color: #0d0d0d;
+  /* Dark text on a light button for contrast */
+}
+
+.btn-primary:hover {
+  background-color: #a17cf8;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+/* Outlined "Resume" button — transparent with a blue border */
+.btn-outline {
+  background-color: transparent;
+  color: #8b5cf6;
+  border: 1.5px solid #8b5cf6;
+  /* Visible border acts as the button boundary */
+}
+
+.btn-outline:hover {
+  /* Fill in solid on hover to give visual feedback */
+  background-color: #8b5cf6;
+  color: #fffcfc;
+  text-decoration: none;
+}
+
+
+/* ===== About ===== */
+
+/* Italic subheading below the section title */
+.about-intro {
+  font-size: 1rem;
+  color: #8b949e;
+  margin-bottom: 0.35rem;
+  font-style: italic;
+}
+
+/* Wrapper for the bio paragraphs — flex column adds even gap between <p> tags */
+.about-body {
+  display: flex;
+  flex-direction: column;
+  /* Stack paragraphs vertically */
+  gap: 0.85rem;
+  /* Space between each paragraph */
+  margin-bottom: 2rem;
+  color: #c9d1d9;
+  /* Slightly lighter grey for body text */
+}
+
+/* "Technical Skills" label */
+.skills-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 1rem;
+}
+
+/* CSS Grid for the three skill columns (Languages / Tools / Domains).
+   auto-fit means "create as many columns as fit; shrink if needed".
+   minmax(220px, 1fr) means each column is at least 220px wide, and shares space equally. */
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.25rem;
+}
+
+/* One skill column (Languages, Tools, or Domains) */
+.skill-category h4 {
+  color: #8b5cf6;
+  /* Blue category label */
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  /* All caps for a "label" look */
+  letter-spacing: 0.05em;
+  /* Slight spacing between letters for uppercase text */
+  margin-bottom: 0.5rem;
+}
+
+.skill-category ul {
+  /* Override the global 'list-style: none' — we want bullet discs here */
+  list-style: disc;
+  padding-left: 1.25rem;
+  /* Indent so bullet markers are visible */
+  color: #c9d1d9;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* ===== Education ===== */
+
+/* Wrapper that stacks the three education cards vertically */
+.edu-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Individual education card */
+.edu-card {
+  /* A slightly lighter background than the page (#161b22 vs #0d0d0d)
+     to visually lift the card off the page. */
+  background-color: #161b22;
+
+  /* A subtle border with a dark grey color */
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.edu-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* School name in accent blue */
+.edu-card .edu-school {
+  color: #8b5cf6;
+  font-size: 0.9rem;
+  margin-top: 0.2rem;
+}
+
+/* Year and CGPA shown in a row */
+.edu-card .edu-meta {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #8b949e;
+  display: flex;
+  gap: 1.5rem;
+  /* Space between the two meta items */
+  flex-wrap: wrap;
+}
+
+
+/* ===== Certifications ===== */
+.cert-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.cert-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Issuer name and date */
+.cert-card .cert-issuer {
+  color: #8b5cf6;
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Bullet list of what you learned */
+.cert-card ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #c9d1d9;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* ===== Projects ===== */
+
+/* Responsive 2-column grid for project cards.
+   Same auto-fit trick as skills-grid — collapses to 1 column on mobile. */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Individual project card */
+.project-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+
+  /* flex column so the tech tags are always "pushed" to the bottom of the card
+     using 'flex: 1' on the bullet list (see below). */
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.project-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Bullet list of what the project does */
+.project-card ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #c9d1d9;
+  font-size: 0.875rem;
+  line-height: 1.75;
+
+  /* flex: 1 makes this element grow to fill all remaining vertical space in the card.
+     This pushes the tech tags to the bottom of every card, keeping them aligned
+     even if cards have different numbers of bullet points. */
+  flex: 1;
+}
+
+/* Container for the tech badge row */
+.project-tech {
+  font-size: 0.8rem;
+  color: #8b5cf6;
+  font-weight: 500;
+}
+
+/* Individual tech badge / pill */
+.project-tech span {
+  background-color: #1f2937;
+  /* Dark blue-grey chip background */
+  border: 1px solid #30363d;
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  margin-right: 0.35rem;
+  /* Gap between chips */
+
+  /* 'inline-block' lets the chip have padding+border while still flowing like text. */
+  display: inline-block;
+  margin-top: 0.25rem;
+  /* Allow chips to wrap to a new line gracefully */
+}
+
+
+/* ===== Hackathons ===== */
+.hackathon-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.hackathon-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.hackathon-card ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #c9d1d9;
+  font-size: 0.875rem;
+  line-height: 1.75;
+}
+
+
+/* ===== Leadership ===== */
+.leadership-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+}
+
+.leadership-card h3 {
+  font-size: 1rem;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+/* Organization + date range */
+.leadership-card .leadership-org {
+  color: #8b5cf6;
+  font-size: 0.85rem;
+  margin-top: 0.15rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Responsibilities list */
+.leadership-card ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  color: #c9d1d9;
+  font-size: 0.9rem;
+  line-height: 1.8;
+}
+
+
+/* ===== Contact ===== */
+
+/* Short intro paragraph in the Contact section */
+.contact-intro {
+  color: #8b949e;
+  margin-bottom: 1.5rem;
+  max-width: 520px;
+  font-size: 1rem;
+}
+
+/* Vertical stack of contact rows (Email / GitHub / LinkedIn) */
+.contact-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+/* One contact row: label on the left, link on the right */
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* The "Email", "GitHub", etc. label on the left */
+.contact-label {
+  color: #8b949e;
+  min-width: 80px;
+  /* Fixed width so all links start at the same x position */
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+
+/* ===== Footer ===== */
+.footer {
+  padding: 1.75rem 0;
+  text-align: center;
+  /* Center the copyright text */
+  color: #6e7681;
+  /* Very muted — it's the least important text on the page */
+  font-size: 0.85rem;
+  border-top: 1px solid #1e1e1e;
+  /* Match the section separator style */
+}
+
+
+/* ===== Responsive Overrides =====
+   '@media' rules apply ONLY when the screen matches the condition.
+   '(max-width: 600px)' means: "for screens narrower than 600px (mobile phones)". */
+@media (max-width: 600px) {
+
+  /* On very narrow screens, stack the navbar brand and links vertically */
+  .navbar .container {
+    flex-direction: column;
+    align-items: flex-start;
+    /* Left-align instead of center */
+  }
+
+  /* Reduce gap between nav links so they fit in fewer rows */
+  .navbar-links {
+    gap: 0.75rem;
+  }
+
+  /* Less top/bottom padding for the hero on mobile to save vertical space */
+  .hero {
+    padding: 3rem 0 2.5rem;
+  }
+
+  /* Stack CTA buttons vertically on small screens so they're easier to tap */
+  .hero-actions {
+    flex-direction: column;
+  }
+
+  /* Reduce section padding on mobile so content isn't so spaced out */
+  section {
+    padding: 2.5rem 0;
+  }
+}
