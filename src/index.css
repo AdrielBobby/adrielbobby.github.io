@@ -384,10 +384,10 @@ section {
 .edu-card {
   /* A slightly lighter background than the page (#161b22 vs #0d0d0d)
      to visually lift the card off the page. */
-  background-color: #161b22;
+  background-color: #050507;
 
   /* A subtle border with a dark grey color */
-  border: 1px solid #30363d;
+  border: 1px solid #2a1f5f;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
 }
@@ -419,8 +419,8 @@ section {
 
 /* ===== Certifications ===== */
 .cert-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: #050507;
+  border: 1px solid #2a1f5f;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
 }
@@ -461,8 +461,8 @@ section {
 
 /* Individual project card */
 .project-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: #050507;
+  border: 1px solid #2a1f5f;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
 
@@ -519,8 +519,8 @@ section {
 
 /* ===== Hackathons ===== */
 .hackathon-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: #050507;
+  border: 1px solid #2a1f5f;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
   display: flex;
@@ -545,8 +545,8 @@ section {
 
 /* ===== Leadership ===== */
 .leadership-card {
-  background-color: #161b22;
-  border: 1px solid #30363d;
+  background-color: #050507;
+  border: 1px solid #2a1f5f;
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
 }
