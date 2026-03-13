@@ -18,4 +18,5 @@ export default defineConfig({
   // 'plugins' is an array — you can add multiple Vite plugins here later.
   // Right now we only need the React plugin.
   plugins: [react()],
+  base: '/',
 });
