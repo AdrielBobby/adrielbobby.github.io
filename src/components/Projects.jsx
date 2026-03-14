@@ -1,14 +1,9 @@
-// Projects.jsx — Renders a responsive grid of your project cards.
+// Projects.jsx — Neon pulse on scroll entry + stagger reveal per card.
 
-// --- Projects Data ---
-// An array of OBJECTS. Each object represents one project.
-// Object properties here:
-//   title   → string, the project name
-//   bullets → array of strings, each a bullet-point description
-//   tech    → array of strings, each a technology/tool used
-//
-// To ADD a new project: copy+paste one of the objects below, add a comma after it,
-// then fill in your new title / bullets / tech. The grid will update automatically.
+import { motion, useInView } from 'framer-motion';
+import { useRef } from 'react';
+import DecryptText from './DecryptText';
+
 const projects = [
   {
     title: 'Vaccine Dispatch Tracker',
@@ -20,10 +15,7 @@ const projects = [
   },
   {
     title: 'ESP32 Marauder (Wi-Fi & Bluetooth Pentesting Tool)',
-    bullets: [
-      'Setup and customization for wireless auditing: deauth, sniffing, scanning.',
-    ],
-    // Tech tags — rendered as individual pill-shaped spans in the card footer.
+    bullets: ['Setup and customization for wireless auditing: deauth, sniffing, scanning.'],
     tech: ['ESP32', 'Arduino IDE', 'Marauder Firmware', 'Wireshark'],
   },
   {
@@ -37,9 +29,9 @@ const projects = [
   {
     title: 'PoolDetect AI – High-Speed Satellite Pool Detection',
     bullets: [
-      'Built an end-to-end pipeline that turns zip codes into satellite tiles and automatically detects swimming pools for property intelligence.',
-      'Replaced heavy YOLO-style models with a custom OpenCV pipeline using morphology and heuristics to hit sub‑0.1s per‑image inference on CPU.',
-      'Added multi-stage false-positive filters plus four-way pool classification and change detection to spot new builds and estimate property value from SVG polygon areas.'
+      'Built an end-to-end pipeline that turns zip codes into satellite tiles and automatically detects swimming pools.',
+      'Replaced heavy YOLO-style models with a custom OpenCV pipeline using morphology and heuristics — sub‑0.1s per image on CPU.',
+      'Added multi-stage false-positive filters, four-way pool classification, and change detection.',
     ],
     tech: ['Python', 'OpenCV', 'NumPy', 'Nominatim API', 'Esri World Imagery'],
   },
@@ -53,51 +45,61 @@ const projects = [
   },
 ];
 
+// ProjectCard is a separate component so each card can have its own useInView hook.
+// (You can't call hooks inside .map() directly — React rules require hooks at the
+// top level of a component function.)
+function ProjectCard({ project, index }) {
+  const ref = useRef(null);
+
+  // Watch this individual card.
+  const isInView = useInView(ref, { once: true, margin: '-60px' });
+
+  return (
+    <motion.div
+      ref={ref}
+      className="project-card"
+      // initial state: invisible, slightly below final position
+      initial={{ opacity: 0, y: 40 }}
+      // animate to: visible + normal position, with stagger delay
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.12, // stagger — each card is 120ms behind the previous
+        ease: 'easeOut',
+      }}
+      // whileHover triggers when the mouse is over the card.
+      // boxShadow adds the neon purple glow on hover.
+      whileHover={{
+        scale: 1.02,  // slightly enlarges the card
+        boxShadow: '0 0 24px rgba(139, 92, 246, 0.5)', // purple neon glow
+        borderColor: '#8b5cf6', // purple border
+        transition: { duration: 0.2 },
+      }}
+    >
+      <h3>{project.title}</h3>
+      <ul>
+        {project.bullets.map((b) => <li key={b}>{b}</li>)}
+      </ul>
+      <div className="project-tech">
+        {project.tech.map((t) => <span key={t}>{t}</span>)}
+      </div>
+    </motion.div>
+  );
+}
+
 export default function Projects() {
   return (
-    // id="projects" — the "View My Work" button in Hero.jsx scrolls here.
     <section id="projects">
       <div className="container">
-
-        <h2 className="section-title">Projects</h2>
-
-        {/* .projects-grid uses CSS Grid to create a 2-column layout on desktop,
-            which collapses to 1 column on narrow/mobile screens (handled in index.css). */}
+        <h2 className="section-title">
+          <DecryptText text="Projects" speed={35} />
+        </h2>
         <div className="projects-grid">
-
-          {/* Loop over the projects array.
-              'project' = current object. We destructure nothing here — we access each
-              field with dot notation: project.title, project.bullets, project.tech.
-              'key={project.title}' uses the title as the unique React key for this card. */}
-          {projects.map((project) => (
-            <div key={project.title} className="project-card">
-
-              {/* Card title */}
-              <h3>{project.title}</h3>
-
-              {/* Bullet list of what the project does.
-                  Nested .map(): we're inside the outer .map() for projects,
-                  and now we loop over each project's bullets array.
-                  'b' = current bullet string. key={b} works because all bullets are unique. */}
-              <ul>
-                {project.bullets.map((b) => (
-                  <li key={b}>{b}</li>
-                ))}
-              </ul>
-
-              {/* Tech tag row — each technology gets its own <span> pill.
-                  't' = current tech string. */}
-              <div className="project-tech">
-                {project.tech.map((t) => (
-                  // Each <span> is a small badge showing one technology.
-                  <span key={t}>{t}</span>
-                ))}
-              </div>
-
-            </div>
+          {/* Pass the index so each card gets its own stagger delay */}
+          {projects.map((project, index) => (
+            <ProjectCard key={project.title} project={project} index={index} />
           ))}
-
-        </div>{/* end .projects-grid */}
+        </div>
       </div>
     </section>
   );

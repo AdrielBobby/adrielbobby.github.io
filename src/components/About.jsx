@@ -1,106 +1,241 @@
-// About.jsx — The "About Me" section with a bio and a technical skills breakdown.
+// About.jsx — The "whoami" section with terminal blink-in effect
+// and an interactive expandable skills tree.
 
-// --- Data Arrays ---
-// Defining data as arrays outside the component is a React best practice.
-// It keeps your JSX clean (no long lists cluttering the return statement) and
-// makes it easy to add/remove items without touching the HTML structure.
+// useState lets us track which tree folders are open or closed.
+// useEffect runs code after the component renders (used for the terminal typing).
+// useRef creates a reference to a DOM element.
+import { useState, useEffect, useRef } from 'react';
 
-// Languages you code in. To add a new one, just add a string to this array.
-const languages = ['C', 'Python', 'C++', 'Java'];
+// useInView from framer-motion watches when the section enters the viewport.
+import { useInView } from 'framer-motion';
 
-// Security tools you use. Edit here to update your portfolio — no HTML needed.
-const tools = [
-  'MySQL', 'Linux', 'Nmap', 'Gobuster', 'WPSCan', 'Joomscan',
-  'SQLMap', 'Metasploit', 'Searchsploit', 'Hydra', 'John the Ripper',
-  'Hashcat', 'Netcat', 'Tor', 'Burp Suite', 'Steghide', 'Stegseek',
+// The skills data for the terminal tree.
+// Each category has a name and a list of items inside it.
+const skillTree = [
+  {
+    category: 'languages',    // folder label
+    items: ['C', 'Python', 'C++', 'Java', 'JavaScript'],
+  },
+  {
+    category: 'tools',
+    items: [
+      'MySQL', 'Linux', 'Nmap', 'Gobuster', 'WPScan', 'Joomscan',
+      'SQLMap', 'Metasploit', 'Searchsploit', 'Hydra', 'John the Ripper',
+      'Hashcat', 'Netcat', 'Tor', 'Burp Suite', 'Steghide', 'Stegseek',
+    ],
+  },
+  {
+    category: 'domains',
+    items: ['Cybersecurity', 'Web Application Security', 'Network Security', 'Social Media Management'],
+  },
 ];
 
-// Areas of expertise / domain knowledge.
-const domains = [
-  'Cybersecurity',
-  'Web Application Security',
-  'Network Security',
-  'Social Media Management',
+// The bio lines that "type in" one by one like a terminal.
+const bioLines = [
+  "CS Engineering student @ RSET",
+  "Passionate about ethical hacking & cyber-threat analysis",
+  "Curiosity about how things break drives me to protect them",
+  "I enjoy setting up labs, hosting websites, exploring vulnerabilities",
+  "I value clear communication, continuous learning, hands-on experimentation",
 ];
 
 export default function About() {
+
+  // 'openFolders' tracks which skill category folders are expanded.
+  // It's an object like { languages: true, tools: false, domains: false }
+  const [openFolders, setOpenFolders] = useState({});
+
+  // 'typedLines' holds the bio lines that have appeared so far.
+  const [typedLines, setTypedLines] = useState([]);
+
+  // 'cursor' controls whether the blinking cursor is visible.
+  const [cursor, setCursor] = useState(true);
+
+  const ref = useRef(null);
+
+  // Watch when the About section enters the screen.
+  const isInView = useInView(ref, { once: true, margin: '-80px' });
+
+  // This effect runs when isInView becomes true — types out bio lines one by one.
+  useEffect(() => {
+    if (!isInView) return; // don't start until the section is visible
+
+    let lineIndex = 0; // which line we're currently "typing"
+
+    // setInterval runs every 600ms — adds one bio line at a time.
+    const lineTimer = setInterval(() => {
+      if (lineIndex < bioLines.length) {
+        // Add the next bio line to typedLines using the functional form of setState.
+        // prev → current state. We spread it (...prev) and add the new line.
+        setTypedLines(prev => [...prev, bioLines[lineIndex]]);
+        lineIndex++;
+      } else {
+        clearInterval(lineTimer); // stop once all lines are shown
+      }
+    }, 600); // 600ms delay between each line
+
+    // Cleanup: clear the interval if the component unmounts early.
+    return () => clearInterval(lineTimer);
+  }, [isInView]);
+
+  // This effect makes the cursor blink by toggling 'cursor' every 500ms.
+  useEffect(() => {
+    const blink = setInterval(() => {
+      setCursor(prev => !prev); // toggle: true → false → true → ...
+    }, 500);
+    return () => clearInterval(blink); // cleanup on unmount
+  }, []);
+
+  // toggleFolder opens a folder if it's closed, closes it if it's open.
+  function toggleFolder(category) {
+    setOpenFolders(prev => ({
+      ...prev, // keep existing folder states
+      [category]: !prev[category], // flip the clicked one
+    }));
+  }
+
   return (
-    // id="about" lets the Navbar's <a href="#about"> scroll here.
-    <section id="about">
+    // id="about" is the scroll target for the Navbar "About" link.
+    <section id="about" ref={ref}>
       <div className="container">
 
-        {/* Section heading with the left blue border styling from index.css. */}
-        <h2 className="section-title">About</h2>
+        {/* Section heading styled like a terminal command */}
+        <h2 className="section-title">
+          {/* The prompt prefix in purple to mimic a terminal */}
+          <span style={{ color: '#8b5cf6' }}>$ </span>whoami
+        </h2>
 
-        {/* Subheading / tagline shown just below the section title. */}
-        <p className="about-intro">Cybersecurity enthusiast focused on ethical hacking</p>
+        {/* Terminal window wrapper */}
+        <div className="terminal-box">
 
-        {/* The bio text is wrapped in a div so we can control spacing between paragraphs via CSS.
-            &apos; is the JSX-safe way to write an apostrophe character. */}
-        <div className="about-body">
-          <p>
-            I&apos;m a Computer Science Engineering student with a passion for cybersecurity,
-            digital communication, and social media management. My goal is to become a
-            cybersecurity specialist with a focus on ethical hacking and cyber-threat analysis.
-          </p>
-          <p>
-            My curiosity about how things break is what drives me to protect them. I enjoy
-            setting up labs, hosting websites, and exploring how systems can be compromised —
-            and then hardened. I value clear communication, continuous learning, and hands-on
-            experimentation above all.
-          </p>
+          {/* Decorative terminal top bar with three dots (like macOS/Linux terminal) */}
+          <div className="terminal-topbar">
+            {/* Red, yellow, green dots — purely decorative */}
+            <span className="dot red" />
+            <span className="dot yellow" />
+            <span className="dot green" />
+          </div>
+
+          {/* Terminal body — where the lines type in */}
+          <div className="terminal-body">
+
+            {/* First line: the whoami command itself */}
+            <p className="terminal-line">
+              <span style={{ color: '#8b5cf6' }}>adriel@portfolio</span>
+              <span style={{ color: '#fff' }}>:~$ </span>
+              <span style={{ color: '#a3e635' }}>whoami</span>
+            </p>
+
+            {/* Map over typedLines — each one appears with a slight fade/slide */}
+            {typedLines.map((line, i) => (
+              <p key={i} className="terminal-line terminal-output">
+                {/* Dash prefix mimics shell output */}
+                <span style={{ color: '#8b5cf6' }}>→ </span>{line}
+              </p>
+            ))}
+
+            {/* Blinking cursor — only visible when cursor state is true */}
+            <span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span>
+
+          </div>
         </div>
 
-        {/* ---- Technical Skills subsection ---- */}
-        <div className="skills-section">
-          {/* This is a plain paragraph styled to look like a subtitle heading. */}
-          <p className="skills-title">Technical Skills</p>
+        {/* ===== Skills Tree ===== */}
+        {/* Wrap the whole tree in a terminal-box so it gets the same macOS-style window */}
+        <div className="terminal-box">
 
-          {/* CSS Grid via the 'skills-grid' class lays these three columns out side-by-side.
-              On narrow screens the grid collapses to a single column automatically. */}
-          <div className="skills-grid">
+          {/* Same decorative top bar as the bio terminal */}
+          <div className="terminal-topbar">
+            <span className="dot red" />
+            <span className="dot yellow" />
+            <span className="dot green" />
+          </div>
 
-            {/* ---- Languages column ---- */}
-            <div className="skill-category">
-              {/* <h4> is a level-4 heading — appropriate here since h2 is the section title. */}
-              <h4>Languages</h4>
-              <ul>
-                {/* .map() is an array method. It loops over 'languages' and for each
-                    string ('lang') it returns a <li> element containing that string.
-                    This is how React renders lists — no for-loops in JSX, just .map().
-                    'key={lang}' is REQUIRED by React for lists. It helps React efficiently
-                    update only the items that change when the list is re-rendered. */}
-                {languages.map((lang) => (
-                  <li key={lang}>{lang}</li>
-                ))}
-              </ul>
-            </div>
+          {/* Tree content goes inside terminal-body for consistent padding */}
+          <div className="terminal-body">
 
-            {/* ---- Tools column ---- */}
-            <div className="skill-category">
-              <h4>Tools</h4>
-              <ul>
-                {/* Same .map() pattern — loops over the 'tools' array to build list items. */}
-                {tools.map((tool) => (
-                  <li key={tool}>{tool}</li>
-                ))}
-              </ul>
-            </div>
+            <p className="terminal-line" style={{ marginBottom: '0.75rem' }}>
+              <span style={{ color: '#8b5cf6' }}>adriel@portfolio</span>
+              <span style={{ color: '#fff' }}>:~$ </span>
+              <span style={{ color: '#a3e635' }}>ls skills/</span>
+            </p>
 
-            {/* ---- Domains column ---- */}
-            <div className="skill-category">
-              <h4>Domains</h4>
-              <ul>
-                {domains.map((domain) => (
-                  <li key={domain}>{domain}</li>
-                ))}
-              </ul>
-            </div>
+          {/* The tree root node */}
+          <div className="tree-root">
+            <span className="tree-icon">📁</span>
+            <span className="tree-label">skills</span>
+          </div>
 
-          </div>{/* end .skills-grid */}
-        </div>{/* end .skills-section */}
+          {/* Loop over skillTree categories */}
+          {skillTree.map((branch, i) => {
+            // Is this the last category? Affects which tree connector to draw.
+            const isLast = i === skillTree.length - 1;
 
-      </div>{/* end .container */}
+            // Is this folder currently open?
+            const isOpen = openFolders[branch.category];
+
+            return (
+              <div key={branch.category} className="tree-branch">
+
+                {/* The folder row — clickable to expand/collapse */}
+                <div
+                  className="tree-folder"
+                  onClick={() => toggleFolder(branch.category)}
+                  // role="button" and tabIndex make it keyboard-accessible.
+                  role="button"
+                  tabIndex={0}
+                  // Also allow keyboard users to toggle with Enter or Space.
+                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && toggleFolder(branch.category)}
+                >
+                  {/* Tree connector: └── for last item, ├── for others */}
+                  <span className="tree-connector">{isLast ? '└── ' : '├── '}</span>
+
+                  {/* Folder icon changes when open/closed */}
+                  <span className="tree-icon">{isOpen ? '📂' : '📁'}</span>
+
+                  {/* Category name */}
+                  <span className="tree-category-label">{branch.category}</span>
+
+                  {/* Arrow indicator rotates when open */}
+                  <span
+                    className="tree-arrow"
+                    style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                  >
+                    ▶
+                  </span>
+                </div>
+
+                {/* The items inside the folder — only shown when isOpen is true */}
+                {isOpen && (
+                  <div className="tree-items">
+                    {branch.items.map((item, j) => {
+                      const isLastItem = j === branch.items.length - 1;
+                      return (
+                        <div key={item} className="tree-item">
+                          {/* Indentation connector for nested items */}
+                          <span className="tree-indent">
+                            {isLast ? '    ' : '│   '}
+                          </span>
+                          <span className="tree-connector">
+                            {isLastItem ? '└── ' : '├── '}
+                          </span>
+                          {/* File icon for leaf items */}
+                          <span className="tree-icon">▸</span>
+                          {/* The actual skill name */}
+                          <span className="tree-item-label">{item}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+              </div>
+            );
+          })}
+          </div>
+        </div>
+
+      </div>
     </section>
   );
 }

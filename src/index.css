@@ -190,7 +190,7 @@ section {
 .btn-resume-nav {
   background-color: #8b5cf6;
   /* Solid blue background */
-  color: #0d0d0d !important;
+  color: #ffffff !important;
   /* Dark text on blue — '!important' overrides the
                                      general 'a { color: #58a6ff }' rule above */
   padding: 0.3rem 0.85rem;
@@ -201,7 +201,7 @@ section {
 }
 
 .btn-resume-nav:hover {
-  background-color: #8b5cf6;
+  background-color: #a17cf8;
   /* Lighter blue on hover */
   text-decoration: none !important;
   /* No underline on the button */
@@ -655,4 +655,160 @@ section {
   section {
     padding: 2.5rem 0;
   }
+  
+}
+
+/* ===== Terminal Box (About section) ===== */
+
+/* The outer terminal window container */
+.terminal-box {
+  background: #0a0a0f;               /* near-black terminal background */
+  border: 1px solid #2a1f5f;         /* purple border */
+  border-radius: 10px;
+  margin-bottom: 2.5rem;
+  overflow: hidden;                  /* clip children to rounded corners */
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15); /* subtle purple glow */
+}
+
+/* Top bar with the three decorative dots */
+.terminal-topbar {
+  background: #1a1a2e;               /* slightly lighter than terminal body */
+  padding: 0.6rem 1rem;
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Each decorative dot */
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;                /* makes it a perfect circle */
+  display: inline-block;
+}
+.dot.red    { background: #ff5f57; } /* macOS-style red close button */
+.dot.yellow { background: #febc2e; } /* yellow minimize */
+.dot.green  { background: #28c840; } /* green maximize */
+
+/* The terminal text area */
+.terminal-body {
+  padding: 1.25rem 1.5rem;
+  font-family: 'Courier New', Courier, monospace; /* monospace = terminal font */
+  font-size: 0.9rem;
+  line-height: 1.8;
+  min-height: 160px;
+}
+
+/* Each line of terminal output */
+.terminal-line {
+  margin: 0;
+  color: #e2e8f0;                    /* near-white text */
+}
+
+/* Bio lines typed out after the command */
+.terminal-output {
+  color: #a3e635;                    /* terminal green for output */
+  padding-left: 1rem;
+}
+
+/* The blinking cursor block character */
+.terminal-cursor {
+  display: inline-block;
+  color: #8b5cf6;                    /* purple cursor */
+  font-size: 1rem;
+  transition: opacity 0.1s;          /* smooth blink transition */
+}
+
+/* ===== Skills Tree ===== */
+
+/* Wrapper around the entire tree */
+.skills-tree-wrapper {
+  background: #0a0a0f;
+  border: 1px solid #2a1f5f;
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+  box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+}
+
+/* The root node row (📁 skills) */
+.tree-root {
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+}
+
+/* Each category branch wrapper */
+.tree-branch {
+  margin-bottom: 0.2rem;
+}
+
+/* The clickable folder row */
+.tree-folder {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  cursor: pointer;                   /* shows a pointer cursor on hover */
+  color: #c4a1ff;                    /* purple for category folders */
+  padding: 0.2rem 0;
+  border-radius: 4px;
+  transition: background 0.15s;
+  user-select: none;                 /* prevent text selection on click */
+}
+
+/* Highlight folder row on hover */
+.tree-folder:hover {
+  background: rgba(139, 92, 246, 0.1);
+}
+
+/* Category name */
+.tree-category-label {
+  font-weight: 600;
+  flex: 1;                           /* takes up remaining space so arrow stays right */
+}
+
+/* The ▶ arrow — transitions smoothly when rotating */
+.tree-arrow {
+  font-size: 0.65rem;
+  color: #8b5cf6;
+  transition: transform 0.2s ease;  /* smooth rotate animation */
+  margin-left: auto;
+}
+
+/* Container for leaf items inside an open folder */
+.tree-items {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Each individual skill item row */
+.tree-item {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.1rem 0;
+  color: #a3e635;                    /* green for leaf items — terminal output feel */
+  font-size: 0.85rem;
+}
+
+/* The tree connector characters (├──, └──) */
+.tree-connector {
+  color: #4a4a6a;                    /* dim color so connectors don't dominate */
+  white-space: pre;                  /* preserve spaces in connector strings */
+}
+
+/* Indentation space for nested items */
+.tree-indent {
+  color: #4a4a6a;
+  white-space: pre;
+}
+
+/* Individual skill name */
+.tree-item-label {
+  color: #e2e8f0;
+}
+
+/* Emoji/icon spacing */
+.tree-icon {
+  font-size: 0.9rem;
 }
