@@ -812,3 +812,29 @@ section {
 .tree-icon {
   font-size: 0.9rem;
 }
+
+/* ===== Global Card Hover Effects ===== */
+/* Adding CSS transition for smooth animation on hover for all section cards */
+.edu-card,
+.cert-card,
+.hackathon-card,
+.leadership-card,
+.project-card {
+  /* Transition transform, box-shadow, and border-color over 0.2s using an ease curve for a smooth feel */
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+/* Defining the actual hover state changes that applies the neon glow effect */
+.edu-card:hover,
+.cert-card:hover,
+.hackathon-card:hover,
+.leadership-card:hover,
+.project-card:hover {
+  /* Slightly enlarge the card by 2% to make it pop visually towards the user */
+  transform: scale(1.02);
+  /* Apply a spreading purple neon glow shadow around the exact element bounds */
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
+  /* Highlight the subtle dark border into bright purple when hovered */
+  border-color: #8b5cf6;
+}
+

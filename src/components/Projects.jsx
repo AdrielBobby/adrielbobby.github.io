@@ -62,18 +62,11 @@ function ProjectCard({ project, index }) {
       initial={{ opacity: 0, y: 40 }}
       // animate to: visible + normal position, with stagger delay
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+      // transition stagger helps items animate in sequentially
       transition={{
         duration: 0.5,
         delay: index * 0.12, // stagger — each card is 120ms behind the previous
         ease: 'easeOut',
-      }}
-      // whileHover triggers when the mouse is over the card.
-      // boxShadow adds the neon purple glow on hover.
-      whileHover={{
-        scale: 1.02,  // slightly enlarges the card
-        boxShadow: '0 0 24px rgba(139, 92, 246, 0.5)', // purple neon glow
-        borderColor: '#8b5cf6', // purple border
-        transition: { duration: 0.2 },
       }}
     >
       <h3>{project.title}</h3>

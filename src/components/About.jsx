@@ -45,8 +45,14 @@ export default function About() {
   // It's an object like { languages: true, tools: false, domains: false }
   const [openFolders, setOpenFolders] = useState({});
 
-  // 'typedLines' holds the bio lines that have appeared so far.
+  // 'typedLines' holds the fully typed out bio lines so far.
   const [typedLines, setTypedLines] = useState([]);
+  
+  // 'currentLineText' holds the partial string of the line currently being typed.
+  const [currentLineText, setCurrentLineText] = useState('');
+
+  // 'isTyping' tracks if the typewriter effect is still actively running.
+  const [isTyping, setIsTyping] = useState(false);
 
   // 'cursor' controls whether the blinking cursor is visible.
   const [cursor, setCursor] = useState(true);
@@ -56,26 +62,49 @@ export default function About() {
   // Watch when the About section enters the screen.
   const isInView = useInView(ref, { once: true, margin: '-80px' });
 
-  // This effect runs when isInView becomes true — types out bio lines one by one.
+  // This effect runs when isInView becomes true — types out bio lines character by character.
   useEffect(() => {
     if (!isInView) return; // don't start until the section is visible
-
+    
+    let isCancelled = false; // prevents state updates if component unmounts
+    let timeoutId;
     let lineIndex = 0; // which line we're currently "typing"
+    let charIndex = 0; // which character in the line we're at
+    
+    setIsTyping(true); // reveal the cursor and start typing
 
-    // setInterval runs every 600ms — adds one bio line at a time.
-    const lineTimer = setInterval(() => {
+    const typeNext = () => {
+      if (isCancelled) return;
+
       if (lineIndex < bioLines.length) {
-        // Add the next bio line to typedLines using the functional form of setState.
-        // prev → current state. We spread it (...prev) and add the new line.
-        setTypedLines(prev => [...prev, bioLines[lineIndex]]);
-        lineIndex++;
+        const currentFullLine = bioLines[lineIndex];
+        
+        // If we haven't typed the full line yet...
+        if (charIndex < currentFullLine.length) {
+          // Slice the string up to the current character and update state
+          setCurrentLineText(currentFullLine.substring(0, charIndex + 1));
+          charIndex++;
+          timeoutId = setTimeout(typeNext, 30); // 30ms per character for a fast typewriter effect
+        } else {
+          // The line is fully typed! Move it to typedLines and reset partial state
+          setTypedLines(prev => [...prev, currentFullLine]);
+          setCurrentLineText(''); 
+          lineIndex++;
+          charIndex = 0;
+          timeoutId = setTimeout(typeNext, 400); // 400ms pause before starting the next line
+        }
       } else {
-        clearInterval(lineTimer); // stop once all lines are shown
+        // All lines are finished, stop typing and hide the cursor permanently.
+        setIsTyping(false);
       }
-    }, 600); // 600ms delay between each line
+    };
 
-    // Cleanup: clear the interval if the component unmounts early.
-    return () => clearInterval(lineTimer);
+    timeoutId = setTimeout(typeNext, 500); // 500ms initial delay before typing begins
+
+    return () => {
+      isCancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, [isInView]);
 
   // This effect makes the cursor blink by toggling 'cursor' every 500ms.
@@ -126,16 +155,24 @@ export default function About() {
               <span style={{ color: '#a3e635' }}>whoami</span>
             </p>
 
-            {/* Map over typedLines — each one appears with a slight fade/slide */}
+            {/* Map over fully typed lines */}
             {typedLines.map((line, i) => (
-              <p key={i} className="terminal-line terminal-output">
-                {/* Dash prefix mimics shell output */}
-                <span style={{ color: '#8b5cf6' }}>→ </span>{line}
-              </p>
+              line ? (
+                <p key={i} className="terminal-line terminal-output">
+                  {/* Dash prefix mimics shell output */}
+                  <span style={{ color: '#8b5cf6' }}>→ </span>{line}
+                </p>
+              ) : null
             ))}
 
-            {/* Blinking cursor — only visible when cursor state is true */}
-            <span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span>
+            {/* Render the line currently being typed, with the cursor following the text! */}
+            {isTyping && (
+              <p className="terminal-line terminal-output">
+                <span style={{ color: '#8b5cf6' }}>→ </span>
+                {currentLineText}
+                <span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span>
+              </p>
+            )}
 
           </div>
         </div>

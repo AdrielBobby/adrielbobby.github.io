@@ -18,7 +18,7 @@ export default function Certifications() {
         {/* Single cert card wrapped in ScrollReveal */}
         <ScrollReveal direction="up" delay={0}>
           <div className="cert-card">
-            <h3>Ethical Hacking</h3>
+            <h3>Certified Penetration Tester</h3>
             <p className="cert-issuer">RedTeam Academy — May 2025 – Aug 2025</p>
             <ul>{bullets.map(b => <li key={b}>{b}</li>)}</ul>
           </div>

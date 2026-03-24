@@ -44,7 +44,7 @@ export default function Contact() {
         {/* A short intro paragraph inviting people to reach out.
             Edit this text freely — it's just a plain <p> tag. */}
         <p className="contact-intro">
-          Open to collaborations, hackathons, and coffee chats. Feel free to reach out!
+          Feel free to reach out!
         </p>
 
         {/* Wrapper for the list of contact items — styled as a vertical column in CSS. */}
