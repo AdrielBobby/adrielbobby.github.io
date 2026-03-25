@@ -118,153 +118,297 @@ section {
 }
 
 
-/* ===== Navbar ===== */
-.navbar {
-  /* 'sticky' positioning keeps the navbar visible at the top as the user scrolls.
-     'top: 0' means "stick 0px from the top of the viewport". */
-  position: sticky;
-  top: 0;
-
-  /* Same dark background as the page so it doesn't look out of place. */
-  background-color: #0d0d0d;
-
-  /* A subtle bottom border to separate the navbar from the page content below. */
-  border-bottom: 1px solid #1e1e1e;
-
-  /* z-index controls overlap order. 100 means the navbar will appear on TOP of any
-     other element with a lower z-index (like cards, images, etc.). */
+/* ===== Navbar — Floating Pill / Dynamic Island ===== */
+.navbar-pill {
+  position: fixed;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 100;
 
-  padding: 0.85rem 0;
-}
-
-/* The .container inside the navbar uses flexbox to position the brand and links. */
-.navbar .container {
   display: flex;
-  /* Enable flexbox layout */
   align-items: center;
-  /* Vertically center children */
-  justify-content: space-between;
-  /* Push brand to the left, links to the right */
-  gap: 1rem;
-  /* Minimum gap between the two sides */
-  flex-wrap: wrap;
-  /* If the screen is too narrow, links drop to the next line */
+  gap: 1.5rem;
+
+  /* ── Idle / collapsed state ── */
+  padding: 0.5rem 1.25rem;
+  border-radius: 9999px;
+  border: 1px dashed rgba(255, 255, 255, 0.2);
+
+  /* Liquid glass */
+  background: rgba(15, 15, 20, 0.1);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+
+  /* Smooth dynamic-island expansion */
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* "Adriel Bobby" brand name on the left of the navbar. */
-.navbar-brand {
-  font-size: 1.2rem;
+/* ── Hovered / expanded state ── */
+.navbar-pill:hover {
+  padding: 0.8rem 2.2rem;
+  transform: translateX(-50%) scale(1.05);
+  border: 1px solid #8b5cf6;
+  background: rgba(20, 20, 28, 0.85);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* ── Brand: kv_ ── */
+.navbar-pill .navbar-brand {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #ffffff;
   white-space: nowrap;
-  /* Prevent the name from wrapping to two lines */
-}
-
-/* The group of nav links on the right side. */
-.navbar-links {
-  display: flex;
-  /* Row layout for the links */
-  align-items: center;
-  gap: 1.25rem;
-  /* Space between each link */
-  flex-wrap: wrap;
-  /* Allow links to wrap on small screens */
-}
-
-.navbar-links a {
-  color: #b0b0b0;
-  /* Muted grey — less prominent than the brand name */
-  font-size: 0.9rem;
-  white-space: nowrap;
-}
-
-.navbar-links a:hover {
-  color: #ffffff;
-  /* Brighten on hover */
   text-decoration: none;
-  /* Don't show underline inside the navbar */
+  transition: color 0.2s ease, text-shadow 0.2s ease;
 }
 
-/* The "Resume" button in the navbar — styled differently from the plain text links. */
-.btn-resume-nav {
-  background-color: #8b5cf6;
-  /* Solid blue background */
-  color: #ffffff !important;
-  /* Dark text on blue — '!important' overrides the
-                                     general 'a { color: #58a6ff }' rule above */
-  padding: 0.3rem 0.85rem;
-  border-radius: 4px;
-  /* Slightly rounded corners */
-  font-weight: 600;
-  font-size: 0.875rem;
+.navbar-pill:hover .navbar-brand {
+  color: #e9d5ff;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
 }
 
-.btn-resume-nav:hover {
-  background-color: #a17cf8;
-  /* Lighter blue on hover */
-  text-decoration: none !important;
-  /* No underline on the button */
-}
-
-
-/* ===== Hero ===== */
-.hero {
-  background-color: #0d0d0d;
-
-  /* More top padding than a regular section for the big hero area. */
-  padding: 5rem 0 4rem;
-  /* top right/left bottom — shorthand: top | sides | bottom */
-}
-
-/* The fake terminal prompt line ("C:\Users\Adriel>"). */
-.hero-prompt {
-  /* Monospace font makes it look like a real terminal. */
-  font-family: 'Courier New', Courier, monospace;
-  font-size: 0.9rem;
-  color: #6e7681;
-  /* Dim grey — it's a decorative secondary element */
-  margin-bottom: 0.5rem;
-}
-
-/* The large "Adriel Bobby" name heading. */
-.hero-name {
-  /* clamp(min, preferred, max) makes the font size FLUID.
-     On small screens it won't go below 2.4rem; on big screens it won't exceed 3.5rem.
-     '6vw' means 6% of the viewport width — so it scales with the screen. */
-  font-size: clamp(2.4rem, 6vw, 3.5rem);
-  font-weight: 700;
-  color: #ffffff;
-  line-height: 1.15;
-  /* Tighter line-height for large display text */
-}
-
-/* "Computer Science Engineer" subtitle */
-.hero-subtitle {
-  font-size: 1.2rem;
+/* Blinking cursor */
+.cursor-blink {
   color: #8b5cf6;
-  /* Accent blue to contrast with the white name above */
-  margin-top: 0.4rem;
-  font-weight: 500;
+  animation: blink 1s step-end infinite;
 }
 
-/* The tagline below the subtitle */
-.hero-tagline {
+@keyframes blink {
+
+  0%,
+  50% {
+    opacity: 1;
+  }
+
+  51%,
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ── Nav links ── */
+.navbar-pill .navbar-links {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+.navbar-pill .navbar-links a {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #c9d1d9;
+  white-space: nowrap;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.navbar-pill .navbar-links a:hover {
+  color: #e9d5ff;
+  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  text-decoration: none;
+}
+
+/* ── Mobile: hide links, show only brand pill ── */
+@media (max-width: 600px) {
+  .navbar-pill .navbar-links {
+    display: none;
+  }
+}
+
+
+/* ===== Utility: screen-reader only ===== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.hero {
+  position: relative;
+  /* anchor for the scroll indicator */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1.25rem;
+  /* no extra top padding pushing down */
+  overflow: hidden;
+
+  /* Dark background + subtle dot grid */
+  background-color: #0a0a0f;
+  background-image: radial-gradient(circle, #2a1f5f 1px, transparent 1px);
+  background-size: 28px 28px;
+
+  /* No section bottom-border on the hero */
+  border-bottom: none;
+}
+
+/* ── Centered content column ── */
+.hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.2rem;
+  max-width: 1000px;
+}
+
+/* ── ASCII art block ── */
+.ascii-art {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: clamp(0.5rem, 1.5vw, 1.15rem);
+  line-height: 1.35;
+  color: #d8b4fe;
+  /* brighter purple idle state */
+  background: transparent;
+  border: none;
+  white-space: pre;
+  margin: 0;
+  /* reset <pre> default margin */
+  padding: 1.5rem 2rem;
+  cursor: default;
+  user-select: none;
+
+  /* Smooth transitions for hover glow + scale */
+  transition: transform 0.25s ease, text-shadow 0.25s ease, box-shadow 0.25s ease;
+}
+
+.ascii-art.glitching {
+  transform: scale(1.02);
+  text-shadow: 0 0 24px rgba(139, 92, 246, 0.7);
+}
+
+/* ── Status line ── */
+.hero-status {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.95rem;
+  color: #a3e635;
+  /* terminal green */
+  text-transform: lowercase;
+  letter-spacing: 0.04em;
+  margin-top: 0.5rem;
+}
+
+.hero-status-label {
+  color: #6e7681;
+}
+
+/* ── Subtitle (role) ── */
+.hero-subtitle {
+  font-size: 1.5rem;
+  color: #8b5cf6;
+  font-weight: 600;
   margin-top: 0.75rem;
-  color: #8b949e;
-  /* Dimmer grey — this is tertiary information */
-  font-size: 1rem;
-  max-width: 480px;
-  /* Limit line length so it doesn't stretch too wide */
 }
 
-/* Wrapper for the two CTA buttons */
+.hero-subtitle span {
+  font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+}
+
+/* ── Tagline ── */
+.hero-tagline {
+  font-size: 1.15rem;
+  color: #8b949e;
+  max-width: 600px;
+}
+
+/* ── CTA buttons ── */
 .hero-actions {
   display: flex;
-  gap: 1rem;
-  margin-top: 2rem;
+  gap: 1.2rem;
+  margin-top: 1.5rem;
   flex-wrap: wrap;
-  /* Stack buttons on narrow screens */
+  justify-content: center;
+}
+
+.hero-actions a {
+  padding: 0.75rem 2.25rem;
+  font-size: 1rem;
+}
+
+/* ── Scroll indicator (pinned to bottom) ── */
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  z-index: 1;
+}
+
+.scroll-label {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.85rem;
+  color: #6e7681;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+.scroll-arrow-dashed {
+  margin-top: 0.75rem;
+  /* Basic positioning, remove infinite bounce to avoid clashing with the draw effect */
+}
+
+.arrow-head {
+  animation: revealHead 4s infinite;
+}
+
+.arrow-tail {
+  animation: drawTail 4s infinite;
+}
+
+@keyframes revealHead {
+
+  0%,
+  15% {
+    opacity: 0;
+  }
+
+  30%,
+  80% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes drawTail {
+
+  0%,
+  30% {
+    clip-path: inset(100% 0 0 0);
+    opacity: 0;
+  }
+
+  35% {
+    clip-path: inset(100% 0 0 0);
+    opacity: 1;
+  }
+
+  60%,
+  80% {
+    clip-path: inset(0 0 0 0);
+    opacity: 1;
+  }
+
+  100% {
+    clip-path: inset(0 0 0 0);
+    opacity: 0;
+  }
 }
 
 /* Base button styles shared by .btn-primary and .btn-outline */
@@ -633,7 +777,6 @@ section {
   .navbar .container {
     flex-direction: column;
     align-items: flex-start;
-    /* Left-align instead of center */
   }
 
   /* Reduce gap between nav links so they fit in fewer rows */
@@ -641,38 +784,50 @@ section {
     gap: 0.75rem;
   }
 
-  /* Less top/bottom padding for the hero on mobile to save vertical space */
+  /* Hero: keep full viewport, reduce side padding */
   .hero {
-    padding: 3rem 0 2.5rem;
+    padding: 1.5rem 1rem;
+  }
+
+  /* Shrink ASCII art on narrow screens */
+  .ascii-art {
+    font-size: 0.28rem;
+    padding: 0.5rem;
   }
 
   /* Stack CTA buttons vertically on small screens so they're easier to tap */
   .hero-actions {
     flex-direction: column;
+    align-items: center;
   }
 
   /* Reduce section padding on mobile so content isn't so spaced out */
   section {
     padding: 2.5rem 0;
   }
-  
+
 }
 
 /* ===== Terminal Box (About section) ===== */
 
 /* The outer terminal window container */
 .terminal-box {
-  background: #0a0a0f;               /* near-black terminal background */
-  border: 1px solid #2a1f5f;         /* purple border */
+  background: #0a0a0f;
+  /* near-black terminal background */
+  border: 1px solid #2a1f5f;
+  /* purple border */
   border-radius: 10px;
   margin-bottom: 2.5rem;
-  overflow: hidden;                  /* clip children to rounded corners */
-  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15); /* subtle purple glow */
+  overflow: hidden;
+  /* clip children to rounded corners */
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
+  /* subtle purple glow */
 }
 
 /* Top bar with the three decorative dots */
 .terminal-topbar {
-  background: #1a1a2e;               /* slightly lighter than terminal body */
+  background: #1a1a2e;
+  /* slightly lighter than terminal body */
   padding: 0.6rem 1rem;
   display: flex;
   gap: 0.5rem;
@@ -683,17 +838,32 @@ section {
 .dot {
   width: 12px;
   height: 12px;
-  border-radius: 50%;                /* makes it a perfect circle */
+  border-radius: 50%;
+  /* makes it a perfect circle */
   display: inline-block;
 }
-.dot.red    { background: #ff5f57; } /* macOS-style red close button */
-.dot.yellow { background: #febc2e; } /* yellow minimize */
-.dot.green  { background: #28c840; } /* green maximize */
+
+.dot.red {
+  background: #ff5f57;
+}
+
+/* macOS-style red close button */
+.dot.yellow {
+  background: #febc2e;
+}
+
+/* yellow minimize */
+.dot.green {
+  background: #28c840;
+}
+
+/* green maximize */
 
 /* The terminal text area */
 .terminal-body {
   padding: 1.25rem 1.5rem;
-  font-family: 'Courier New', Courier, monospace; /* monospace = terminal font */
+  font-family: 'Courier New', Courier, monospace;
+  /* monospace = terminal font */
   font-size: 0.9rem;
   line-height: 1.8;
   min-height: 160px;
@@ -702,21 +872,25 @@ section {
 /* Each line of terminal output */
 .terminal-line {
   margin: 0;
-  color: #e2e8f0;                    /* near-white text */
+  color: #e2e8f0;
+  /* near-white text */
 }
 
 /* Bio lines typed out after the command */
 .terminal-output {
-  color: #a3e635;                    /* terminal green for output */
+  color: #a3e635;
+  /* terminal green for output */
   padding-left: 1rem;
 }
 
 /* The blinking cursor block character */
 .terminal-cursor {
   display: inline-block;
-  color: #8b5cf6;                    /* purple cursor */
+  color: #8b5cf6;
+  /* purple cursor */
   font-size: 1rem;
-  transition: opacity 0.1s;          /* smooth blink transition */
+  transition: opacity 0.1s;
+  /* smooth blink transition */
 }
 
 /* ===== Skills Tree ===== */
@@ -748,12 +922,15 @@ section {
   display: flex;
   align-items: center;
   gap: 0.4rem;
-  cursor: pointer;                   /* shows a pointer cursor on hover */
-  color: #c4a1ff;                    /* purple for category folders */
+  cursor: pointer;
+  /* shows a pointer cursor on hover */
+  color: #c4a1ff;
+  /* purple for category folders */
   padding: 0.2rem 0;
   border-radius: 4px;
   transition: background 0.15s;
-  user-select: none;                 /* prevent text selection on click */
+  user-select: none;
+  /* prevent text selection on click */
 }
 
 /* Highlight folder row on hover */
@@ -764,14 +941,16 @@ section {
 /* Category name */
 .tree-category-label {
   font-weight: 600;
-  flex: 1;                           /* takes up remaining space so arrow stays right */
+  flex: 1;
+  /* takes up remaining space so arrow stays right */
 }
 
 /* The ▶ arrow — transitions smoothly when rotating */
 .tree-arrow {
   font-size: 0.65rem;
   color: #8b5cf6;
-  transition: transform 0.2s ease;  /* smooth rotate animation */
+  transition: transform 0.2s ease;
+  /* smooth rotate animation */
   margin-left: auto;
 }
 
@@ -787,14 +966,17 @@ section {
   align-items: center;
   gap: 0.3rem;
   padding: 0.1rem 0;
-  color: #a3e635;                    /* green for leaf items — terminal output feel */
+  color: #a3e635;
+  /* green for leaf items — terminal output feel */
   font-size: 0.85rem;
 }
 
 /* The tree connector characters (├──, └──) */
 .tree-connector {
-  color: #4a4a6a;                    /* dim color so connectors don't dominate */
-  white-space: pre;                  /* preserve spaces in connector strings */
+  color: #4a4a6a;
+  /* dim color so connectors don't dominate */
+  white-space: pre;
+  /* preserve spaces in connector strings */
 }
 
 /* Indentation space for nested items */
@@ -837,4 +1019,3 @@ section {
   /* Highlight the subtle dark border into bright purple when hovered */
   border-color: #8b5cf6;
 }
-

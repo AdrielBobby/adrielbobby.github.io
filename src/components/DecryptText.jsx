@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const CHARS = '!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-export default function DecryptText({ text, speed = 40, className = '' }) {
+export default function DecryptText({ text, speed = 40, startDelay = 0, className = '' }) {
 
   const [displayed, setDisplayed] = useState('');
   const [hasRun, setHasRun] = useState(false);
@@ -23,31 +23,34 @@ export default function DecryptText({ text, speed = 40, className = '' }) {
         if (entry.isIntersecting && !hasRun) {
           setHasRun(true);
 
-          // Immediately show scrambled version
-          setDisplayed(
-            text.split('').map(char =>
-              char === ' ' ? ' ' : CHARS[Math.floor(Math.random() * CHARS.length)]
-            ).join('')
-          );
-
-          let iteration = 0;
-
-          const interval = setInterval(() => {
+          // Wait startDelay ms before beginning the decrypt animation
+          setTimeout(() => {
+            // Immediately show scrambled version
             setDisplayed(
-              text.split('').map((char, index) => {
-                if (char === ' ') return ' ';
-                if (index < iteration) return char;
-                return CHARS[Math.floor(Math.random() * CHARS.length)];
-              }).join('')
+              text.split('').map(char =>
+                char === ' ' ? ' ' : CHARS[Math.floor(Math.random() * CHARS.length)]
+              ).join('')
             );
 
-            iteration += 0.5;
+            let iteration = 0;
 
-            if (iteration >= text.length) {
-              clearInterval(interval);
-              setDisplayed(text); // snap to real text at the end
-            }
-          }, speed);
+            const interval = setInterval(() => {
+              setDisplayed(
+                text.split('').map((char, index) => {
+                  if (char === ' ') return ' ';
+                  if (index < iteration) return char;
+                  return CHARS[Math.floor(Math.random() * CHARS.length)];
+                }).join('')
+              );
+
+              iteration += 0.5;
+
+              if (iteration >= text.length) {
+                clearInterval(interval);
+                setDisplayed(text); // snap to real text at the end
+              }
+            }, speed);
+          }, startDelay);
         }
       },
       { threshold: 0 } // fire as soon as any part is visible
@@ -57,7 +60,7 @@ export default function DecryptText({ text, speed = 40, className = '' }) {
 
     // Cleanup: stop observing when component unmounts
     return () => observer.disconnect();
-  }, [text, speed, hasRun]); // re-run if text or speed changes
+  }, [text, speed, startDelay, hasRun]); // re-run if text, speed, or startDelay changes
 
   return (
     <span ref={ref} className={className} style={{ fontFamily: 'monospace' }}>
