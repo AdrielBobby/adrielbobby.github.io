@@ -34,6 +34,7 @@ html {
      Using rem units for other sizes scales proportionally if the user
      changes their browser's default font size (accessibility). */
   font-size: 16px;
+  scroll-padding-top: 5rem; /* Prevent fixed navbar from overlapping section headers */
 }
 
 body {
@@ -115,6 +116,7 @@ section {
   border-left: 4px solid #8b5cf6;
   padding-left: 0.75rem;
   /* Space between the blue border and the text */
+  word-break: break-word;
 }
 
 
@@ -210,11 +212,18 @@ section {
   text-decoration: none;
 }
 
-/* ── Mobile: hide links, show only brand pill ── */
-@media (max-width: 600px) {
-  .navbar-pill .navbar-links {
-    display: none;
-  }
+/* ── Mobile toggle button (hidden on desktop) ── */
+.navbar-header {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
 }
 
 
@@ -358,56 +367,32 @@ section {
 
 .scroll-arrow-dashed {
   margin-top: 0.75rem;
-  /* Basic positioning, remove infinite bounce to avoid clashing with the draw effect */
+  animation: arrow-bob 1.5s ease-in-out infinite;
 }
 
 .arrow-head {
-  animation: revealHead 4s infinite;
+  opacity: 1;
 }
 
 .arrow-tail {
-  animation: drawTail 4s infinite;
+  animation: scroll-down 1.5s linear infinite;
 }
 
-@keyframes revealHead {
-
-  0%,
-  15% {
-    opacity: 0;
+@keyframes arrow-bob {
+  0%, 100% {
+    transform: translateY(0);
   }
-
-  30%,
-  80% {
-    opacity: 1;
-  }
-
-  100% {
-    opacity: 0;
+  50% {
+    transform: translateY(10px);
   }
 }
 
-@keyframes drawTail {
-
-  0%,
-  30% {
-    clip-path: inset(100% 0 0 0);
-    opacity: 0;
+@keyframes scroll-down {
+  0% {
+    stroke-dashoffset: -8;
   }
-
-  35% {
-    clip-path: inset(100% 0 0 0);
-    opacity: 1;
-  }
-
-  60%,
-  80% {
-    clip-path: inset(0 0 0 0);
-    opacity: 1;
-  }
-
   100% {
-    clip-path: inset(0 0 0 0);
-    opacity: 0;
+    stroke-dashoffset: 0;
   }
 }
 
@@ -773,15 +758,61 @@ section {
    '(max-width: 600px)' means: "for screens narrower than 600px (mobile phones)". */
 @media (max-width: 600px) {
 
-  /* On very narrow screens, stack the navbar brand and links vertically */
-  .navbar .container {
+  /* Mobile Navbar Pill */
+  .navbar-pill {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    border-radius: 1.5rem;
+    width: 90vw;
+    gap: 0;
+  }
+  
+  .navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
   }
 
-  /* Reduce gap between nav links so they fit in fewer rows */
-  .navbar-links {
-    gap: 0.75rem;
+  .navbar-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+
+  /* Hamburger Icon Lines */
+  .hamburger, .hamburger::before, .hamburger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+    transition: transform 0.3s, opacity 0.3s;
+    border-radius: 2px;
+  }
+  .hamburger::before { content: ''; transform: translateY(-6px); }
+  .hamburger::after { content: ''; transform: translateY(4px); }
+  
+  .hamburger.open { background-color: transparent; }
+  .hamburger.open::before { transform: translateY(0) rotate(45deg); }
+  .hamburger.open::after { transform: translateY(-2px) rotate(-45deg); }
+
+  /* Dropdown links */
+  .navbar-pill .navbar-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 1rem 0 0.5rem 0;
+    gap: 1.25rem;
+    border-top: 1px dashed rgba(255,255,255,0.2);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  .navbar-pill .navbar-links.open {
+    display: flex;
   }
 
   /* Hero: keep full viewport, reduce side padding */
@@ -789,23 +820,44 @@ section {
     padding: 1.5rem 1rem;
   }
 
-  /* Shrink ASCII art on narrow screens */
+  /* Shrink ASCII art on narrow screens definitively */
   .ascii-art {
-    font-size: 0.28rem;
-    padding: 0.5rem;
+    font-size: 2.2vw;
+    width: 100%;
+    overflow-x: auto;
+    padding: 0.5rem 0;
   }
 
-  /* Stack CTA buttons vertically on small screens so they're easier to tap */
+  /* Stack CTA buttons vertically on small screens and stretch */
   .hero-actions {
     flex-direction: column;
-    align-items: center;
+    width: 100%;
+    gap: 1rem;
   }
 
-  /* Reduce section padding on mobile so content isn't so spaced out */
+  .hero-actions a {
+    width: 100%;
+  }
+
+  /* Reduce section padding on mobile */
   section {
     padding: 2.5rem 0;
   }
+  
+  /* Fix terminal rigidity */
+  .terminal-body {
+    padding: 1rem 0.75rem;
+    font-size: 0.75rem;
+    overflow-x: auto;
+  }
 
+  /* Increase skill tag sizes for touch */
+  .project-tech span {
+    padding: 0.4rem 0.6rem;
+    margin-right: 0.5rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+  }
 }
 
 /* ===== Terminal Box (About section) ===== */
