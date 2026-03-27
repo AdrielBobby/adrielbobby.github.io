@@ -47,7 +47,7 @@ export default function About() {
 
   // 'typedLines' holds the fully typed out bio lines so far.
   const [typedLines, setTypedLines] = useState([]);
-  
+
   // 'currentLineText' holds the partial string of the line currently being typed.
   const [currentLineText, setCurrentLineText] = useState('');
 
@@ -65,12 +65,12 @@ export default function About() {
   // This effect runs when isInView becomes true — types out bio lines character by character.
   useEffect(() => {
     if (!isInView) return; // don't start until the section is visible
-    
+
     let isCancelled = false; // prevents state updates if component unmounts
     let timeoutId;
     let lineIndex = 0; // which line we're currently "typing"
     let charIndex = 0; // which character in the line we're at
-    
+
     setIsTyping(true); // reveal the cursor and start typing
 
     const typeNext = () => {
@@ -78,7 +78,7 @@ export default function About() {
 
       if (lineIndex < bioLines.length) {
         const currentFullLine = bioLines[lineIndex];
-        
+
         // If we haven't typed the full line yet...
         if (charIndex < currentFullLine.length) {
           // Slice the string up to the current character and update state
@@ -88,7 +88,7 @@ export default function About() {
         } else {
           // The line is fully typed! Move it to typedLines and reset partial state
           setTypedLines(prev => [...prev, currentFullLine]);
-          setCurrentLineText(''); 
+          setCurrentLineText('');
           lineIndex++;
           charIndex = 0;
           timeoutId = setTimeout(typeNext, 400); // 400ms pause before starting the next line
@@ -197,78 +197,78 @@ export default function About() {
               <span style={{ color: '#a3e635' }}>ls skills/</span>
             </p>
 
-          {/* The tree root node */}
-          <div className="tree-root">
-            <span className="tree-icon">📁</span>
-            <span className="tree-label">skills</span>
-          </div>
+            {/* The tree root node */}
+            <div className="tree-root">
+              <span className="tree-icon">📁</span>
+              <span className="tree-label">skills</span>
+            </div>
 
-          {/* Loop over skillTree categories */}
-          {skillTree.map((branch, i) => {
-            // Is this the last category? Affects which tree connector to draw.
-            const isLast = i === skillTree.length - 1;
+            {/* Loop over skillTree categories */}
+            {skillTree.map((branch, i) => {
+              // Is this the last category? Affects which tree connector to draw.
+              const isLast = i === skillTree.length - 1;
 
-            // Is this folder currently open?
-            const isOpen = openFolders[branch.category];
+              // Is this folder currently open?
+              const isOpen = openFolders[branch.category];
 
-            return (
-              <div key={branch.category} className="tree-branch">
+              return (
+                <div key={branch.category} className="tree-branch">
 
-                {/* The folder row — clickable to expand/collapse */}
-                <div
-                  className="tree-folder"
-                  onClick={() => toggleFolder(branch.category)}
-                  // role="button" and tabIndex make it keyboard-accessible.
-                  role="button"
-                  tabIndex={0}
-                  // Also allow keyboard users to toggle with Enter or Space.
-                  onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && toggleFolder(branch.category)}
-                >
-                  {/* Tree connector: └── for last item, ├── for others */}
-                  <span className="tree-connector">{isLast ? '└── ' : '├── '}</span>
-
-                  {/* Folder icon changes when open/closed */}
-                  <span className="tree-icon">{isOpen ? '📂' : '📁'}</span>
-
-                  {/* Category name */}
-                  <span className="tree-category-label">{branch.category}</span>
-
-                  {/* Arrow indicator rotates when open */}
-                  <span
-                    className="tree-arrow"
-                    style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                  {/* The folder row — clickable to expand/collapse */}
+                  <div
+                    className="tree-folder"
+                    onClick={() => toggleFolder(branch.category)}
+                    // role="button" and tabIndex make it keyboard-accessible.
+                    role="button"
+                    tabIndex={0}
+                    // Also allow keyboard users to toggle with Enter or Space.
+                    onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && toggleFolder(branch.category)}
                   >
-                    ▶
-                  </span>
-                </div>
+                    {/* Tree connector: └── for last item, ├── for others */}
+                    <span className="tree-connector">{isLast ? '└── ' : '├── '}</span>
 
-                {/* The items inside the folder — only shown when isOpen is true */}
-                {isOpen && (
-                  <div className="tree-items">
-                    {branch.items.map((item, j) => {
-                      const isLastItem = j === branch.items.length - 1;
-                      return (
-                        <div key={item} className="tree-item">
-                          {/* Indentation connector for nested items */}
-                          <span className="tree-indent">
-                            {isLast ? '    ' : '│   '}
-                          </span>
-                          <span className="tree-connector">
-                            {isLastItem ? '└── ' : '├── '}
-                          </span>
-                          {/* File icon for leaf items */}
-                          <span className="tree-icon">▸</span>
-                          {/* The actual skill name */}
-                          <span className="tree-item-label">{item}</span>
-                        </div>
-                      );
-                    })}
+                    {/* Folder icon changes when open/closed */}
+                    <span className="tree-icon">{isOpen ? '📂' : '📁'}</span>
+
+                    {/* Category name */}
+                    <span className="tree-category-label">{branch.category}</span>
+
+                    {/* Arrow indicator rotates when open */}
+                    <span
+                      className="tree-arrow"
+                      style={{ transform: isOpen ? 'rotate(90deg)' : 'rotate(0deg)' }}
+                    >
+                      ▶
+                    </span>
                   </div>
-                )}
 
-              </div>
-            );
-          })}
+                  {/* The items inside the folder — only shown when isOpen is true */}
+                  {isOpen && (
+                    <div className="tree-items">
+                      {branch.items.map((item, j) => {
+                        const isLastItem = j === branch.items.length - 1;
+                        return (
+                          <div key={item} className="tree-item">
+                            {/* Indentation connector for nested items */}
+                            <span className="tree-indent">
+                              {isLast ? '    ' : '│   '}
+                            </span>
+                            <span className="tree-connector">
+                              {isLastItem ? '└── ' : '├── '}
+                            </span>
+                            {/* File icon for leaf items */}
+                            <span className="tree-icon">▸</span>
+                            {/* The actual skill name */}
+                            <span className="tree-item-label">{item}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+
+                </div>
+              );
+            })}
           </div>
         </div>
 

@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react';
 
 const CHARS = '!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-export default function DecryptText({ text, speed = 40, startDelay = 0, className = '' }) {
+export default function DecryptText({ text, speed = 40, startDelay = 0, className = '', style = {} }) {
 
   const [displayed, setDisplayed] = useState('');
   const [hasRun, setHasRun] = useState(false);
@@ -63,7 +63,11 @@ export default function DecryptText({ text, speed = 40, startDelay = 0, classNam
   }, [text, speed, startDelay, hasRun]); // re-run if text, speed, or startDelay changes
 
   return (
-    <span ref={ref} className={className} style={{ fontFamily: 'monospace' }}>
+    <span 
+      ref={ref} 
+      className={className} 
+      style={{ fontFamily: 'monospace', ...style }}
+    >
       {displayed || '\u00A0'}
     </span>
   );

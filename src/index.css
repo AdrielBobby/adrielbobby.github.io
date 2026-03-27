@@ -100,6 +100,9 @@ section {
 
   /* A subtle dark line between sections to visually separate them. */
   border-bottom: 1px solid #1e1e1e;
+
+  /* Offset scroll target so fixed navbar doesn't overlap section headings */
+  scroll-margin-top: 96px;
 }
 
 /* The big heading ("About", "Education", etc.) at the top of each section. */
@@ -137,8 +140,8 @@ section {
   border-radius: 9999px;
   border: 1px dashed rgba(255, 255, 255, 0.2);
 
-  /* Liquid glass */
-  background: rgba(15, 15, 20, 0.1);
+  /* Liquid glass — slightly opaque idle state */
+  background: rgba(10, 10, 18, 0.35);
   backdrop-filter: blur(12px) saturate(150%);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
 
@@ -150,7 +153,7 @@ section {
 .navbar-pill:hover {
   padding: 0.8rem 2.2rem;
   transform: translateX(-50%) scale(1.05);
-  border: 1px solid #8b5cf6;
+  border: 1px solid rgba(255, 255, 255, 0.45);
   background: rgba(20, 20, 28, 0.85);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
@@ -274,7 +277,7 @@ section {
 /* ── ASCII art block ── */
 .ascii-art {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: clamp(0.5rem, 1.5vw, 1.15rem);
+  font-size: clamp(0.65rem, 2.2vw, 1.55rem);
   line-height: 1.35;
   color: #d8b4fe;
   /* brighter purple idle state */
@@ -347,26 +350,27 @@ section {
 /* ── Scroll indicator (pinned to bottom) ── */
 .hero-scroll-indicator {
   position: absolute;
-  bottom: 1.5rem;
+  bottom: 2rem;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.15rem; /* Closer to the tail as requested */
   z-index: 1;
+  margin-top: 4rem; /* Additional separation from CTAs above */
 }
 
 .scroll-label {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: #6e7681;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
 }
 
 .scroll-arrow-dashed {
-  margin-top: 0.75rem;
+  margin-top: 0.25rem;
   animation: arrow-bob 1.5s ease-in-out infinite;
 }
 
@@ -458,6 +462,16 @@ section {
   margin-bottom: 2rem;
   color: #c9d1d9;
   /* Slightly lighter grey for body text */
+}
+
+/* One-line summary headline under the whoami terminal */
+.about-summary-line {
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: #c4a1ff;
+  margin-top: -1rem;
+  margin-bottom: 2rem;
+  letter-spacing: 0.01em;
 }
 
 /* "Technical Skills" label */
@@ -622,6 +636,14 @@ section {
   flex: 1;
 }
 
+/* Single-line project blurb above the tech chips */
+.project-blurb {
+  color: #c9d1d9;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
 /* Container for the tech badge row */
 .project-tech {
   font-size: 0.8rem;
@@ -753,112 +775,7 @@ section {
 }
 
 
-/* ===== Responsive Overrides =====
-   '@media' rules apply ONLY when the screen matches the condition.
-   '(max-width: 600px)' means: "for screens narrower than 600px (mobile phones)". */
-@media (max-width: 600px) {
 
-  /* Mobile Navbar Pill */
-  .navbar-pill {
-    flex-direction: column;
-    align-items: stretch;
-    border-radius: 1.5rem;
-    width: 90vw;
-    gap: 0;
-  }
-  
-  .navbar-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-  }
-
-  .navbar-toggle {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 24px;
-  }
-
-  /* Hamburger Icon Lines */
-  .hamburger, .hamburger::before, .hamburger::after {
-    display: block;
-    width: 20px;
-    height: 2px;
-    background-color: #ffffff;
-    transition: transform 0.3s, opacity 0.3s;
-    border-radius: 2px;
-  }
-  .hamburger::before { content: ''; transform: translateY(-6px); }
-  .hamburger::after { content: ''; transform: translateY(4px); }
-  
-  .hamburger.open { background-color: transparent; }
-  .hamburger.open::before { transform: translateY(0) rotate(45deg); }
-  .hamburger.open::after { transform: translateY(-2px) rotate(-45deg); }
-
-  /* Dropdown links */
-  .navbar-pill .navbar-links {
-    display: none;
-    flex-direction: column;
-    align-items: stretch;
-    width: 100%;
-    padding: 1rem 0 0.5rem 0;
-    gap: 1.25rem;
-    border-top: 1px dashed rgba(255,255,255,0.2);
-    margin-top: 0.5rem;
-    text-align: center;
-  }
-  
-  .navbar-pill .navbar-links.open {
-    display: flex;
-  }
-
-  /* Hero: keep full viewport, reduce side padding */
-  .hero {
-    padding: 1.5rem 1rem;
-  }
-
-  /* Shrink ASCII art on narrow screens definitively */
-  .ascii-art {
-    font-size: 2.2vw;
-    width: 100%;
-    overflow-x: auto;
-    padding: 0.5rem 0;
-  }
-
-  /* Stack CTA buttons vertically on small screens and stretch */
-  .hero-actions {
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-  }
-
-  .hero-actions a {
-    width: 100%;
-  }
-
-  /* Reduce section padding on mobile */
-  section {
-    padding: 2.5rem 0;
-  }
-  
-  /* Fix terminal rigidity */
-  .terminal-body {
-    padding: 1rem 0.75rem;
-    font-size: 0.75rem;
-    overflow-x: auto;
-  }
-
-  /* Increase skill tag sizes for touch */
-  .project-tech span {
-    padding: 0.4rem 0.6rem;
-    margin-right: 0.5rem;
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
-  }
-}
 
 /* ===== Terminal Box (About section) ===== */
 
@@ -1070,4 +987,131 @@ section {
   box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
   /* Highlight the subtle dark border into bright purple when hovered */
   border-color: #8b5cf6;
+}
+
+/* ===== Responsive Overrides =====
+   Placed at the bottom to guarantee they override desktop styles. */
+@media (max-width: 768px) {
+  /* Prevent horizontal scroll from breaking the layout */
+  html, body {
+    overflow-x: hidden;
+    width: 100%;
+    position: relative;
+  }
+
+  /* Mobile Navbar Pill */
+  .navbar-pill {
+    flex-direction: column;
+    align-items: stretch;
+    border-radius: 1.5rem;
+    width: 90vw;
+    gap: 0;
+  }
+  
+  .navbar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .navbar-toggle {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+  }
+
+  /* Hamburger Icon */
+  .hamburger, .hamburger::before, .hamburger::after {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background-color: #ffffff;
+    transition: transform 0.3s, opacity 0.3s;
+    border-radius: 2px;
+  }
+  .hamburger::before { content: ''; transform: translateY(-6px); }
+  .hamburger::after { content: ''; transform: translateY(4px); }
+  
+  .hamburger.open { background-color: transparent; }
+  .hamburger.open::before { transform: translateY(0) rotate(45deg); }
+  .hamburger.open::after { transform: translateY(-2px) rotate(-45deg); }
+
+  /* Dropdown links */
+  .navbar-pill .navbar-links {
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    padding: 1rem 0 0.5rem 0;
+    gap: 1.25rem;
+    border-top: 1px dashed rgba(255,255,255,0.2);
+    margin-top: 0.5rem;
+    text-align: center;
+  }
+  
+  .navbar-pill .navbar-links.open {
+    display: flex;
+  }
+
+  /* Hero and ASCII */
+  .hero {
+    padding: 1.5rem 1rem;
+  }
+
+  .hero-content .ascii-art {
+    font-size: 0.55rem;
+    line-height: 1.35;
+    letter-spacing: normal;
+    padding: 1rem 0;
+    width: 100%;
+    overflow-x: auto;
+    /* ensure scrolling is smooth on iOS */
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Stack CTA buttons vertically */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+    gap: 1rem;
+  }
+
+  .hero-actions a {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Globals & Layouts */
+  section {
+    padding: 2.5rem 0;
+  }
+
+  .about-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  /* Explicit grid overrides just in case auto-fit needs help */
+  .projects-grid, 
+  .skills-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* Terminals */
+  .terminal-body {
+    padding: 1rem 0.75rem;
+    font-size: 0.8rem;
+    overflow-x: auto;
+  }
+
+  /* Enhance touch targets for chips */
+  .project-tech span {
+    padding: 0.35rem 0.55rem;
+    margin-right: 0.4rem;
+    margin-top: 0.4rem;
+    font-size: 0.8rem;
+  }
 }

@@ -15,8 +15,6 @@ import react from '@vitejs/plugin-react';
 // We export the config object so Vite can read it when you run `npm run dev`.
 // 'export default' makes this the main (only) thing exported from this file.
 export default defineConfig({
-  // 'plugins' is an array — you can add multiple Vite plugins here later.
-  // Right now we only need the React plugin.
   plugins: [react()],
   base: '/',
 });

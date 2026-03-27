@@ -25,18 +25,22 @@ const STATUS_MESSAGES = [
 ];
 
 // ── Framer Motion variants ──────────────────────────────────────────
-// ASCII decrypts on its own (~1.2 s); the rest staggers in after that.
-const STAGGER_DELAY = 1.3; // seconds after mount for first child
-const CHILD_GAP = 0.15;    // seconds between each child
+// ASCII decrypts on its own (~1.2 - 1.4 s); children stagger sequentially after.
+const STAGGER_DELAY = 1.6; // starts just after ASCII art completes
+const CHILD_GAP = 0.8;     // generous gap for dramatic effect
 
-const fadeUp = (i) => ({
-  hidden: { opacity: 0, y: 18 },
-  visible: {
+const fadeUpVariants = {
+  hidden: { opacity: 0, y: 15 },
+  visible: (i) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: STAGGER_DELAY + i * CHILD_GAP, duration: 0.5, ease: 'easeOut' },
-  },
-});
+    transition: {
+      delay: STAGGER_DELAY + i * CHILD_GAP,
+      duration: 0.7,
+      ease: 'easeOut'
+    },
+  }),
+};
 
 export default function Hero() {
   // ── Rotating status line ──────────────────────────────────────────
@@ -67,36 +71,47 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
+          transition={{ duration: 0.5 }}
         >
           <span className="hero-status-label">status:</span>{' '}
           {STATUS_MESSAGES[statusIdx]}
         </motion.p>
 
-        {/* ── Subtitle ── */}
+        {/* ── Subtitle (Ordered Index 0) ── */}
         <motion.p
           className="hero-subtitle"
-          variants={fadeUp(0)}
+          custom={0}
+          variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
         >
-          <DecryptText text="Computer Science Engineer" speed={35} />
+          <DecryptText
+            text="Computer Science Engineer"
+            speed={35}
+            startDelay={STAGGER_DELAY * 1000}
+          />
         </motion.p>
 
-        {/* ── Tagline ── */}
+        {/* ── Tagline (Ordered Index 1) ── */}
         <motion.p
           className="hero-tagline"
-          variants={fadeUp(1)}
+          custom={1}
+          variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
         >
-          <DecryptText text="Breaking into cybersecurity one packet at a time." speed={30} />
+          <DecryptText
+            text="Breaking into cybersecurity one packet at a time."
+            speed={30}
+            startDelay={(STAGGER_DELAY + CHILD_GAP) * 1000}
+          />
         </motion.p>
 
-        {/* ── CTA buttons ── */}
+        {/* ── CTA buttons (Ordered Index 2) ── */}
         <motion.div
           className="hero-actions"
-          variants={fadeUp(2)}
+          custom={2}
+          variants={fadeUpVariants}
           initial="hidden"
           animate="visible"
         >
@@ -112,20 +127,31 @@ export default function Hero() {
         </motion.div>
       </div>
 
-      {/* ── Scroll indicator pinned to bottom ── */}
+      {/* ── Scroll indicator (Ordered Index 3) ── */}
       <motion.div
         className="hero-scroll-indicator"
-        variants={fadeUp(3)}
+        custom={3}
+        variants={fadeUpVariants}
         initial="hidden"
         animate="visible"
       >
-        <DecryptText text="SCROLL" speed={35} startDelay={1750} className="scroll-label" />
-        <svg 
-          className="scroll-arrow-dashed" 
-          width="24" 
-          height="60" 
-          viewBox="0 0 24 60" 
-          fill="none" 
+        {/* Use inline paddingLeft to perfectly balance the 0.25em letter-spacing on the right.
+            Wrapping in a div ensures HMR instantly updates the UI regardless of CSS cache. */}
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <DecryptText
+            text="SCROLL"
+            speed={40}
+            startDelay={(STAGGER_DELAY + 3 * CHILD_GAP) * 1000}
+            className="scroll-label"
+            style={{ textIndent: '0.25em' }} /* Mathematically offsets the trailing 0.25em letter-spacing */
+          />
+        </div>
+        <svg
+          className="scroll-arrow-dashed"
+          width="24"
+          height="50"
+          viewBox="0 0 24 60"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
           <line className="arrow-tail" x1="12" y1="0" x2="12" y2="52" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="4 4" />

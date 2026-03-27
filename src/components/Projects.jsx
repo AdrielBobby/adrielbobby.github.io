@@ -7,40 +7,27 @@ import DecryptText from './DecryptText';
 const projects = [
   {
     title: 'Vaccine Dispatch Tracker',
-    bullets: [
-      'Manages vaccine inventory and distribution; order placement and reporting.',
-      'Integrated stock updates and visualization for sales and dispatch.',
-    ],
+    blurb: 'Python and MySQL based system for managing vaccine inventory, order placement, and distribution workflow.',
     tech: ['Python', 'MySQL'],
   },
   {
     title: 'ESP32 Marauder (Wi-Fi & Bluetooth Pentesting Tool)',
-    bullets: ['Setup and customization for wireless auditing: deauth, sniffing, scanning.'],
+    blurb: 'Wi‑Fi/Bluetooth pentesting toolkit built on ESP32 with Marauder firmware for wireless auditing.',
     tech: ['ESP32', 'Arduino IDE', 'Marauder Firmware', 'Wireshark'],
   },
   {
     title: 'MIS-COMMUNICATION-NATER',
-    bullets: [
-      'Two AI models communicate with each other rather than answering user queries.',
-      'Maximizes computer resources to produce unusable results.',
-    ],
+    blurb: 'Experimental AI communication system on Raspberry Pi where two models talk to each other instead of answering user queries.',
     tech: ['Raspberry Pi 4B', 'Raspberry OS Lite', 'StableLM Zephyr 3B', 'LEDs', 'Web UI'],
   },
   {
     title: 'PoolDetect AI – High-Speed Satellite Pool Detection',
-    bullets: [
-      'Built an end-to-end pipeline that turns zip codes into satellite tiles and automatically detects swimming pools.',
-      'Replaced heavy YOLO-style models with a custom OpenCV pipeline using morphology and heuristics — sub‑0.1s per image on CPU.',
-      'Added multi-stage false-positive filters, four-way pool classification, and change detection.',
-    ],
+    blurb: 'End-to-end satellite image pipeline that detects swimming pools using a custom OpenCV morphology approach—sub‑0.1 s per image on CPU.',
     tech: ['Python', 'OpenCV', 'NumPy', 'Nominatim API', 'Esri World Imagery'],
   },
   {
     title: 'Homelab for Cybersecurity',
-    bullets: [
-      'Self-hosted lab with VMs and vulnerable boxes for pentest practice.',
-      'Workflow with Nmap, Metasploit, Burp Suite, and SIEMs.',
-    ],
+    blurb: 'Self-hosted lab environment with VMs and vulnerable boxes for hands-on penetration testing practice.',
     tech: ['VirtualBox', 'Ubuntu Server', 'Kali Linux', 'pfSense', 'Docker'],
   },
 ];
@@ -70,9 +57,7 @@ function ProjectCard({ project, index }) {
       }}
     >
       <h3>{project.title}</h3>
-      <ul>
-        {project.bullets.map((b) => <li key={b}>{b}</li>)}
-      </ul>
+      <p className="project-blurb">{project.blurb}</p>
       <div className="project-tech">
         {project.tech.map((t) => <span key={t}>{t}</span>)}
       </div>
