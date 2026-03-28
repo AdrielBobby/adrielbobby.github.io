@@ -7,18 +7,18 @@ import DecryptText from './DecryptText';
 const projects = [
   {
     title: 'Vaccine Dispatch Tracker',
-    blurb: 'Python and MySQL based system for managing vaccine inventory, order placement, and distribution workflow.',
-    tech: ['Python', 'MySQL'],
+    blurb: 'Vaccine Dispatch Tracker is a Python + MySQL console application that helps manage vaccine stock, hospital orders, dispatches, and visualizes sales with interactive charts.',
+    tech: ['Python', 'MySQL','Matplotlib','MySQL Connector'],
   },
   {
-    title: 'ESP32 Marauder (Wi-Fi & Bluetooth Pentesting Tool)',
+    title: 'ESP32 Marauder',
     blurb: 'Wi‑Fi/Bluetooth pentesting toolkit built on ESP32 with Marauder firmware for wireless auditing.',
     tech: ['ESP32', 'Arduino IDE', 'Marauder Firmware', 'Wireshark'],
   },
   {
-    title: 'MIS-COMMUNICATION-NATER',
-    blurb: 'Experimental AI communication system on Raspberry Pi where two models talk to each other instead of answering user queries.',
-    tech: ['Raspberry Pi 4B', 'Raspberry OS Lite', 'StableLM Zephyr 3B', 'LEDs', 'Web UI'],
+    title: 'Homelab for Cybersecurity',
+    blurb: 'Self-hosted lab environment with VMs and vulnerable boxes for hands-on penetration testing practice.',
+    tech: ['VirtualBox', 'Ubuntu Server', 'Kali Linux', 'pfSense', 'Docker'],
   },
   {
     title: 'PoolDetect AI – High-Speed Satellite Pool Detection',
@@ -26,10 +26,30 @@ const projects = [
     tech: ['Python', 'OpenCV', 'NumPy', 'Nominatim API', 'Esri World Imagery'],
   },
   {
-    title: 'Homelab for Cybersecurity',
-    blurb: 'Self-hosted lab environment with VMs and vulnerable boxes for hands-on penetration testing practice.',
-    tech: ['VirtualBox', 'Ubuntu Server', 'Kali Linux', 'pfSense', 'Docker'],
+    title: 'MIS-COMMUNICATION-NATER',
+    blurb: 'Experimental AI communication system on Raspberry Pi where two models talk to each other instead of answering user queries.',
+    tech: ['Raspberry Pi 4B', 'Raspberry OS Lite', 'StableLM Zephyr 3B', 'LEDs', 'Web UI'],
   },
+  {
+    title: 'Mend Your Heart Game',
+    blurb: 'A cozy Valentine’s Day pixel art adventure where players mend a broken heart through meaningful NPC interactions, acts of kindness, and a series of charming minigames.',
+    tech: ['Love 2D', 'Lua', 'Pixel Art']
+  },
+  {
+    title: 'Pong Game',
+    blurb: 'Face‑powered two‑player Pong game that uses webcam face capture as the in‑game ball and winner animation, built with a custom Tkinter GUI and basic physics.',
+    tech: ['Python', 'tkinter', 'OpenCV', 'Pillow', 'NumPy']
+  },
+  {
+    title: 'Spotify Tracks Data Analysis',
+    blurb: 'Exploratory data analysis of a Spotify tracks dataset, cleaning audio‑feature data and generating insight‑driven visualisations on popularity, tempo, genre, and correlations.',
+    tech: ['Python', 'Pandas', 'NumPy', 'Matplotlib', 'Seaborn']
+  },
+  {
+    title: 'Calm-Cockpit',
+    blurb: 'An elegant, all-encompassing dashboard for tracking academics, finances, and goals. Features a custom-built responsive sidebar navigation, dark-mode glassmorphism, and secure, encrypted local data storage',
+    tech: ['Python', 'Flask', 'SQL', 'JS', 'CSS Grid']
+  }
 ];
 
 // ProjectCard is a separate component so each card can have its own useInView hook.
