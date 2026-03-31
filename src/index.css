@@ -34,7 +34,8 @@ html {
      Using rem units for other sizes scales proportionally if the user
      changes their browser's default font size (accessibility). */
   font-size: 16px;
-  scroll-padding-top: 5rem; /* Prevent fixed navbar from overlapping section headers */
+  scroll-padding-top: 5rem;
+  /* Prevent fixed navbar from overlapping section headers */
 }
 
 body {
@@ -245,22 +246,17 @@ section {
 
 .hero {
   position: relative;
-  /* anchor for the scroll indicator */
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  padding: 0 1.25rem;
-  /* no extra top padding pushing down */
+  align-items: center;
+  width: 100%;
   overflow: hidden;
-
-  /* Dark background + subtle dot grid */
+  box-sizing: border-box;
   background-color: #0a0a0f;
   background-image: radial-gradient(circle, #2a1f5f 1px, transparent 1px);
   background-size: 28px 28px;
-
-  /* No section bottom-border on the hero */
   border-bottom: none;
 }
 
@@ -269,28 +265,30 @@ section {
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
+  max-width: 100vw;
   text-align: center;
-  gap: 1.2rem;
-  max-width: 1000px;
+  gap: 1.25rem;
+  padding: 0 1rem;
+  box-sizing: border-box;
 }
 
 /* ── ASCII art block ── */
 .ascii-art {
-  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: clamp(0.65rem, 2.2vw, 1.55rem);
-  line-height: 1.35;
-  color: #d8b4fe;
-  /* brighter purple idle state */
-  background: transparent;
-  border: none;
+  font-size: clamp(0.9rem, 2.8vw, 1.4rem);
+  /* visually 40% bigger */
+  line-height: 1.4;
   white-space: pre;
-  margin: 0;
-  /* reset <pre> default margin */
-  padding: 1.5rem 2rem;
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  color: #d8b4fe;
+  text-align: left;
+  display: block;
+  margin: 0 auto;
+  width: fit-content;
+  max-width: 100vw;
+  overflow: hidden;
   cursor: default;
   user-select: none;
-
-  /* Smooth transitions for hover glow + scale */
   transition: transform 0.25s ease, text-shadow 0.25s ease, box-shadow 0.25s ease;
 }
 
@@ -336,29 +334,34 @@ section {
 /* ── CTA buttons ── */
 .hero-actions {
   display: flex;
-  gap: 1.2rem;
-  margin-top: 1.5rem;
-  flex-wrap: wrap;
+  flex-direction: row;
   justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  width: 100%;
 }
 
-.hero-actions a {
-  padding: 0.75rem 2.25rem;
-  font-size: 1rem;
+.hero-actions .btn {
+  /* Both buttons must be exactly the same width */
+  width: 180px;
+  /* fixed equal width */
+  text-align: center;
+  padding: 0.75rem 0;
+  /* vertical padding only; width handles horizontal */
+  white-space: nowrap;
 }
 
 /* ── Scroll indicator (pinned to bottom) ── */
 .hero-scroll-indicator {
   position: absolute;
   bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.15rem; /* Closer to the tail as requested */
-  z-index: 1;
-  margin-top: 4rem; /* Additional separation from CTAs above */
+  gap: 0.4rem;
 }
 
 .scroll-label {
@@ -383,9 +386,12 @@ section {
 }
 
 @keyframes arrow-bob {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(10px);
   }
@@ -395,6 +401,7 @@ section {
   0% {
     stroke-dashoffset: -8;
   }
+
   100% {
     stroke-dashoffset: 0;
   }
@@ -442,77 +449,33 @@ section {
 }
 
 
-/* ===== About ===== */
+/* ===== Base Card (Shared Styles) ===== */
+.base-card {
+  background-color: #050507;
+  border: 1px solid #2a1f5f;
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
 
-/* Italic subheading below the section title */
-.about-intro {
+.base-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
+  border-color: #8b5cf6;
+}
+
+.base-card h3 {
   font-size: 1rem;
-  color: #8b949e;
-  margin-bottom: 0.35rem;
-  font-style: italic;
-}
-
-/* Wrapper for the bio paragraphs — flex column adds even gap between <p> tags */
-.about-body {
-  display: flex;
-  flex-direction: column;
-  /* Stack paragraphs vertically */
-  gap: 0.85rem;
-  /* Space between each paragraph */
-  margin-bottom: 2rem;
-  color: #c9d1d9;
-  /* Slightly lighter grey for body text */
-}
-
-/* One-line summary headline under the whoami terminal */
-.about-summary-line {
-  font-size: 1.05rem;
-  font-weight: 500;
-  color: #c4a1ff;
-  margin-top: -1rem;
-  margin-bottom: 2rem;
-  letter-spacing: 0.01em;
-}
-
-/* "Technical Skills" label */
-.skills-title {
-  font-size: 1.1rem;
-  font-weight: 700;
   color: #ffffff;
-  margin-bottom: 1rem;
+  font-weight: 600;
 }
 
-/* CSS Grid for the three skill columns (Languages / Tools / Domains).
-   auto-fit means "create as many columns as fit; shrink if needed".
-   minmax(220px, 1fr) means each column is at least 220px wide, and shares space equally. */
-.skills-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 1.25rem;
-}
-
-/* One skill column (Languages, Tools, or Domains) */
-.skill-category h4 {
-  color: #8b5cf6;
-  /* Blue category label */
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  /* All caps for a "label" look */
-  letter-spacing: 0.05em;
-  /* Slight spacing between letters for uppercase text */
-  margin-bottom: 0.5rem;
-}
-
-.skill-category ul {
-  /* Override the global 'list-style: none' — we want bullet discs here */
+.base-card ul {
   list-style: disc;
   padding-left: 1.25rem;
-  /* Indent so bullet markers are visible */
   color: #c9d1d9;
-  font-size: 0.9rem;
-  line-height: 1.8;
+  line-height: 1.75;
 }
-
 
 /* ===== Education ===== */
 
@@ -523,33 +486,15 @@ section {
   gap: 1.25rem;
 }
 
-/* Individual education card */
-.edu-card {
-  /* A slightly lighter background than the page (#161b22 vs #0d0d0d)
-     to visually lift the card off the page. */
-  background-color: #050507;
-
-  /* A subtle border with a dark grey color */
-  border: 1px solid #2a1f5f;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-}
-
-.edu-card h3 {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
 /* School name in accent blue */
-.edu-card .edu-school {
+.edu-school {
   color: #8b5cf6;
   font-size: 0.9rem;
   margin-top: 0.2rem;
 }
 
 /* Year and CGPA shown in a row */
-.edu-card .edu-meta {
+.edu-meta {
   margin-top: 0.5rem;
   font-size: 0.85rem;
   color: #8b949e;
@@ -561,21 +506,8 @@ section {
 
 
 /* ===== Certifications ===== */
-.cert-card {
-  background-color: #050507;
-  border: 1px solid #2a1f5f;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-}
-
-.cert-card h3 {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
 /* Issuer name and date */
-.cert-card .cert-issuer {
+.cert-issuer {
   color: #8b5cf6;
   font-size: 0.85rem;
   margin-top: 0.15rem;
@@ -584,9 +516,6 @@ section {
 
 /* Bullet list of what you learned */
 .cert-card ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-  color: #c9d1d9;
   font-size: 0.9rem;
   line-height: 1.8;
 }
@@ -604,11 +533,6 @@ section {
 
 /* Individual project card */
 .project-card {
-  background-color: #050507;
-  border: 1px solid #2a1f5f;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-
   /* flex column so the tech tags are always "pushed" to the bottom of the card
      using 'flex: 1' on the bullet list (see below). */
   display: flex;
@@ -616,19 +540,9 @@ section {
   gap: 0.75rem;
 }
 
-.project-card h3 {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
 /* Bullet list of what the project does */
 .project-card ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-  color: #c9d1d9;
   font-size: 0.875rem;
-  line-height: 1.75;
 
   /* flex: 1 makes this element grow to fill all remaining vertical space in the card.
      This pushes the tech tags to the bottom of every card, keeping them aligned
@@ -670,46 +584,20 @@ section {
 
 /* ===== Hackathons ===== */
 .hackathon-card {
-  background-color: #050507;
-  border: 1px solid #2a1f5f;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
 }
 
-.hackathon-card h3 {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
-
 .hackathon-card ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-  color: #c9d1d9;
   font-size: 0.875rem;
-  line-height: 1.75;
 }
 
 
 /* ===== Leadership ===== */
-.leadership-card {
-  background-color: #050507;
-  border: 1px solid #2a1f5f;
-  border-radius: 8px;
-  padding: 1.25rem 1.5rem;
-}
-
-.leadership-card h3 {
-  font-size: 1rem;
-  color: #ffffff;
-  font-weight: 600;
-}
 
 /* Organization + date range */
-.leadership-card .leadership-org {
+.leadership-org {
   color: #8b5cf6;
   font-size: 0.85rem;
   margin-top: 0.15rem;
@@ -718,9 +606,6 @@ section {
 
 /* Responsibilities list */
 .leadership-card ul {
-  list-style: disc;
-  padding-left: 1.25rem;
-  color: #c9d1d9;
   font-size: 0.9rem;
   line-height: 1.8;
 }
@@ -964,36 +849,14 @@ section {
   font-size: 0.9rem;
 }
 
-/* ===== Global Card Hover Effects ===== */
-/* Adding CSS transition for smooth animation on hover for all section cards */
-.edu-card,
-.cert-card,
-.hackathon-card,
-.leadership-card,
-.project-card {
-  /* Transition transform, box-shadow, and border-color over 0.2s using an ease curve for a smooth feel */
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
-}
-
-/* Defining the actual hover state changes that applies the neon glow effect */
-.edu-card:hover,
-.cert-card:hover,
-.hackathon-card:hover,
-.leadership-card:hover,
-.project-card:hover {
-  /* Slightly enlarge the card by 2% to make it pop visually towards the user */
-  transform: scale(1.02);
-  /* Apply a spreading purple neon glow shadow around the exact element bounds */
-  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
-  /* Highlight the subtle dark border into bright purple when hovered */
-  border-color: #8b5cf6;
-}
 
 /* ===== Responsive Overrides =====
    Placed at the bottom to guarantee they override desktop styles. */
 @media (max-width: 768px) {
+
   /* Prevent horizontal scroll from breaking the layout */
-  html, body {
+  html,
+  body {
     overflow-x: hidden;
     width: 100%;
     position: relative;
@@ -1007,7 +870,7 @@ section {
     width: 90vw;
     gap: 0;
   }
-  
+
   .navbar-header {
     display: flex;
     justify-content: space-between;
@@ -1024,7 +887,9 @@ section {
   }
 
   /* Hamburger Icon */
-  .hamburger, .hamburger::before, .hamburger::after {
+  .hamburger,
+  .hamburger::before,
+  .hamburger::after {
     display: block;
     width: 20px;
     height: 2px;
@@ -1032,12 +897,28 @@ section {
     transition: transform 0.3s, opacity 0.3s;
     border-radius: 2px;
   }
-  .hamburger::before { content: ''; transform: translateY(-6px); }
-  .hamburger::after { content: ''; transform: translateY(4px); }
-  
-  .hamburger.open { background-color: transparent; }
-  .hamburger.open::before { transform: translateY(0) rotate(45deg); }
-  .hamburger.open::after { transform: translateY(-2px) rotate(-45deg); }
+
+  .hamburger::before {
+    content: '';
+    transform: translateY(-6px);
+  }
+
+  .hamburger::after {
+    content: '';
+    transform: translateY(4px);
+  }
+
+  .hamburger.open {
+    background-color: transparent;
+  }
+
+  .hamburger.open::before {
+    transform: translateY(0) rotate(45deg);
+  }
+
+  .hamburger.open::after {
+    transform: translateY(-2px) rotate(-45deg);
+  }
 
   /* Dropdown links */
   .navbar-pill .navbar-links {
@@ -1047,40 +928,78 @@ section {
     width: 100%;
     padding: 1rem 0 0.5rem 0;
     gap: 1.25rem;
-    border-top: 1px dashed rgba(255,255,255,0.2);
+    border-top: 1px dashed rgba(255, 255, 255, 0.2);
     margin-top: 0.5rem;
     text-align: center;
   }
-  
+
   .navbar-pill .navbar-links.open {
     display: flex;
   }
 
   /* Hero and ASCII */
   .hero {
+    align-items: center;
+    justify-content: center;
     padding: 1.5rem 1rem;
   }
 
+  .hero-content {
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    padding: 0 1.25rem;
+    box-sizing: border-box;
+    margin: 0 auto;
+    gap: 1rem;
+  }
+
   .hero-content .ascii-art {
-    font-size: 0.55rem;
+    font-size: clamp(0.28rem, 3.5vw, 0.55rem);
     line-height: 1.35;
     letter-spacing: normal;
-    padding: 1rem 0;
+    padding: 0.5rem 0;
+    overflow-x: hidden;
+    margin: 0 auto;           /* centers the block itself */
+    text-align: left;         /* keep left so pre lines don't reflow */
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .hero-status,
+  .hero-subtitle,
+  .hero-tagline {
+    text-align: center;
     width: 100%;
-    overflow-x: auto;
-    /* ensure scrolling is smooth on iOS */
-    -webkit-overflow-scrolling: touch;
+  }
+
+  .hero-subtitle {
+    font-size: 1.2rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.95rem;
+    max-width: 100%;
+  }
+
+  .hero-scroll-indicator {
+    bottom: 1.25rem;
   }
 
   /* Stack CTA buttons vertically */
   .hero-actions {
     flex-direction: column;
+    align-items: center;
     width: 100%;
-    gap: 1rem;
+    gap: 0.85rem;
+    margin-top: 1.25rem;
   }
 
-  .hero-actions a {
+  .hero-actions .btn {
     width: 100%;
+    max-width: 320px;
     text-align: center;
   }
 
@@ -1089,14 +1008,8 @@ section {
     padding: 2.5rem 0;
   }
 
-  .about-content {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-
   /* Explicit grid overrides just in case auto-fit needs help */
-  .projects-grid, 
-  .skills-grid {
+  .projects-grid {
     grid-template-columns: 1fr;
   }
 
@@ -1113,5 +1026,53 @@ section {
     margin-right: 0.4rem;
     margin-top: 0.4rem;
     font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .ascii-art {
+    font-size: clamp(0.22rem, 3vw, 0.38rem);
+    line-height: 1.3;
+    overflow-x: hidden;
+  }
+
+  .hero-content .ascii-art {
+    margin: 0 auto;
+    text-align: left;
+    width: fit-content;
+    max-width: 100%;
+  }
+
+  .hero-content {
+    gap: 0.85rem;
+    padding: 0 1rem;
+  }
+
+  .hero-status,
+  .hero-subtitle,
+  .hero-tagline {
+    text-align: center;
+    width: 100%;
+  }
+
+  .hero-subtitle {
+    font-size: 1.05rem;
+  }
+
+  .hero-tagline {
+    font-size: 0.875rem;
+  }
+
+  /* Force vertical stack on smaller mobile widths and explicitly override strictly specified .btn */
+  .hero-actions {
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 1rem;
+  }
+
+  .hero-actions .btn {
+    width: 100%;
+    max-width: 100%;
   }
 }

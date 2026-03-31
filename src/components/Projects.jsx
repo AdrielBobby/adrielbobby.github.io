@@ -7,8 +7,8 @@ import DecryptText from './DecryptText';
 const projects = [
   {
     title: 'Vaccine Dispatch Tracker',
-    blurb: 'Vaccine Dispatch Tracker is a Python + MySQL console application that helps manage vaccine stock, hospital orders, dispatches, and visualizes sales with interactive charts.',
-    tech: ['Python', 'MySQL','Matplotlib','MySQL Connector'],
+    blurb: ' A full-stack vaccine inventory and logistics management system featuring a modern GUI, automated order tracking, and real-time data visualization.',
+    tech: ['Python', 'MySQL', 'Matplotlib', 'MySQL', 'CustomTkinter'],
   },
   {
     title: 'ESP32 Marauder',
@@ -64,7 +64,7 @@ function ProjectCard({ project, index }) {
   return (
     <motion.div
       ref={ref}
-      className="project-card"
+      className="base-card project-card"
       // initial state: invisible, slightly below final position
       initial={{ opacity: 0, y: 40 }}
       // animate to: visible + normal position, with stagger delay

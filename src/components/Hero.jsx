@@ -143,7 +143,7 @@ export default function Hero() {
             speed={40}
             startDelay={(STAGGER_DELAY + 3 * CHILD_GAP) * 1000}
             className="scroll-label"
-            style={{ textIndent: '0.25em' }} /* Mathematically offsets the trailing 0.25em letter-spacing */
+            style={{ marginRight: '-0.25em' }} /* Mathematically offsets the trailing 0.25em letter-spacing */
           />
         </div>
         <svg

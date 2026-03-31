@@ -45,7 +45,7 @@ export default function Education() {
             // delay={index * 0.15} → each card waits a bit longer than the previous one.
             // This creates the "stagger" effect where cards appear one after another.
             <ScrollReveal key={item.degree} direction="up" delay={index * 0.15}>
-              <div className="edu-card">
+              <div className="base-card edu-card">
                 <h3>{item.degree}</h3>
                 <p className="edu-school">{item.school}, {item.location}</p>
                 <div className="edu-meta">

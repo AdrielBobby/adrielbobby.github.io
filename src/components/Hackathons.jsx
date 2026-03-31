@@ -43,7 +43,7 @@ export default function Hackathons() {
           {hackathons.map((hack, index) => (
             // Each card staggered by 0.15s
             <ScrollReveal key={hack.title} direction="up" delay={index * 0.15}>
-              <div className="hackathon-card">
+              <div className="base-card hackathon-card">
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
                   <h3>{hack.title}</h3>
                   {/* Prize badge with dynamic color from getPrizeColor() */}
