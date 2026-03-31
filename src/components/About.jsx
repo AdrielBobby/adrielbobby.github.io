@@ -8,6 +8,7 @@ import { useState, useEffect, useRef } from 'react';
 
 // useInView from framer-motion watches when the section enters the viewport.
 import { useInView } from 'framer-motion';
+import { GitHubCalendar } from 'react-github-calendar';
 
 // The skills data for the terminal tree.
 // Each category has a name and a list of items inside it.
@@ -269,6 +270,27 @@ export default function About() {
                 </div>
               );
             })}
+          </div>
+        </div>
+
+        {/* ===== GitHub Contributions Calendar ===== */}
+        <div className="github-cal-card base-card glow-card">
+          <div className="github-cal-header">
+            <span className="github-cal-title">GitHub Contributions</span>
+            <span className="github-cal-sub">Last 12 months</span>
+          </div>
+          <div className="github-cal-body">
+            <GitHubCalendar
+              username="AdrielBobby"
+              colorScheme="dark"
+              theme={{
+                light: ['#eee8f4', '#c4b5fd', '#8b5cf6', '#5b2d8e', '#2d1b4e'],
+                dark:  ['#0d0d0d', '#2d1b4e', '#5b2d8e', '#8b5cf6', '#c4b5fd'],
+              }}
+              blockSize={13}
+              blockMargin={4}
+              fontSize={12}
+            />
           </div>
         </div>
 

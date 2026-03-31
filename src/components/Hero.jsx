@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import AsciiDecrypt from './AsciiDecrypt';
 import DecryptText from './DecryptText';
+import PixelGrid from './PixelGrid';
 
 // ── ASCII art for "Adriel Bobby" ────────────────────────────────────
 // Block-letter banner (fits ≈ 70 cols at font-size 0.55rem on desktop).
@@ -55,6 +56,8 @@ export default function Hero() {
 
   return (
     <section id="hero" className="hero">
+
+      <PixelGrid />
 
       {/* Hidden heading for SEO + screen readers */}
       <h1 className="sr-only">Adriel Bobby</h1>

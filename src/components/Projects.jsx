@@ -1,8 +1,7 @@
-// Projects.jsx — Neon pulse on scroll entry + stagger reveal per card.
-
 import { motion, useInView } from 'framer-motion';
 import { useRef } from 'react';
 import DecryptText from './DecryptText';
+import GlowCard from './GlowCard';
 
 const projects = [
   {
@@ -62,9 +61,10 @@ function ProjectCard({ project, index }) {
   const isInView = useInView(ref, { once: true, margin: '-60px' });
 
   return (
-    <motion.div
+    <GlowCard
+      as={motion.div}
       ref={ref}
-      className="base-card project-card"
+      className="project-card"
       // initial state: invisible, slightly below final position
       initial={{ opacity: 0, y: 40 }}
       // animate to: visible + normal position, with stagger delay
@@ -72,7 +72,7 @@ function ProjectCard({ project, index }) {
       // transition stagger helps items animate in sequentially
       transition={{
         duration: 0.5,
-        delay: index * 0.12, // stagger — each card is 120ms behind the previous
+        delay: index * 0.12,
         ease: 'easeOut',
       }}
     >
@@ -81,7 +81,7 @@ function ProjectCard({ project, index }) {
       <div className="project-tech">
         {project.tech.map((t) => <span key={t}>{t}</span>)}
       </div>
-    </motion.div>
+    </GlowCard>
   );
 }
 

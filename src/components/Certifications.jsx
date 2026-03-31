@@ -1,5 +1,6 @@
 import ScrollReveal from './ScrollReveal';
 import DecryptText from './DecryptText';
+import GlowCard from './GlowCard';
 
 const bullets = [
   'Offensive security fundamentals: reconnaissance, exploitation, post-exploitation.',
@@ -17,11 +18,11 @@ export default function Certifications() {
         </h2>
         {/* Single cert card wrapped in ScrollReveal */}
         <ScrollReveal direction="up" delay={0}>
-          <div className="base-card cert-card">
+          <GlowCard className="cert-card">
             <h3>Certified Penetration Tester</h3>
             <p className="cert-issuer">RedTeam Academy — May 2025 – Aug 2025</p>
             <ul>{bullets.map(b => <li key={b}>{b}</li>)}</ul>
-          </div>
+          </GlowCard>
         </ScrollReveal>
       </div>
     </section>

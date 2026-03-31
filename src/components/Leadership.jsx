@@ -1,5 +1,6 @@
 import ScrollReveal from './ScrollReveal';
 import DecryptText from './DecryptText';
+import GlowCard from './GlowCard';
 
 const roles = [
   {
@@ -26,11 +27,11 @@ export default function Leadership() {
         <div className="edu-cards">
           {roles.map((role, index) => (
             <ScrollReveal key={role.title} direction="up" delay={index * 0.15}>
-              <div className="base-card leadership-card">
+              <GlowCard className="leadership-card">
                 <h3>{role.title}</h3>
                 <p className="leadership-org">{role.org} — {role.date}</p>
                 <ul>{role.bullets.map(b => <li key={b}>{b}</li>)}</ul>
-              </div>
+              </GlowCard>
             </ScrollReveal>
           ))}
         </div>

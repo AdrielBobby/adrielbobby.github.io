@@ -1,7 +1,6 @@
-// Education.jsx — Stagger card reveal + decrypt heading.
-
 import ScrollReveal from './ScrollReveal';
 import DecryptText from './DecryptText';
+import GlowCard from './GlowCard';
 
 const education = [
   {
@@ -45,14 +44,14 @@ export default function Education() {
             // delay={index * 0.15} → each card waits a bit longer than the previous one.
             // This creates the "stagger" effect where cards appear one after another.
             <ScrollReveal key={item.degree} direction="up" delay={index * 0.15}>
-              <div className="base-card edu-card">
+              <GlowCard className="edu-card">
                 <h3>{item.degree}</h3>
                 <p className="edu-school">{item.school}, {item.location}</p>
                 <div className="edu-meta">
                   <span>{item.year}</span>
                   <span>CGPA: {item.cgpa}</span>
                 </div>
-              </div>
+              </GlowCard>
             </ScrollReveal>
           ))}
         </div>

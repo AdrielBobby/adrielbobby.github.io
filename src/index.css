@@ -159,6 +159,11 @@ section {
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
 }
 
+/* Expand link gap when pill expands */
+.navbar-pill:hover .navbar-links {
+  gap: 1.75rem;
+}
+
 /* ── Brand: kv_ ── */
 .navbar-pill .navbar-brand {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
@@ -167,12 +172,22 @@ section {
   color: #ffffff;
   white-space: nowrap;
   text-decoration: none;
-  transition: color 0.2s ease, text-shadow 0.2s ease;
+  transition: opacity 0.2s ease;
+}
+
+/* The 'kv' part gets the gradient; '_' cursor keeps its own solid purple */
+.brand-kv {
+  background: linear-gradient(135deg, #ffffff 0%, #8b5cf6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.04em;
 }
 
 .navbar-pill:hover .navbar-brand {
-  color: #e9d5ff;
-  text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
+  opacity: 0.9;
+  text-decoration: none;
 }
 
 /* Blinking cursor */
@@ -195,10 +210,29 @@ section {
 }
 
 /* ── Nav links ── */
+/* Nav links need relative positioning so the absolute indicator
+   can be placed relative to this container */
 .navbar-pill .navbar-links {
   display: flex;
   align-items: center;
   gap: 1.1rem;
+  transition: gap 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+/* The shared magic-line indicator — one bar that slides between links */
+.navbar-indicator {
+  position: absolute;
+  bottom: -6px;
+  height: 2px;
+  background: #8b5cf6;
+  border-radius: 2px;
+  opacity: 0;
+  pointer-events: none;
+  /* Slides left/width smoothly; opacity fades in/out */
+  transition: left 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    width 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.15s ease;
 }
 
 .navbar-pill .navbar-links a {
@@ -210,8 +244,9 @@ section {
   transition: color 0.2s ease;
 }
 
-.navbar-pill .navbar-links a:hover {
-  color: #e9d5ff;
+.navbar-pill .navbar-links a:hover,
+.navbar-pill .navbar-links a:focus-visible {
+  color: #ffffff;
   text-shadow: 0 0 10px rgba(139, 92, 246, 0.4);
   text-decoration: none;
 }
@@ -255,13 +290,13 @@ section {
   overflow: hidden;
   box-sizing: border-box;
   background-color: #0a0a0f;
-  background-image: radial-gradient(circle, #2a1f5f 1px, transparent 1px);
-  background-size: 28px 28px;
   border-bottom: none;
 }
 
 /* ── Centered content column ── */
 .hero-content {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -290,6 +325,16 @@ section {
   cursor: default;
   user-select: none;
   transition: transform 0.25s ease, text-shadow 0.25s ease, box-shadow 0.25s ease;
+  text-shadow: 0 0 20px rgba(10, 10, 15, 1), 0 0 40px rgba(10, 10, 15, 0.9);
+  background: rgba(255, 255, 255, 0.015);
+  backdrop-filter: blur(2px) saturate(120%);
+  -webkit-backdrop-filter: blur(2px) saturate(120%);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 24px;
+  padding: 1.5rem 2.5rem;
+  box-shadow:
+    0 4px 24px rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .ascii-art.glitching {
@@ -362,6 +407,7 @@ section {
   flex-direction: column;
   align-items: center;
   gap: 0.4rem;
+  z-index: 2;
 }
 
 .scroll-label {
@@ -452,16 +498,55 @@ section {
 /* ===== Base Card (Shared Styles) ===== */
 .base-card {
   background-color: #050507;
-  border: 1px solid #2a1f5f;
+  /* Very faint static border as baseline (glow-card overrides this visually) */
+  border: 1px solid rgba(148, 163, 253, 0.12);
   border-radius: 8px;
   padding: 1.25rem 1.5rem;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  /* Only transition border-color for non-JS fallback */
+  transition: border-color 0.25s ease;
 }
 
-.base-card:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 24px rgba(139, 92, 246, 0.5);
-  border-color: #8b5cf6;
+/* ── Spotlight border glow (cursor-tracking) ──
+   The ::before trick:
+   • padding: 1px defines the "border ring" width inside ::before
+   • background is the radial gradient that follows the cursor
+   • CSS mask with mask-composite: exclude shows ONLY the ring
+     (the 1px padding area), hiding the gradient inside the card.
+   Result: only the strip of border nearest to your cursor glows. */
+.glow-card {
+  position: relative;
+  /* isolation: isolate keeps ::before stacking inside this element */
+  isolation: isolate;
+}
+
+.glow-card::before {
+  content: '';
+  position: absolute;
+  /* Sit exactly over the card boundary (1px outside to cover border) */
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  /* defines the width of the visible glow ring */
+
+  background: radial-gradient(380px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
+      rgba(167, 139, 250, 1),
+      rgba(139, 92, 246, 0.4) 30%,
+      transparent 40%);
+
+  /* The mask-composite trick: show gradient ONLY in the padding ring */
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+
+  pointer-events: none;
+  /* Don't block card clicks/hovers */
+  z-index: 1;
+  /* Sits above card background, below card content */
 }
 
 .base-card h3 {
@@ -589,8 +674,82 @@ section {
   gap: 0.75rem;
 }
 
+/* ── PixelCard — canvas ripple overlay ── */
+.pixel-card-wrapper {
+  position: relative;
+  /* Expand to fill the entire GlowCard (including its padding)
+     by pulling outward the same amount as base-card's padding */
+  margin: -1.25rem -1.5rem;
+  /* Restore inner spacing for the content */
+  padding: 1.25rem 1.5rem;
+  border-radius: inherit;
+}
+
+/* Canvas fills the wrapper exactly — no measurement tricks needed */
+.pixel-card-canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  border-radius: inherit;
+}
+
+/* Content sits above the canvas */
+.pixel-card-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .hackathon-card ul {
   font-size: 0.875rem;
+}
+
+
+/* ===== GitHub Contributions Calendar ===== */
+.github-cal-card {
+  margin-top: 1.5rem;
+}
+
+.github-cal-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.github-cal-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.github-cal-sub {
+  font-size: 0.8rem;
+  color: #6e7681;
+}
+
+/* Let the calendar scroll horizontally on small screens */
+.github-cal-body {
+  overflow-x: auto;
+  /* style the scrollbar to match the dark theme */
+  scrollbar-width: thin;
+  scrollbar-color: #2a1f5f transparent;
+}
+
+.github-cal-body::-webkit-scrollbar {
+  height: 4px;
+}
+
+.github-cal-body::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.github-cal-body::-webkit-scrollbar-thumb {
+  background: #2a1f5f;
+  border-radius: 2px;
 }
 
 
@@ -611,39 +770,120 @@ section {
 }
 
 
-/* ===== Contact ===== */
+/* ===== Contact — Terminal Card ===== */
 
-/* Short intro paragraph in the Contact section */
-.contact-intro {
-  color: #8b949e;
-  margin-bottom: 1.5rem;
-  max-width: 520px;
-  font-size: 1rem;
+/* The terminal card itself uses base-card glow-card —
+   only internal layout styles needed here. */
+.contact-terminal {
+  padding: 0;
+  overflow: hidden;
+  /* Same ambient underglow as the About section terminals */
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.15);
 }
 
-/* Vertical stack of contact rows (Email / GitHub / LinkedIn) */
-.contact-links {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-/* One contact row: label on the left, link on the right */
-.contact-item {
+/* macOS-style top bar */
+.contact-terminal-topbar {
+  background: #1a1a2e;
+  padding: 0.6rem 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(148, 163, 253, 0.08);
 }
 
-/* The "Email", "GitHub", etc. label on the left */
-.contact-label {
-  color: #8b949e;
-  min-width: 80px;
-  /* Fixed width so all links start at the same x position */
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+.contact-terminal-title {
+  font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  color: #6e7681;
+  margin-left: 0.5rem;
+  letter-spacing: 0.04em;
+}
+
+/* Terminal body */
+.contact-terminal-body {
+  padding: 1.25rem 1.5rem 1.5rem;
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: 0.88rem;
+  line-height: 2;
+}
+
+/* Each terminal line */
+.ct-line {
+  margin: 0;
+  color: #e2e8f0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+/* Vertical gap between groups */
+.ct-spacer {
+  height: 0.6rem;
+}
+
+/* '>' prompt character */
+.ct-prompt {
+  color: #8b5cf6;
+  margin-right: 0.15rem;
+  flex-shrink: 0;
+}
+
+/* 'status: online' green */
+.ct-online {
+  color: #a3e635;
+  font-weight: 600;
+  margin-left: 0.25rem;
+}
+
+/* Key labels — email, github, etc. */
+.ct-key {
+  color: #6e7681;
+  flex-shrink: 0;
+  min-width: 9ch;
+  /* aligns colons in a column */
+}
+
+.ct-sep {
+  color: #4a4a6a;
+  flex-shrink: 0;
+  margin-right: 0.35rem;
+}
+
+/* Links in the terminal body */
+.ct-link {
+  color: #8b5cf6;
+  text-decoration: none;
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.ct-link:hover {
+  color: #c4b5fd;
+  text-shadow: 0 0 8px rgba(139, 92, 246, 0.5);
+  text-decoration: none;
+}
+
+/* ── Action buttons row ── */
+.contact-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  flex-wrap: wrap;
+}
+
+/* Ghost / outline variant for the copy button */
+.btn-ghost {
+  background: transparent;
+  color: #8b5cf6;
+  border: 1.5px solid rgba(139, 92, 246, 0.4);
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-ghost:hover {
+  background: rgba(139, 92, 246, 0.1);
+  border-color: #8b5cf6;
+  color: #c4b5fd;
+  text-decoration: none;
 }
 
 
@@ -871,6 +1111,11 @@ section {
     gap: 0;
   }
 
+  /* Hide the desktop magic-line indicator — no hover on touch */
+  .navbar-indicator {
+    display: none;
+  }
+
   .navbar-header {
     display: flex;
     justify-content: space-between;
@@ -961,8 +1206,10 @@ section {
     letter-spacing: normal;
     padding: 0.5rem 0;
     overflow-x: hidden;
-    margin: 0 auto;           /* centers the block itself */
-    text-align: left;         /* keep left so pre lines don't reflow */
+    margin: 0 auto;
+    /* centers the block itself */
+    text-align: left;
+    /* keep left so pre lines don't reflow */
     display: block;
     width: fit-content;
     max-width: 100%;
