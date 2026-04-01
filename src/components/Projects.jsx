@@ -3,11 +3,17 @@ import { useRef } from 'react';
 import DecryptText from './DecryptText';
 import GlowCard from './GlowCard';
 
+// Optional: add a `url` field if you want this project card to show
+// the top-right external-link / GitHub arrow.
+// Example:
+// url: 'https://github.com/yourusername/your-repo'
+// If `url` is omitted, no arrow will be shown for that project.
 const projects = [
   {
     title: 'Vaccine Dispatch Tracker',
     blurb: ' A full-stack vaccine inventory and logistics management system featuring a modern GUI, automated order tracking, and real-time data visualization.',
     tech: ['Python', 'MySQL', 'Matplotlib', 'MySQL', 'CustomTkinter'],
+    url: 'https://github.com/AdrielBobby/vaccine-dispatch-project'
   },
   {
     title: 'ESP32 Marauder',
@@ -23,6 +29,7 @@ const projects = [
     title: 'PoolDetect AI – High-Speed Satellite Pool Detection',
     blurb: 'End-to-end satellite image pipeline that detects swimming pools using a custom OpenCV morphology approach—sub‑0.1 s per image on CPU.',
     tech: ['Python', 'OpenCV', 'NumPy', 'Nominatim API', 'Esri World Imagery'],
+    url: 'https://github.com/AdrielBobby/ai-swimming-pool-detection'
   },
   {
     title: 'MIS-COMMUNICATION-NATER',
@@ -32,7 +39,8 @@ const projects = [
   {
     title: 'Mend Your Heart Game',
     blurb: 'A cozy Valentine’s Day pixel art adventure where players mend a broken heart through meaningful NPC interactions, acts of kindness, and a series of charming minigames.',
-    tech: ['Love 2D', 'Lua', 'Pixel Art']
+    tech: ['Love 2D', 'Lua', 'Pixel Art'],
+    url: 'https://github.com/AdrielBobby/Mend-your-heart-game'
   },
   {
     title: 'Pong Game',
@@ -47,7 +55,8 @@ const projects = [
   {
     title: 'Calm-Cockpit',
     blurb: 'An elegant, all-encompassing dashboard for tracking academics, finances, and goals. Features a custom-built responsive sidebar navigation, dark-mode glassmorphism, and secure, encrypted local data storage',
-    tech: ['Python', 'Flask', 'SQL', 'JS', 'CSS Grid']
+    tech: ['Python', 'Flask', 'SQL', 'JS', 'CSS Grid'],
+    url: 'https://github.com/AdrielBobby/calm-cockpit-multipage-version'
   }
 ];
 
@@ -76,6 +85,17 @@ function ProjectCard({ project, index }) {
         ease: 'easeOut',
       }}
     >
+      {project.url && (
+        <a
+          href={project.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="project-github-link"
+          aria-label={`Open ${project.title} on GitHub`}
+        >
+          ↗
+        </a>
+      )}
       <h3>{project.title}</h3>
       <p className="project-blurb">{project.blurb}</p>
       <div className="project-tech">

@@ -132,7 +132,7 @@ export default function About() {
         {/* Section heading styled like a terminal command */}
         <h2 className="section-title">
           {/* The prompt prefix in purple to mimic a terminal */}
-          <span style={{ color: '#8b5cf6' }}>$ </span>whoami
+          <span style={{ color: 'var(--color-primary)' }}>$ </span>whoami
         </h2>
 
         {/* Terminal window wrapper */}
@@ -151,9 +151,9 @@ export default function About() {
 
             {/* First line: the whoami command itself */}
             <p className="terminal-line">
-              <span style={{ color: '#8b5cf6' }}>adriel@portfolio</span>
-              <span style={{ color: '#fff' }}>:~$ </span>
-              <span style={{ color: '#a3e635' }}>whoami</span>
+              <span style={{ color: 'var(--color-primary)' }}>adriel@portfolio</span>
+              <span style={{ color: 'var(--color-text)' }}>:~$ </span>
+              <span style={{ color: 'var(--color-green)' }}>whoami</span>
             </p>
 
             {/* Map over fully typed lines */}
@@ -161,7 +161,7 @@ export default function About() {
               line ? (
                 <p key={i} className="terminal-line terminal-output">
                   {/* Dash prefix mimics shell output */}
-                  <span style={{ color: '#8b5cf6' }}>→ </span>{line}
+                  <span style={{ color: 'var(--color-primary)' }}>→ </span>{line}
                 </p>
               ) : null
             ))}
@@ -169,7 +169,7 @@ export default function About() {
             {/* Render the line currently being typed, with the cursor following the text! */}
             {isTyping && (
               <p className="terminal-line terminal-output">
-                <span style={{ color: '#8b5cf6' }}>→ </span>
+                <span style={{ color: 'var(--color-primary)' }}>→ </span>
                 {currentLineText}
                 <span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span>
               </p>
@@ -193,9 +193,9 @@ export default function About() {
           <div className="terminal-body">
 
             <p className="terminal-line" style={{ marginBottom: '0.75rem' }}>
-              <span style={{ color: '#8b5cf6' }}>adriel@portfolio</span>
-              <span style={{ color: '#fff' }}>:~$ </span>
-              <span style={{ color: '#a3e635' }}>ls skills/</span>
+              <span style={{ color: 'var(--color-primary)' }}>adriel@portfolio</span>
+              <span style={{ color: 'var(--color-text)' }}>:~$ </span>
+              <span style={{ color: 'var(--color-green)' }}>ls skills/</span>
             </p>
 
             {/* The tree root node */}
@@ -285,7 +285,7 @@ export default function About() {
               colorScheme="dark"
               theme={{
                 light: ['#eee8f4', '#c4b5fd', '#8b5cf6', '#5b2d8e', '#2d1b4e'],
-                dark:  ['#0d0d0d', '#2d1b4e', '#5b2d8e', '#8b5cf6', '#c4b5fd'],
+                dark:  ['#07080d', '#2d1b4e', '#5b2d8e', '#8b5cf6', '#c4b5fd'],
               }}
               blockSize={13}
               blockMargin={4}

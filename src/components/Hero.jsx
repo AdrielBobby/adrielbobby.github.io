@@ -157,8 +157,8 @@ export default function Hero() {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <line className="arrow-tail" x1="12" y1="0" x2="12" y2="52" stroke="#8b5cf6" strokeWidth="2" strokeDasharray="4 4" />
-          <path className="arrow-head" d="M6 46 L12 52 L18 46" stroke="#8b5cf6" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <line className="arrow-tail" x1="12" y1="0" x2="12" y2="52" stroke="var(--color-primary)" strokeWidth="2" strokeDasharray="4 4" />
+          <path className="arrow-head" d="M6 46 L12 52 L18 46" stroke="var(--color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </motion.div>
     </section>
