@@ -143,8 +143,8 @@ section {
 
   /* Liquid glass — slightly opaque idle state */
   background: rgba(10, 10, 18, 0.35);
-  backdrop-filter: blur(12px) saturate(150%);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
+  backdrop-filter: blur(12px) saturate(150%);
 
   /* Smooth dynamic-island expansion */
   transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
@@ -330,8 +330,8 @@ section {
   text-shadow: 0 0 20px rgba(10, 10, 15, 1), 0 0 40px rgba(10, 10, 15, 0.9);
   background: rgba(10, 10, 15, 0.10);
   /* more visible tint */
-  backdrop-filter: blur(4px) saturate(140%);
   -webkit-backdrop-filter: blur(4px) saturate(140%);
+  backdrop-filter: blur(4px) saturate(140%);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 24px;
   padding: 1.5rem 2.5rem;

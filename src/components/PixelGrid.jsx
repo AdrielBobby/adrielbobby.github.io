@@ -626,7 +626,7 @@ export default function PixelGrid() {
         speed={0.18}
         edgeFade={0.3}
         enableRipples={false}
-        liquid={false}
+        liquid={true}
         transparent={true}
         noiseAmount={0}
         autoPauseOffscreen={true}
