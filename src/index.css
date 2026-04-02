@@ -520,48 +520,6 @@ section {
   transition: border-color 0.25s ease;
 }
 
-/* ── Spotlight border glow (cursor-tracking) ──
-   The ::before trick:
-   • padding: 1px defines the "border ring" width inside ::before
-   • background is the radial gradient that follows the cursor
-   • CSS mask with mask-composite: exclude shows ONLY the ring
-     (the 1px padding area), hiding the gradient inside the card.
-   Result: only the strip of border nearest to your cursor glows. */
-.glow-card {
-  position: relative;
-  /* isolation: isolate keeps ::before stacking inside this element */
-  isolation: isolate;
-}
-
-.glow-card::before {
-  content: '';
-  position: absolute;
-  /* Sit exactly over the card boundary (1px outside to cover border) */
-  inset: -1px;
-  border-radius: inherit;
-  padding: 1px;
-  /* defines the width of the visible glow ring */
-
-  background: radial-gradient(380px circle at var(--mouse-x, -9999px) var(--mouse-y, -9999px),
-      rgba(139, 92, 246, 1),
-      rgba(125, 211, 252, 0.4) 30%,
-      transparent 40%);
-
-  /* The mask-composite trick: show gradient ONLY in the padding ring */
-  -webkit-mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  mask:
-    linear-gradient(#fff 0 0) content-box,
-    linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-
-  pointer-events: none;
-  /* Don't block card clicks/hovers */
-  z-index: 1;
-  /* Sits above card background, below card content */
-}
 
 .base-card h3 {
   font-size: 1rem;

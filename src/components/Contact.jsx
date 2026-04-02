@@ -27,7 +27,7 @@ export default function Contact() {
         <h2 className="section-title">Contact</h2>
 
         {/* ── Terminal card ── */}
-        <div className="contact-terminal base-card glow-card">
+        <div className="contact-terminal base-card">
 
           {/* macOS-style topbar */}
           <div className="contact-terminal-topbar">

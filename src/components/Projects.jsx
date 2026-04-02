@@ -85,21 +85,24 @@ function ProjectCard({ project, index }) {
         ease: 'easeOut',
       }}
     >
-      {project.url && (
-        <a
-          href={project.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="project-github-link"
-          aria-label={`Open ${project.title} on GitHub`}
-        >
-          ↗
-        </a>
-      )}
-      <h3>{project.title}</h3>
-      <p className="project-blurb">{project.blurb}</p>
-      <div className="project-tech">
-        {project.tech.map((t) => <span key={t}>{t}</span>)}
+      <div style={{ position: 'relative', height: '100%', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+        {project.url && (
+          <a
+            href={project.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="project-github-link"
+            aria-label={`Open ${project.title} on GitHub`}
+            style={{ top: '0', right: '0' }}
+          >
+            ↗
+          </a>
+        )}
+        <h3>{project.title}</h3>
+        <p className="project-blurb">{project.blurb}</p>
+        <div className="project-tech">
+          {project.tech.map((t) => <span key={t}>{t}</span>)}
+        </div>
       </div>
     </GlowCard>
   );
