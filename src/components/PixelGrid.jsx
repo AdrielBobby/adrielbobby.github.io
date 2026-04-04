@@ -607,6 +607,14 @@ const PixelBlast = ({
 };
 
 export default function PixelGrid() {
+  // PixelGrid is a WebGL effect — skip it entirely on touch/mobile devices.
+  // On mobile it was already invisible (bug), but the Three.js context and 
+  // animation loop were still running, wasting CPU and battery.
+  // Returning null here means no canvas is created, no rAF loop starts, 
+  // and the hero simply shows its plain dark background on mobile.
+  const isTouchDevice = window.matchMedia('(hover: none)').matches;
+  if (isTouchDevice) return null;
+
   return (
     <div
       style={{

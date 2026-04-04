@@ -274,7 +274,7 @@ export default function About() {
         </div>
 
         {/* ===== GitHub Contributions Calendar ===== */}
-        <div className="github-cal-card base-card">
+        <div className="github-cal-card base-card glow-card">
           <div className="github-cal-header">
             <span className="github-cal-title">GitHub Contributions</span>
             <span className="github-cal-sub">Last 12 months</span>
