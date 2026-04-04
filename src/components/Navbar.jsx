@@ -1,12 +1,10 @@
 // Navbar.jsx — Floating pill navbar with dynamic-island hover expansion,
 // kv_ blinking cursor brand, and liquid glass backdrop.
 import { useState, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import faceLogo from '../assets/kv-face-logo.svg';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isBrandHovered, setIsBrandHovered] = useState(false);
 
   // Refs for the magic-line indicator
   const linksRef = useRef(null);
@@ -43,40 +41,23 @@ export default function Navbar() {
           className="navbar-brand brand-switch" 
           onClick={() => setIsOpen(false)}
           aria-label="Home"
-          onMouseEnter={() => setIsBrandHovered(true)}
-          onMouseLeave={() => setIsBrandHovered(false)}
         >
-          <AnimatePresence mode="wait">
-            {!isBrandHovered ? (
-              /* Default state: kv_ text */
-              <motion.span 
-                key="text"
-                className="brand-text" 
-                aria-hidden="true"
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              >
-                <span className="brand-kv">kv</span><span className="cursor-blink">_</span>
-              </motion.span>
-            ) : (
-              /* Hover state: face logo */
-              <motion.img
-                key="logo"
-                src={faceLogo}
-                alt="KV face logo"
-                className="brand-face"
-                width="64"
-                height="28"
-                loading="eager"
-                initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
-                animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
-                transition={{ duration: 0.2, ease: "easeOut" }}
-              />
-            )}
-          </AnimatePresence>
+          {/* Default state: kv_ text */}
+          <span 
+            className="brand-text" 
+            aria-hidden="true"
+          >
+            <span className="brand-kv">kv</span><span className="cursor-blink">_</span>
+          </span>
+          {/* Hover state: face logo */}
+          <img
+            src={faceLogo}
+            alt="KV face logo"
+            className="brand-face"
+            width="64"
+            height="28"
+            loading="eager"
+          />
         </a>
 
         {/* ── Mobile Hamburger Toggle ── */}
