@@ -82,26 +82,25 @@ export default function About() {
 
         // If we haven't typed the full line yet...
         if (charIndex < currentFullLine.length) {
-          // Slice the string up to the current character and update state
-          setCurrentLineText(currentFullLine.substring(0, charIndex + 1));
-          charIndex++;
-          timeoutId = setTimeout(typeNext, 30); // 30ms per character for a fast typewriter effect
+        // Slice the string up to the current character and update state
+        setCurrentLineText(currentFullLine.substring(0, charIndex + 1));
+        charIndex++;
+        timeoutId = setTimeout(typeNext, 15); // Faster 15ms per character
         } else {
-          // The line is fully typed! Move it to typedLines and reset partial state
-          setTypedLines(prev => [...prev, currentFullLine]);
-          setCurrentLineText('');
-          lineIndex++;
-          charIndex = 0;
-          timeoutId = setTimeout(typeNext, 400); // 400ms pause before starting the next line
+        // The line is fully typed! Move it to typedLines and reset partial state
+        setTypedLines(prev => [...prev, currentFullLine]);
+        setCurrentLineText('');
+        lineIndex++;
+        charIndex = 0;
+        timeoutId = setTimeout(typeNext, 200); // Shorter 200ms pause before starting the next line
         }
-      } else {
+        } else {
         // All lines are finished, stop typing and hide the cursor permanently.
         setIsTyping(false);
-      }
-    };
+        }
+        };
 
-    timeoutId = setTimeout(typeNext, 500); // 500ms initial delay before typing begins
-
+        timeoutId = setTimeout(typeNext, 300); // Shorter 300ms initial delay before typing begins
     return () => {
       isCancelled = true;
       clearTimeout(timeoutId);

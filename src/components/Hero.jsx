@@ -27,8 +27,8 @@ const STATUS_MESSAGES = [
 
 // ── Framer Motion variants ──────────────────────────────────────────
 // ASCII decrypts on its own (~1.2 - 1.4 s); children stagger sequentially after.
-const STAGGER_DELAY = 1.6; // starts just after ASCII art completes
-const CHILD_GAP = 0.8;     // generous gap for dramatic effect
+const STAGGER_DELAY = 0.8; // starts just after ASCII art completes
+const CHILD_GAP = 0.4;     // generous gap for dramatic effect
 
 const fadeUpVariants = {
   hidden: { opacity: 0, y: 15 },
@@ -43,7 +43,7 @@ const fadeUpVariants = {
   }),
 };
 
-export default function Hero() {
+export default function Hero({ animateIn = false }) {
   // ── Rotating status line ──────────────────────────────────────────
   const [statusIdx, setStatusIdx] = useState(0);
 
@@ -55,7 +55,7 @@ export default function Hero() {
   }, []);
 
   return (
-    <section id="hero" className="hero">
+    <section id="hero" className={`hero${animateIn ? ' hero-animate-in' : ''}`}>
 
       <PixelGrid />
 
@@ -65,14 +65,14 @@ export default function Hero() {
       <div className="hero-content">
 
         {/* ── ASCII art block (decrypt + glitch handled internally) ── */}
-        <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} />
+        <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={animateIn} />
 
         {/* ── Status line ── */}
         <motion.p
           className="hero-status"
           key={statusIdx}
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={animateIn ? { opacity: 1 } : { opacity: 0 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
         >
@@ -86,12 +86,13 @@ export default function Hero() {
           custom={0}
           variants={fadeUpVariants}
           initial="hidden"
-          animate="visible"
+          animate={animateIn ? "visible" : "hidden"}
         >
           <DecryptText
             text="Computer Science Engineer"
-            speed={35}
+            speed={17}
             startDelay={STAGGER_DELAY * 1000}
+            animate={animateIn}
           />
         </motion.p>
 
@@ -101,12 +102,13 @@ export default function Hero() {
           custom={1}
           variants={fadeUpVariants}
           initial="hidden"
-          animate="visible"
+          animate={animateIn ? "visible" : "hidden"}
         >
           <DecryptText
             text="Breaking into cybersecurity one packet at a time."
-            speed={30}
+            speed={15}
             startDelay={(STAGGER_DELAY + CHILD_GAP) * 1000}
+            animate={animateIn}
           />
         </motion.p>
 
@@ -116,7 +118,7 @@ export default function Hero() {
           custom={2}
           variants={fadeUpVariants}
           initial="hidden"
-          animate="visible"
+          animate={animateIn ? "visible" : "hidden"}
         >
           <a href="#projects" className="btn btn-primary">View My Work</a>
           <a
@@ -136,15 +138,16 @@ export default function Hero() {
         custom={3}
         variants={fadeUpVariants}
         initial="hidden"
-        animate="visible"
+        animate={animateIn ? "visible" : "hidden"}
       >
         {/* Use inline paddingLeft to perfectly balance the 0.25em letter-spacing on the right.
             Wrapping in a div ensures HMR instantly updates the UI regardless of CSS cache. */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <DecryptText
             text="SCROLL"
-            speed={40}
+            speed={20}
             startDelay={(STAGGER_DELAY + 3 * CHILD_GAP) * 1000}
+            animate={animateIn}
             className="scroll-label"
             style={{ marginRight: '-0.25em' }} /* Mathematically offsets the trailing 0.25em letter-spacing */
           />

@@ -37,14 +37,17 @@ export default function AsciiDecrypt({
   speed = 30,
   glitchDuration = 150,
   className = '',
+  animate = true, // New prop
 }) {
   const [display, setDisplay] = useState(() => scrambleAll(lines));
   const [decrypted, setDecrypted] = useState(false);
   const [glitching, setGlitching] = useState(false);
   const glitchTimer = useRef(null);
 
-  // ── Decrypt on mount ──────────────────────────────────────────────
+  // ── Decrypt when animate is true ──────────────────────────────────────────────
   useEffect(() => {
+    if (!animate || decrypted) return;
+
     // Find the maximum non-space character count across all lines.
     const maxChars = Math.max(
       ...lines.map(l => l.replace(/ /g, '').length)
@@ -62,7 +65,7 @@ export default function AsciiDecrypt({
     }, speed);
 
     return () => clearInterval(interval);
-  }, []); // run once on mount
+  }, [animate, decrypted, lines, speed]); // updated dependencies
 
   // ── Hover glitch ──────────────────────────────────────────────────
   const handleMouseEnter = useCallback(() => {

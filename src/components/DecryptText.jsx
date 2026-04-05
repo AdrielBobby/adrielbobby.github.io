@@ -5,7 +5,14 @@ import { useEffect, useRef, useState } from 'react';
 
 const CHARS = '!@#$%^&*ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-export default function DecryptText({ text, speed = 40, startDelay = 0, className = '', style = {} }) {
+export default function DecryptText({ 
+  text, 
+  speed = 40, 
+  startDelay = 0, 
+  className = '', 
+  style = {},
+  animate = true // New prop to control when animation starts
+}) {
 
   const [displayed, setDisplayed] = useState('');
   const [hasRun, setHasRun] = useState(false);
@@ -13,7 +20,7 @@ export default function DecryptText({ text, speed = 40, startDelay = 0, classNam
 
   useEffect(() => {
     const element = ref.current;
-    if (!element) return;
+    if (!element || !animate) return; // Wait for animate to be true
 
     // IntersectionObserver watches when the element enters the viewport.
     // threshold: 0 means "fire as soon as even 1px is visible".
@@ -60,7 +67,7 @@ export default function DecryptText({ text, speed = 40, startDelay = 0, classNam
 
     // Cleanup: stop observing when component unmounts
     return () => observer.disconnect();
-  }, [text, speed, startDelay, hasRun]); // re-run if text, speed, or startDelay changes
+  }, [text, speed, startDelay, animate, hasRun]); // Added animate to dependencies
 
   return (
     <span 
