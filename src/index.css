@@ -186,16 +186,6 @@ section {
   transition: opacity 0.2s ease;
 }
 
-/* The 'kv' part gets the gradient; '_' cursor keeps its own solid purple */
-.brand-kv {
-  background: linear-gradient(135deg, #ffffff 0%, var(--color-primary) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  letter-spacing: -0.04em;
-}
-
 .navbar-pill:hover .navbar-brand {
   opacity: 1;
   text-decoration: none;
@@ -212,42 +202,57 @@ section {
   text-decoration: none;
   flex-shrink: 0;
 }
-.brand-text {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  white-space: nowrap;
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
-  opacity: 1;
-  filter: blur(0px);
-  pointer-events: none;
+
+/* The 'kv' part gets the gradient; '_' cursor keeps its own solid purple */
+.brand-kv {
+  background: linear-gradient(135deg, #ffffff 0%, var(--color-primary) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  letter-spacing: -0.04em;
+  display: inline;
+  transition: opacity 0.25s ease;
 }
+
+.brand-cursor {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.4s ease;
+  color: var(--color-primary);
+  animation: blink 1s step-end infinite;
+}
+
 .brand-face {
   position: absolute;
   top: 50%;
-  left: 46%;
-  transform: translate(-50%, -50%) scale(0.6);
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), filter 0.4s ease;
+  left: 60%; /* Tweak alignment slightly left */
+  transform: translate(-50%, -50%) scale(0.3) rotate(-180deg);
+  width: 2.2rem;
+  height: 2.2rem;
   opacity: 0;
-  filter: blur(8px);
   pointer-events: none;
+  /* Perfected hover-out (from previous state) */
+  transition: opacity 0.3s ease 0.1s, transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
-.brand-switch:hover .brand-text {
+
+.brand-switch:hover .brand-kv {
   opacity: 0;
-  transform: translate(-50%, -50%) scale(1.4);
-  filter: blur(8px);
 }
+
+.brand-switch:hover .brand-cursor {
+  animation: none;
+  opacity: 0;
+  transform: scale(2.2) rotate(180deg);
+  /* Cursor stays visible longer to blend into the logo */
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease 0.15s;
+}
+
 .brand-switch:hover .brand-face {
   opacity: 1;
-  transform: translate(-46%, -50%) scale(1);
-  filter: blur(0px);
+  transform: translate(-50%, -50%) scale(1) rotate(0deg);
+  /* Face starts appearing earlier to overlap with cursor peak */
+  transition: opacity 0.25s ease 0.05s, transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Blinking cursor */
@@ -1142,20 +1147,11 @@ section {
     position: relative;
   }
 
-  .brand-face {
-    display: none;
-  }
-  .brand-text {
-    position: relative;
-    inset: unset;
-    opacity: 1 !important;
-    transform: none !important;
-    filter: none !important;
-  }
-  .brand-switch {
-    width: auto;
-    height: auto;
-  }
+  .brand-face { display: none; }
+  .brand-kv { opacity: 1 !important; }
+  .brand-cursor { animation: blink 1s step-end infinite !important; 
+    opacity: 1 !important; transform: none !important; }
+  .brand-switch { width: auto; height: auto; }
 
   /* Mobile Navbar Pill */
   .navbar-pill {

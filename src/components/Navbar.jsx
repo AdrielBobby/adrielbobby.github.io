@@ -43,11 +43,9 @@ export default function Navbar() {
           aria-label="Home"
         >
           {/* Default state: kv_ text */}
-          <span 
-            className="brand-text" 
-            aria-hidden="true"
-          >
-            <span className="brand-kv">kv</span><span className="cursor-blink">_</span>
+          <span className="brand-text" aria-hidden="true">
+            <span className="brand-kv">kv</span>
+            <span className="brand-cursor cursor-blink">_</span>
           </span>
           {/* Hover state: face logo */}
           <img
