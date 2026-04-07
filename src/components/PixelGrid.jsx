@@ -406,18 +406,21 @@ const PixelBlast = ({
       const quad = new THREE.Mesh(quadGeom, material);
       scene.add(quad);
       const clock = new THREE.Clock();
-      const setSize = () => {
+      const setSize = (comp) => {
         const w = container.clientWidth || 1;
         const h = container.clientHeight || 1;
         renderer.setSize(w, h, false);
         uniforms.uResolution.value.set(renderer.domElement.width, renderer.domElement.height);
-        if (threeRef.current?.composer)
-          threeRef.current.composer.setSize(renderer.domElement.width, renderer.domElement.height);
+        
+        const c = comp || threeRef.current?.composer;
+        if (c) c.setSize(renderer.domElement.width, renderer.domElement.height);
+        
         uniforms.uPixelSize.value = pixelSize * renderer.getPixelRatio();
       };
-      setSize();
-      const ro = new ResizeObserver(setSize);
+      
+      const ro = new ResizeObserver(() => setSize());
       ro.observe(container);
+      
       const randomFloat = () => {
         if (typeof window !== 'undefined' && window.crypto?.getRandomValues) {
           const u32 = new Uint32Array(1);
@@ -464,7 +467,10 @@ const PixelBlast = ({
         if (composer && composer.passes.length > 0) composer.passes.forEach(p => (p.renderToScreen = false));
         composer.addPass(noisePass);
       }
-      if (composer) composer.setSize(renderer.domElement.width, renderer.domElement.height);
+      
+      // Ensure the composer (if created) is sized correctly before first render
+      setSize(composer);
+
       const mapToPixels = e => {
         const rect = renderer.domElement.getBoundingClientRect();
         const scaleX = renderer.domElement.width / rect.width;
@@ -607,14 +613,6 @@ const PixelBlast = ({
 };
 
 export default function PixelGrid() {
-  // PixelGrid is a WebGL effect — skip it entirely on touch/mobile devices.
-  // On mobile it was already invisible (bug), but the Three.js context and 
-  // animation loop were still running, wasting CPU and battery.
-  // Returning null here means no canvas is created, no rAF loop starts, 
-  // and the hero simply shows its plain dark background on mobile.
-  const isTouchDevice = window.matchMedia('(hover: none)').matches;
-  if (isTouchDevice) return null;
-
   return (
     <div
       style={{

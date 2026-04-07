@@ -356,6 +356,8 @@ section {
   box-sizing: border-box;
   background-color: var(--color-bg);
   border-bottom: none;
+  /* Ensure a clean stacking context for backdrop-filters and absolute children */
+  isolation: isolate;
 }
 
 /* ── Centered content column ── */
@@ -374,9 +376,11 @@ section {
   margin: 0 auto;
 
   /* readability + liquid glass wrapping ALL content */
-  background: rgba(10, 10, 15, 0.25); /* More transparent */
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  backdrop-filter: blur(16px) saturate(160%);
+  background: rgba(10, 10, 15, 0.05); /* Barely there tint */
+  -webkit-backdrop-filter: blur(8px) saturate(120%);
+  backdrop-filter: blur(8px) saturate(120%);
+  /* Help browser optimize for backdrop-filter */
+  will-change: backdrop-filter;
   border: 1px solid rgba(139, 92, 246, 0.15);
   border-radius: 32px;
   box-shadow:
