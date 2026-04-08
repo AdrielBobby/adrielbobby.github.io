@@ -57,6 +57,12 @@ const projects = [
     blurb: 'An elegant, all-encompassing dashboard for tracking academics, finances, and goals. Features a custom-built responsive sidebar navigation, dark-mode glassmorphism, and secure, encrypted local data storage',
     tech: ['Python', 'Flask', 'SQL', 'JS', 'CSS Grid'],
     url: 'https://github.com/AdrielBobby/calm-cockpit-multipage-version'
+  },
+  {
+    title: 'Gemini Context Monitor',
+    blurb: 'A high-performance developer dashboard for real-time tracking, historical analytics, and token optimization of Gemini CLI context windows.',
+    tech: ['Python', 'CustomTkinter', 'SQLite', 'Rich', 'Pydantic',],
+    url: 'https://github.com/AdrielBobby/gemini_context_monitor',
   }
 ];
 
