@@ -6,15 +6,15 @@ export default function Loader({ onDone }) {
 
   useEffect(() => {
     const TEXT = "kv";
-    const TYPING_DELAY = 100; // Even faster typing (was 150)
-    const START_DELAY = 250;
-    const ENTER_DELAY = 250; // Shorter pause (was 300)
+    const TYPING_DELAY = 180; // Each character takes 180ms — deliberate and readable
+    const START_DELAY = 400;  // Pause before typing — builds anticipation
+    const ENTER_DELAY = 500;  // Pause after "kv" typed — let it land before dissolve
 
     const loaderEl = document.getElementById('loader');
     if (!loaderEl || !gridRef.current || !typedRef.current) return;
 
     // GRID SETUP
-    const CELL = window.innerWidth <= 768 ? 20 : 14;
+    const CELL = window.innerWidth <= 768 ? 48 : 32;
     const cols = Math.ceil(window.innerWidth / CELL);
     const rows = Math.ceil(window.innerHeight / CELL);
     
@@ -26,8 +26,8 @@ export default function Loader({ onDone }) {
     const fragment = document.createDocumentFragment();
     for (let i = 0; i < totalCells; i++) {
       const span = document.createElement('span');
-      // Spread dissolve over 600ms for high speed (was 800)
-      const randomDelay = Math.random() * 600; 
+      // Spread dissolve over 350ms for a fast, clean exit
+      const randomDelay = Math.random() * 350; 
       span.style.setProperty('--delay', `${randomDelay}ms`);
       fragment.appendChild(span);
     }
@@ -55,10 +55,10 @@ export default function Loader({ onDone }) {
       const dissolveStartTimeout = setTimeout(() => {
         loaderEl.classList.add('dissolving');
         
-        // Step 4: After total dissolve duration (600ms spread + 800ms base = 1400ms)
+        // Step 4: After total dissolve duration (350ms spread + 550ms base = 900ms)
         const doneTimeout = setTimeout(() => {
           onDone();
-        }, 1400);
+        }, 900);
         typeTimeouts.push(doneTimeout);
         
       }, totalTypeTime + ENTER_DELAY);

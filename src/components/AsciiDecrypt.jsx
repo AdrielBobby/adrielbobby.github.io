@@ -52,38 +52,58 @@ export default function AsciiDecrypt({
   useEffect(() => {
     if (!animate || decrypted) return;
 
-    // Skip scramble animation entirely on very low-end / data-saver devices.
-    // navigator.connection is a reliable proxy for device class.
+    // Skip animation entirely on 2G / data-saver devices
     const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-    const isSlowDevice = connection && (connection.effectiveType === '2g' || connection.saveData === true);
+    const isSlowDevice = connection && (
+      connection.effectiveType === '2g' || connection.saveData === true
+    );
     if (isSlowDevice) {
-      setDisplay([...lines]); // Show final state immediately
+      setDisplay([...lines]);
       setDecrypted(true);
       return;
     }
 
-    // Find the maximum non-space character count across all lines.
-    const maxChars = Math.max(
-      ...lines.map(l => l.replace(/ /g, '').length)
-    );
+    const maxChars = Math.max(...lines.map(l => l.replace(/ /g, '').length));
 
-    // Triple the interval on mobile (30 ms → 90 ms) — 3× fewer React re-renders
-    // and character operations. Animation still looks good, finishes slightly faster.
+    // On mobile use a slower effective speed — 3x the default
     const effectiveSpeed = isMobile ? Math.max(speed * 3, 80) : speed;
 
     let tick = 0;
-    const interval = setInterval(() => {
-      tick++;
-      setDisplay(lines.map(line => partialReveal(line, tick)));
-      if (tick >= maxChars) {
-        clearInterval(interval);
-        setDisplay([...lines]); // snap to correct
-        setDecrypted(true);
-      }
-    }, effectiveSpeed);
+    let rafId = null;
+    let lastTime = null;
 
-    return () => clearInterval(interval);
-  }, [animate, decrypted, lines, speed, isMobile]); // updated dependencies
+    // rAF syncs to display refresh rate and skips when browser is busy,
+    // preventing the main-thread fighting that caused choppiness.
+    const step = (timestamp) => {
+      if (lastTime === null) lastTime = timestamp;
+      const elapsed = timestamp - lastTime;
+
+      if (elapsed >= effectiveSpeed) {
+        lastTime = timestamp;
+        tick++;
+
+        // Only call setState every 2nd tick to halve React re-renders.
+        // Visual quality is identical — scramble chars change fast enough.
+        if (tick % 2 === 0 || tick >= maxChars) {
+          setDisplay(lines.map(line => partialReveal(line, tick)));
+        }
+
+        if (tick >= maxChars) {
+          setDisplay([...lines]); // snap to final correct state
+          setDecrypted(true);
+          return; // stop — do not request next frame
+        }
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    rafId = requestAnimationFrame(step);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [animate, decrypted, lines, speed, isMobile]);
 
   // ── Hover glitch ──────────────────────────────────────────────────
   const handleMouseEnter = useCallback(() => {

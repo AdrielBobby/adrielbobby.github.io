@@ -41,6 +41,16 @@ export default function Hero({ animateIn = false }) {
     return () => clearInterval(id);
   }, []);
 
+  // Delay ASCII animation by one rAF after animateIn fires.
+  // Ensures loader is fully removed from DOM before ASCII scramble starts
+  // — prevents loader dissolve and ASCII scramble competing for main thread.
+  const [asciiReady, setAsciiReady] = useState(false);
+  useEffect(() => {
+    if (!animateIn) return;
+    const id = requestAnimationFrame(() => setAsciiReady(true));
+    return () => cancelAnimationFrame(id);
+  }, [animateIn]);
+
   return (
     <section id="hero" className={`hero${animateIn ? ' hero-animate-in' : ''}`}>
 
@@ -52,7 +62,7 @@ export default function Hero({ animateIn = false }) {
       <div className="hero-content">
 
         {/* ── ASCII art block (decrypt + glitch handled internally) ── */}
-        <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={animateIn} />
+        <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={asciiReady} />
 
         {/* ── Status line — CSS opacity transition, no JS animation lib ── */}
         <p

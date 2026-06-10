@@ -6,7 +6,7 @@
 // Import each section component. The path './components/Navbar' means
 // "look in the same folder as this file, inside the 'components' sub-folder".
 // Vite automatically adds the '.jsx' extension so we don't need to write it.
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -25,6 +25,15 @@ import Loader from './components/Loader';
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [heroReady, setHeroReady] = useState(false);
+
+  // Restore <main> visibility after loader finishes.
+  // We hide it in index.html to prevent a flash before React mounts.
+  useEffect(() => {
+    if (!loading) {
+      const main = document.querySelector('main');
+      if (main) main.style.visibility = 'visible';
+    }
+  }, [loading]);
 
   return (
     // The empty angle brackets <> </> are called a "Fragment".

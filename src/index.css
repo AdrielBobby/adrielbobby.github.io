@@ -1413,7 +1413,9 @@ section {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  /* background-color removed — grid spans provide the cover */
+  /* Solid black background ensures grid-cell seams are invisible.
+     Previously removed, but sub-pixel gaps between spans caused visible lines. */
+  background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1461,6 +1463,9 @@ section {
   display: grid;
   grid-template-columns: repeat(var(--grid-cols, 20), 1fr);
   grid-template-rows: repeat(var(--grid-rows, 20), 1fr);
+  /* Explicitly zero the gap and clip any fractional-pixel bleed at edges */
+  gap: 0;
+  overflow: hidden;
   z-index: 1;
   pointer-events: none;
 }
@@ -1469,6 +1474,9 @@ section {
 .pixel-grid span {
   background-color: #000;
   transition: none;
+  /* Promote cells to their own compositor layer before dissolve fires —
+     eliminates the paint flash at animation-start. */
+  will-change: opacity, transform;
 }
 
 /* When dissolving — each cell fades out with its individual random delay */
