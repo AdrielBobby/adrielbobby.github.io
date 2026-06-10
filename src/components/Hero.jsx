@@ -2,7 +2,6 @@
 // decrypt animations, rotating status line, CTAs, and scroll indicator.
 
 import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
 import AsciiDecrypt from './AsciiDecrypt';
 import DecryptText from './DecryptText';
 import PixelGrid from './PixelGrid';
@@ -25,23 +24,11 @@ const STATUS_MESSAGES = [
   'deploying honeypots…',
 ];
 
-// ── Framer Motion variants ──────────────────────────────────────────
-// ASCII decrypts on its own (~1.2 - 1.4 s); children stagger sequentially after.
+// ── Stagger timing constants (kept for DecryptText startDelay) ──────
+// These match the CSS transition-delay values in index.css so both
+// the CSS fade-up and the decrypt text animations stay in sync.
 const STAGGER_DELAY = 0.8; // starts just after ASCII art completes
 const CHILD_GAP = 0.4;     // generous gap for dramatic effect
-
-const fadeUpVariants = {
-  hidden: { opacity: 0, y: 15 },
-  visible: (i) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: STAGGER_DELAY + i * CHILD_GAP,
-      duration: 0.7,
-      ease: 'easeOut'
-    },
-  }),
-};
 
 export default function Hero({ animateIn = false }) {
   // ── Rotating status line ──────────────────────────────────────────
@@ -67,59 +54,41 @@ export default function Hero({ animateIn = false }) {
         {/* ── ASCII art block (decrypt + glitch handled internally) ── */}
         <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={animateIn} />
 
-        {/* ── Status line ── */}
-        <motion.p
+        {/* ── Status line — CSS opacity transition, no JS animation lib ── */}
+        <p
           className="hero-status"
           key={statusIdx}
-          initial={{ opacity: 0 }}
-          animate={animateIn ? { opacity: 1 } : { opacity: 0 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+          style={{
+            opacity: animateIn ? 1 : 0,
+            transition: 'opacity 0.5s ease',
+          }}
         >
           <span className="hero-status-label">status:</span>{' '}
           {STATUS_MESSAGES[statusIdx]}
-        </motion.p>
+        </p>
 
-        {/* ── Subtitle (Ordered Index 0) ── */}
-        <motion.p
-          className="hero-subtitle"
-          custom={0}
-          variants={fadeUpVariants}
-          initial="hidden"
-          animate={animateIn ? "visible" : "hidden"}
-        >
+        {/* ── Subtitle (hero-fade-item index 1) ── */}
+        <p className="hero-subtitle hero-fade-item">
           <DecryptText
             text="Computer Science Engineer"
             speed={17}
             startDelay={STAGGER_DELAY * 1000}
             animate={animateIn}
           />
-        </motion.p>
+        </p>
 
-        {/* ── Tagline (Ordered Index 1) ── */}
-        <motion.p
-          className="hero-tagline"
-          custom={1}
-          variants={fadeUpVariants}
-          initial="hidden"
-          animate={animateIn ? "visible" : "hidden"}
-        >
+        {/* ── Tagline (hero-fade-item index 2) ── */}
+        <p className="hero-tagline hero-fade-item">
           <DecryptText
             text="Breaking into cybersecurity one packet at a time."
             speed={15}
             startDelay={(STAGGER_DELAY + CHILD_GAP) * 1000}
             animate={animateIn}
           />
-        </motion.p>
+        </p>
 
-        {/* ── CTA buttons (Ordered Index 2) ── */}
-        <motion.div
-          className="hero-actions"
-          custom={2}
-          variants={fadeUpVariants}
-          initial="hidden"
-          animate={animateIn ? "visible" : "hidden"}
-        >
+        {/* ── CTA buttons (hero-fade-item index 3) ── */}
+        <div className="hero-actions hero-fade-item">
           <a href="#projects" className="btn btn-primary">View My Work</a>
           <a
             href="/Resume.pdf"
@@ -129,17 +98,11 @@ export default function Hero({ animateIn = false }) {
           >
             Resume
           </a>
-        </motion.div>
+        </div>
       </div>
 
-      {/* ── Scroll indicator (Ordered Index 3) ── */}
-      <motion.div
-        className="hero-scroll-indicator"
-        custom={3}
-        variants={fadeUpVariants}
-        initial="hidden"
-        animate={animateIn ? "visible" : "hidden"}
-      >
+      {/* ── Scroll indicator (hero-fade-item index 4) ── */}
+      <div className="hero-scroll-indicator hero-fade-item">
         {/* Use inline paddingLeft to perfectly balance the 0.25em letter-spacing on the right.
             Wrapping in a div ensures HMR instantly updates the UI regardless of CSS cache. */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
@@ -163,7 +126,7 @@ export default function Hero({ animateIn = false }) {
           <line className="arrow-tail" x1="12" y1="0" x2="12" y2="52" stroke="var(--color-primary)" strokeWidth="2" strokeDasharray="4 4" />
           <path className="arrow-head" d="M6 46 L12 52 L18 46" stroke="var(--color-primary)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
-      </motion.div>
+      </div>
     </section>
   );
 }

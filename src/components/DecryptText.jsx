@@ -13,6 +13,9 @@ export default function DecryptText({
   style = {},
   animate = true // New prop to control when animation starts
 }) {
+  // Throttle the decrypt animation on mobile to reduce main-thread pressure.
+  const isMobile = typeof window !== 'undefined'
+    && window.matchMedia('(max-width: 768px)').matches;
 
   const [displayed, setDisplayed] = useState('');
   const [hasRun, setHasRun] = useState(false);
@@ -30,6 +33,14 @@ export default function DecryptText({
         if (entry.isIntersecting && !hasRun) {
           setHasRun(true);
 
+          // Skip scramble animation entirely on very low-end / data-saver devices.
+          const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          const isSlowDevice = connection && (connection.effectiveType === '2g' || connection.saveData === true);
+          if (isSlowDevice) {
+            setDisplayed(text); // Show final state immediately
+            return;
+          }
+
           // Wait startDelay ms before beginning the decrypt animation
           setTimeout(() => {
             // Immediately show scrambled version
@@ -40,6 +51,9 @@ export default function DecryptText({
             );
 
             let iteration = 0;
+
+            // Double the interval on mobile (40 ms → 80 ms) — 2× fewer re-renders.
+            const effectiveSpeed = isMobile ? Math.max(speed * 2, 80) : speed;
 
             const interval = setInterval(() => {
               setDisplayed(
@@ -56,7 +70,7 @@ export default function DecryptText({
                 clearInterval(interval);
                 setDisplayed(text); // snap to real text at the end
               }
-            }, speed);
+            }, effectiveSpeed);
           }, startDelay);
         }
       },

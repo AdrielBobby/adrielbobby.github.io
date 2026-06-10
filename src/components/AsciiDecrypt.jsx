@@ -39,19 +39,37 @@ export default function AsciiDecrypt({
   className = '',
   animate = true, // New prop
 }) {
+  // Throttle the decrypt animation on mobile to reduce main-thread pressure.
+  const isMobile = typeof window !== 'undefined'
+    && window.matchMedia('(max-width: 768px)').matches;
+
   const [display, setDisplay] = useState(() => scrambleAll(lines));
   const [decrypted, setDecrypted] = useState(false);
   const [glitching, setGlitching] = useState(false);
   const glitchTimer = useRef(null);
 
-  // ── Decrypt when animate is true ──────────────────────────────────────────────
+  // ── Decrypt when animate is true ────────────────────────────────────────────────────
   useEffect(() => {
     if (!animate || decrypted) return;
+
+    // Skip scramble animation entirely on very low-end / data-saver devices.
+    // navigator.connection is a reliable proxy for device class.
+    const connection = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    const isSlowDevice = connection && (connection.effectiveType === '2g' || connection.saveData === true);
+    if (isSlowDevice) {
+      setDisplay([...lines]); // Show final state immediately
+      setDecrypted(true);
+      return;
+    }
 
     // Find the maximum non-space character count across all lines.
     const maxChars = Math.max(
       ...lines.map(l => l.replace(/ /g, '').length)
     );
+
+    // Triple the interval on mobile (30 ms → 90 ms) — 3× fewer React re-renders
+    // and character operations. Animation still looks good, finishes slightly faster.
+    const effectiveSpeed = isMobile ? Math.max(speed * 3, 80) : speed;
 
     let tick = 0;
     const interval = setInterval(() => {
@@ -62,10 +80,10 @@ export default function AsciiDecrypt({
         setDisplay([...lines]); // snap to correct
         setDecrypted(true);
       }
-    }, speed);
+    }, effectiveSpeed);
 
     return () => clearInterval(interval);
-  }, [animate, decrypted, lines, speed]); // updated dependencies
+  }, [animate, decrypted, lines, speed, isMobile]); // updated dependencies
 
   // ── Hover glitch ──────────────────────────────────────────────────
   const handleMouseEnter = useCallback(() => {

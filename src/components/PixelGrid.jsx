@@ -368,7 +368,7 @@ const PixelBlast = ({
       });
       renderer.domElement.style.width = '100%';
       renderer.domElement.style.height = '100%';
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
       container.appendChild(renderer.domElement);
       if (transparent) renderer.setClearAlpha(0);
       else renderer.setClearColor(0x000000, 1);
@@ -613,6 +613,13 @@ const PixelBlast = ({
 };
 
 export default function PixelGrid() {
+  // Don't render the WebGL canvas on mobile — too expensive.
+  // matchMedia is checked once at mount time; SSR guard included.
+  const isMobile = typeof window !== 'undefined'
+    && window.matchMedia('(max-width: 768px)').matches;
+
+  if (isMobile) return null;
+
   return (
     <div
       style={{

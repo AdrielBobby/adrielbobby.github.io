@@ -483,6 +483,31 @@ section {
   z-index: 2;
 }
 
+/* ── Hero content fade-up animation — CSS only, no JS thread needed ──
+   Uses transform + opacity exclusively — guaranteed compositor thread on mobile.
+   Items start invisible and slide up; .hero-animate-in class (added by Hero.jsx
+   once the loader finishes) triggers the transitions with staggered delays. */
+.hero-fade-item {
+  opacity: 0;
+  transform: translateY(15px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.hero-animate-in .hero-fade-item {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger delays — .hero-fade-item elements are children 3, 4, 5 inside
+   .hero-content (child 1 = AsciiDecrypt, child 2 = status line).
+   The scroll indicator lives directly inside .hero as a separate child.
+   Delays match original STAGGER_DELAY + i * CHILD_GAP values. */
+.hero-animate-in .hero-content .hero-fade-item:nth-child(3) { transition-delay: 0.8s; }
+.hero-animate-in .hero-content .hero-fade-item:nth-child(4) { transition-delay: 1.2s; }
+.hero-animate-in .hero-content .hero-fade-item:nth-child(5) { transition-delay: 1.6s; }
+/* Scroll indicator (direct child of .hero section) */
+.hero-animate-in > .hero-scroll-indicator { transition-delay: 2.0s; }
+
 .scroll-label {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
   font-size: 0.8rem;
