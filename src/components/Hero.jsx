@@ -47,8 +47,11 @@ export default function Hero({ animateIn = false }) {
   const [asciiReady, setAsciiReady] = useState(false);
   useEffect(() => {
     if (!animateIn) return;
-    const id = requestAnimationFrame(() => setAsciiReady(true));
-    return () => cancelAnimationFrame(id);
+    // Delay ASCII scramble by 400ms so the hero section opacity transition
+    // has already started before any scramble animation fires.
+    // This bridges the visual gap between loader dissolve and hero content.
+    const id = setTimeout(() => setAsciiReady(true), 400);
+    return () => clearTimeout(id);
   }, [animateIn]);
 
   return (
