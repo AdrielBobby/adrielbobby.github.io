@@ -12,6 +12,7 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Education from './components/Education';
 import Certifications from './components/Certifications';
+import Experience from './components/Experience';
 import Projects from './components/Projects';
 import Hackathons from './components/Hackathons';
 import Leadership from './components/Leadership';
@@ -59,6 +60,7 @@ export default function App() {
         <About />
         <Education />
         <Certifications />
+        <Experience />
         <Projects />
         <Hackathons />
         <Leadership />

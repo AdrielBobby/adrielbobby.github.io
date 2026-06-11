@@ -63,7 +63,13 @@ const projects = [
     blurb: 'A high-performance developer dashboard for real-time tracking, historical analytics, and token optimization of Gemini CLI context windows.',
     tech: ['Python', 'CustomTkinter', 'SQLite', 'Rich', 'Pydantic',],
     url: 'https://github.com/AdrielBobby/gemini_context_monitor',
-  }
+  },
+  {
+    title: 'Student Marks Tracker',
+    blurb: 'An internship performance dashboard featuring holiday-aware mark entry (skipping Sundays and 2nd Saturdays), active-window student visibility, and aggregate scorecards with qualitative performance bands.',
+    tech: ['Next.js', 'TypeScript', 'Prisma', 'SQLite', 'Vanilla CSS'],
+    url: 'https://github.com/AdrielBobby/student-marks-tracker'
+  },
 ];
 
 // ProjectCard is a separate component so each card can have its own useInView hook.

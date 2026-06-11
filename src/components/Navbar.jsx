@@ -81,6 +81,7 @@ export default function Navbar() {
         {[
           ['#about',           'About'],
           ['#certifications',  'Certifications'],
+          ['#experience',      'Experience'],
           ['#projects',        'Projects'],
           ['#hackathons',      'Hackathons'],
           ['#leadership',      'Leadership'],

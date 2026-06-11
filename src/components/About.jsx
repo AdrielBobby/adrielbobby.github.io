@@ -14,20 +14,28 @@ import { GitHubCalendar } from 'react-github-calendar';
 // Each category has a name and a list of items inside it.
 const skillTree = [
   {
-    category: 'languages',    // folder label
-    items: ['C', 'Python', 'C++', 'Java', 'JavaScript'],
+    category: 'languages',
+    items: ['C', 'Python', 'C++', 'Java', 'JavaScript', 'TypeScript'],
   },
   {
     category: 'tools',
     items: [
-      'MySQL', 'Linux', 'Nmap', 'Gobuster', 'WPScan', 'Joomscan',
+      'Linux', 'Nmap', 'Gobuster', 'WPScan', 'Joomscan',
       'SQLMap', 'Metasploit', 'Searchsploit', 'Hydra', 'John the Ripper',
-      'Hashcat', 'Netcat', 'Tor', 'Burp Suite', 'Steghide', 'Stegseek',
+      'Hashcat', 'Netcat', 'Wireshark', 'Tor', 'Burp Suite', 'Steghide', 'Stegseek',
+      'MobSF', 'Frida', 'Genymotion', 'ADB', 'VirtualBox', 'Docker',
     ],
   },
   {
+    category: 'databases & platforms',
+    items: ['MySQL', 'SQLite', 'Prisma', 'pfSense', 'Kali Linux', 'Ubuntu Server'],
+  },
+  {
     category: 'domains',
-    items: ['Cybersecurity', 'Web Application Security', 'Network Security', 'Social Media Management'],
+    items: [
+      'Cybersecurity', 'Web Application Security', 'Network Security',
+      'Mobile Security', 'Social Media Management',
+    ],
   },
 ];
 
