@@ -102,7 +102,7 @@ export default function Hero({ animateIn = false }) {
         <div className="hero-actions hero-fade-item">
           <a href="#projects" className="btn btn-primary">View My Work</a>
           <a
-            href="/Resume.pdf"
+            href="/Resume_v2.pdf"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-outline"
