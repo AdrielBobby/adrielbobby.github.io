@@ -1438,8 +1438,8 @@ section {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
   font-size: 1.5rem;
   color: #fff;
-  width: 100%;
-  max-width: 800px;
+  width: fit-content;
+  margin: 0 auto;
   padding: 20px;
   position: relative;
   z-index: 2;
@@ -1465,6 +1465,8 @@ section {
 .loader-cursor {
   color: #8b5cf6;
   animation: blink 1s step-end infinite;
+  display: inline-block; /* Needed for transform */
+  transition: transform 0.5s cubic-bezier(0.2, 1, 0.4, 1);
   /* blink keyframes already exist — do NOT redefine */
 }
 
@@ -1491,20 +1493,11 @@ section {
   will-change: opacity, transform;
 }
 
-/* When dissolving — each cell fades out with its individual random delay */
-#loader.dissolving .loader-cursor {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
-#loader.dissolving .prompt-path {
-  opacity: 0;
-  transition: opacity 0.2s ease;
-}
-
+/* When dissolving, fade out the text but let JS translate the cursor */
+#loader.dissolving .prompt-path,
 #loader.dissolving .loader-typed-text {
   opacity: 0;
-  transition: opacity 0.3s ease 0.1s;
+  transition: opacity 0.3s ease;
 }
 
 .loader-typed-text span {
