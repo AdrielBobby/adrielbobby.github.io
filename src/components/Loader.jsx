@@ -29,25 +29,20 @@ export default function Loader({ onDone }) {
         typeTimeouts.push(timeout);
       }
 
-      // Step 2 & 3: Wait ENTER_DELAY after typing, then animate cursor to center
+      // Step 2 & 3: Wait ENTER_DELAY after typing, then trigger morph and dissolve
       const totalTypeTime = (TEXT.length - 1) * TYPING_DELAY;
       const dissolveStartTimeout = setTimeout(() => {
-        loaderEl.classList.add('dissolving');
-        
-        // Move the cursor to the center
-        const cursorEl = document.querySelector('.loader-cursor');
-        if (cursorEl) {
-          const rect = cursorEl.getBoundingClientRect();
-          const targetX = window.innerWidth / 2;
-          const currentX = rect.left + rect.width / 2;
-          cursorEl.style.transform = `translateX(${targetX - currentX}px)`;
-        }
+        // Step 3: Call onDone() first — this adds hero-animate-in to #hero,
+        // which triggers the .hero-ascii CSS scale transition (cursor → ASCII morph).
+        // The ASCII block expands from scaleX(0.04) scaleY(0) over 350ms.
+        onDone();
 
-        // Wait for cursor to reach center, then unmount and reveal hero
-        const doneTimeout = setTimeout(() => {
-          onDone();
-        }, 500);
-        typeTimeouts.push(doneTimeout);
+        // Step 4: Dissolve the loader 400ms later, while ASCII art is already
+        // mid-expand — overlap prevents any black gap between states.
+        const dissolveTimeout = setTimeout(() => {
+          loaderEl.classList.add('dissolving');
+        }, 400);
+        typeTimeouts.push(dissolveTimeout);
         
       }, totalTypeTime + ENTER_DELAY);
       

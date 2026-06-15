@@ -510,6 +510,19 @@ section {
   transform: translateY(0);
 }
 
+/* ASCII art block — starts collapsed and expands outward when
+   hero-animate-in fires, creating a cursor-to-ASCII morph effect. */
+.hero-ascii {
+  transform: scaleX(0.04) scaleY(0);
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  overflow: hidden;
+  will-change: transform;
+}
+.hero-animate-in .hero-ascii {
+  transform: scaleX(1) scaleY(1);
+}
+
 /* Staggered delays — all items now delayed so nothing appears
    before the section itself has started fading in. */
 .hero-animate-in .hero-content .hero-fade-item:nth-child(1) { transition-delay: 0.3s; }

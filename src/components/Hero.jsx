@@ -63,7 +63,9 @@ export default function Hero({ animateIn = false }) {
       <div className="hero-content">
 
         {/* ── ASCII art block (decrypt + glitch handled internally) ── */}
-        <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={asciiReady} />
+        <div className="hero-ascii">
+          <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={asciiReady} />
+        </div>
 
         {/* ── Status line — CSS opacity transition, no JS animation lib ── */}
         <p
