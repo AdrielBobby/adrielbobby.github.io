@@ -168,16 +168,23 @@ export default function About() {
               line ? (
                 <p key={i} className="terminal-line terminal-output">
                   {/* Dash prefix mimics shell output */}
-                  <span style={{ color: 'var(--color-primary)' }}>→ </span>{line}
+                  <span style={{ color: 'var(--color-primary)', flexShrink: 0 }}>→</span>
+                  <span>{line}</span>
                 </p>
               ) : null
             ))}
 
             {/* Render the line currently being typed, with the cursor following the text! */}
-            {isTyping && (
+            {isTyping && currentLineText && (
               <p className="terminal-line terminal-output">
-                <span style={{ color: 'var(--color-primary)' }}>→ </span>
-                {currentLineText}
+                <span style={{ color: 'var(--color-primary)', flexShrink: 0 }}>→</span>
+                <span>{currentLineText}<span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span></span>
+              </p>
+            )}
+
+            {/* Standalone blinking cursor during the 200ms inter-line pause */}
+            {isTyping && !currentLineText && (
+              <p className="terminal-line terminal-output">
                 <span className="terminal-cursor" style={{ opacity: cursor ? 1 : 0 }}>█</span>
               </p>
             )}

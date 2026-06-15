@@ -1174,11 +1174,17 @@ section {
   /* near-white text */
 }
 
-/* Bio lines typed out after the command */
-.terminal-output {
+/* Bio lines typed out after the command — scoped to .terminal-body so this
+   selector (0-2-0 specificity) beats the generic .terminal-line block defined
+   later in the loader section (0-1-0), which was overriding align-items and
+   flex-wrap and causing the arrow to detach from its text on narrow screens. */
+.terminal-body .terminal-output {
   color: var(--color-green);
-  /* terminal green for output */
-  padding-left: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: nowrap;      /* keep arrow + text on one row; text wraps inside the span */
+  gap: 0.4rem;
+  padding-left: 0;
 }
 
 /* The blinking cursor block character */
