@@ -14,11 +14,12 @@ const FORMSPREE = 'https://formspree.io/f/mdavbvzg';
 // The terminal form goes through these steps in order.
 // 'idle'    — showing ">press [enter] to start a conversation"
 // 'name'    — asking for the user's name
+// 'email'   — asking for the user's email (optional)
 // 'message' — asking for the message
 // 'sending' — POST to Formspree in progress
 // 'done'    — success confirmation
 // 'error'   — something went wrong
-const STEPS = ['idle', 'name', 'message', 'sending', 'done', 'error'];
+const STEPS = ['idle', 'name', 'email', 'message', 'sending', 'done', 'error'];
 
 export default function Contact() {
   const [copied, setCopied] = useState(false);
@@ -28,6 +29,7 @@ export default function Contact() {
 
   // Values collected from the user
   const [name, setName]       = useState('');
+  const [email, setEmail]     = useState('');
   const [message, setMessage] = useState('');
 
   // The current value in the active input field
@@ -62,10 +64,15 @@ export default function Contact() {
   // Called when user presses Enter to submit each field
   const handleFieldSubmit = async (e) => {
     if (e.key !== 'Enter') return;
-    if (!inputVal.trim()) return; // don't allow empty submissions
+    // Email is optional — allow empty. All other steps require a value.
+    if (step !== 'email' && !inputVal.trim()) return;
 
     if (step === 'name') {
       setName(inputVal.trim());
+      setInputVal('');
+      setStep('email');
+    } else if (step === 'email') {
+      setEmail(inputVal.trim());
       setInputVal('');
       setStep('message');
     } else if (step === 'message') {
@@ -79,7 +86,7 @@ export default function Contact() {
         const res = await fetch(FORMSPREE, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-          body: JSON.stringify({ name, message: finalMessage }),
+          body: JSON.stringify({ name, email, message: finalMessage }),
         });
         if (res.ok) {
           setStep('done');
@@ -96,6 +103,7 @@ export default function Contact() {
   const handleReset = () => {
     setStep('idle');
     setName('');
+    setEmail('');
     setMessage('');
     setInputVal('');
   };
@@ -171,14 +179,14 @@ export default function Contact() {
             )}
 
             {/* NAME step: show initializing message and name prompt */}
-            {(step === 'name' || step === 'message' || step === 'sending' || step === 'done' || step === 'error') && (
+            {(step === 'name' || step === 'email' || step === 'message' || step === 'sending' || step === 'done' || step === 'error') && (
               <p className="ct-line">
                 <span className="ct-prompt">&gt;</span> initializing secure channel...
               </p>
             )}
 
             {/* Show completed name line once name is collected */}
-            {(step === 'message' || step === 'sending' || step === 'done' || step === 'error') && (
+            {(step === 'email' || step === 'message' || step === 'sending' || step === 'done' || step === 'error') && (
               <p className="ct-line">
                 <span className="ct-prompt">&gt;</span> enter your name:{' '}
                 <span className="ct-val">{name}</span>
@@ -187,10 +195,50 @@ export default function Contact() {
 
             {/* NAME input line */}
             {step === 'name' && (
-              <p className="ct-line ct-input-line" onClick={() => inputRef.current?.focus()}>
+              <p className="ct-line ct-input-line">
                 <span className="ct-prompt">&gt;</span> enter your name:{' '}
-                <span className="ct-input-val">{inputVal}</span>
-                <span className="ct-cursor">▮</span>
+                <input
+                  ref={inputRef}
+                  className="ct-inline-input"
+                  value={inputVal}
+                  onChange={handleInput}
+                  onKeyDown={handleFieldSubmit}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  aria-label="Enter your name"
+                  enterKeyHint="next"
+                />
+              </p>
+            )}
+
+            {/* Show completed email line once collected */}
+            {(step === 'message' || step === 'sending' || step === 'done' || step === 'error') && (
+              <p className="ct-line">
+                <span className="ct-prompt">&gt;</span> enter your email:{' '}
+                <span className="ct-val">{email || '(skipped)'}</span>
+              </p>
+            )}
+
+            {/* EMAIL input line */}
+            {step === 'email' && (
+              <p className="ct-line ct-input-line">
+                <span className="ct-prompt">&gt;</span> enter your email (optional):{' '}
+                <input
+                  ref={inputRef}
+                  className="ct-inline-input"
+                  value={inputVal}
+                  onChange={handleInput}
+                  onKeyDown={handleFieldSubmit}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  type="email"
+                  aria-label="Enter your email"
+                  enterKeyHint="next"
+                />
               </p>
             )}
 
@@ -204,10 +252,21 @@ export default function Contact() {
 
             {/* MESSAGE input line */}
             {step === 'message' && (
-              <p className="ct-line ct-input-line" onClick={() => inputRef.current?.focus()}>
+              <p className="ct-line ct-input-line">
                 <span className="ct-prompt">&gt;</span> enter your message:{' '}
-                <span className="ct-input-val">{inputVal}</span>
-                <span className="ct-cursor">▮</span>
+                <input
+                  ref={inputRef}
+                  className="ct-inline-input"
+                  value={inputVal}
+                  onChange={handleInput}
+                  onKeyDown={handleFieldSubmit}
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck={false}
+                  aria-label="Enter your message"
+                  enterKeyHint="send"
+                />
               </p>
             )}
 
@@ -261,21 +320,18 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* Single persistent hidden input — always mounted so mobile browsers
-            will show the keyboard when focused synchronously inside a tap handler.
-            Conditionally wired: read-only when idle/done/error, active during name+message. */}
-        <input
-          ref={inputRef}
-          className="ct-hidden-input"
-          value={step === 'name' || step === 'message' ? inputVal : ''}
-          onChange={step === 'name' || step === 'message' ? handleInput : undefined}
-          onKeyDown={step === 'name' || step === 'message' ? handleFieldSubmit : undefined}
-          readOnly={step !== 'name' && step !== 'message'}
-          autoComplete="off"
-          enterKeyHint={step === 'name' ? 'next' : step === 'message' ? 'send' : undefined}
-          aria-label={step === 'name' ? 'Enter your name' : step === 'message' ? 'Enter your message' : 'Terminal input'}
-          aria-hidden={step === 'idle' || step === 'sending' || step === 'done' || step === 'error'}
-        />
+        {/* Persistent hidden input — used only for the idle state to capture
+            the Enter key on desktop. The name/email/message steps now use
+            visible ct-inline-input elements rendered directly in the terminal. */}
+        {step === 'idle' && (
+          <input
+            ref={inputRef}
+            className="ct-hidden-input"
+            readOnly
+            aria-hidden
+            aria-label="Terminal input"
+          />
+        )}
 
         {/* ── Action buttons — kept as fallback ── */}
         <div className="contact-actions">

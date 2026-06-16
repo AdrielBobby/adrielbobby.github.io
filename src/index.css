@@ -1101,6 +1101,21 @@ section {
   pointer-events: none;
 }
 
+/* Inline terminal input — visible but styled to match terminal text.
+   Replaces the hidden input approach to fix Android reversed-text bug. */
+.ct-inline-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: inherit;
+  caret-color: var(--color-primary);
+  width: 180px;
+  padding: 0;
+  margin: 0;
+}
+
 /* The text the user is currently typing — shown inline */
 .ct-input-val {
   color: var(--color-text);
