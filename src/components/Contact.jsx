@@ -2,7 +2,7 @@
 // Features: macOS-style topbar, monospace body, DecryptText on first lines,
 // blinking cursor, copy-email button with 1.5s toast, spotlight glow card.
 // Interactive terminal form submits to Formspree — no backend needed.
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef } from 'react';
 import DecryptText from './DecryptText';
 
 const EMAIL    = 'adrielbobby3@gmail.com';
@@ -33,6 +33,8 @@ export default function Contact() {
   // The current value in the active input field
   const [inputVal, setInputVal] = useState('');
 
+  const isMobile = typeof window !== 'undefined' && ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
   // Ref to auto-focus the hidden input whenever the form is active
   const inputRef = useRef(null);
 
@@ -43,19 +45,13 @@ export default function Contact() {
     });
   };
 
-  // Auto-focus the input whenever the step changes to an input step
-  useEffect(() => {
-    if (step === 'name' || step === 'message') {
-      setTimeout(() => inputRef.current?.focus(), 50);
-    }
-  }, [step]);
-
-  // Called when the user presses Enter on the prompt line (idle state)
-  const handlePromptEnter = (e) => {
-    if (e.key === 'Enter') {
-      setStep('name');
-      setInputVal('');
-    }
+  // Starts the interactive conversation.
+  // Focus is called synchronously here so mobile browsers show the keyboard
+  // (async focus via useEffect / setTimeout is blocked by mobile OS security).
+  const startConversation = () => {
+    setStep('name');
+    setInputVal('');
+    inputRef.current?.focus();
   };
 
   // Called on every keystroke in the active input
@@ -160,25 +156,17 @@ export default function Contact() {
 
             {/* ── Interactive terminal form ── */}
 
-            {/* IDLE: prompt line — pressing Enter starts the form */}
+            {/* IDLE: prompt line — pressing Enter/tapping starts the form */}
             {step === 'idle' && (
               <p
                 className="ct-line ct-prompt-line"
                 tabIndex={0}
-                onKeyDown={handlePromptEnter}
-                onClick={() => inputRef.current?.focus()}
+                onKeyDown={(e) => e.key === 'Enter' && startConversation()}
+                onClick={startConversation}
               >
                 <span className="ct-prompt">&gt;</span>
-                {' '}press [enter] to start a conversation
+                {' '}{isMobile ? 'tap to start a conversation' : 'press [enter] to start a conversation'}
                 <span className="ct-cursor">▮</span>
-                {/* Hidden input captures Enter key when the line is focused */}
-                <input
-                  ref={inputRef}
-                  className="ct-hidden-input"
-                  onKeyDown={handlePromptEnter}
-                  readOnly
-                  aria-label="Press Enter to start conversation"
-                />
               </p>
             )}
 
@@ -199,19 +187,10 @@ export default function Contact() {
 
             {/* NAME input line */}
             {step === 'name' && (
-              <p className="ct-line ct-input-line">
+              <p className="ct-line ct-input-line" onClick={() => inputRef.current?.focus()}>
                 <span className="ct-prompt">&gt;</span> enter your name:{' '}
                 <span className="ct-input-val">{inputVal}</span>
                 <span className="ct-cursor">▮</span>
-                <input
-                  ref={inputRef}
-                  className="ct-hidden-input"
-                  value={inputVal}
-                  onChange={handleInput}
-                  onKeyDown={handleFieldSubmit}
-                  autoComplete="off"
-                  aria-label="Enter your name"
-                />
               </p>
             )}
 
@@ -225,19 +204,10 @@ export default function Contact() {
 
             {/* MESSAGE input line */}
             {step === 'message' && (
-              <p className="ct-line ct-input-line">
+              <p className="ct-line ct-input-line" onClick={() => inputRef.current?.focus()}>
                 <span className="ct-prompt">&gt;</span> enter your message:{' '}
                 <span className="ct-input-val">{inputVal}</span>
                 <span className="ct-cursor">▮</span>
-                <input
-                  ref={inputRef}
-                  className="ct-hidden-input"
-                  value={inputVal}
-                  onChange={handleInput}
-                  onKeyDown={handleFieldSubmit}
-                  autoComplete="off"
-                  aria-label="Enter your message"
-                />
               </p>
             )}
 
@@ -290,6 +260,22 @@ export default function Contact() {
 
           </div>
         </div>
+
+        {/* Single persistent hidden input — always mounted so mobile browsers
+            will show the keyboard when focused synchronously inside a tap handler.
+            Conditionally wired: read-only when idle/done/error, active during name+message. */}
+        <input
+          ref={inputRef}
+          className="ct-hidden-input"
+          value={step === 'name' || step === 'message' ? inputVal : ''}
+          onChange={step === 'name' || step === 'message' ? handleInput : undefined}
+          onKeyDown={step === 'name' || step === 'message' ? handleFieldSubmit : undefined}
+          readOnly={step !== 'name' && step !== 'message'}
+          autoComplete="off"
+          enterKeyHint={step === 'name' ? 'next' : step === 'message' ? 'send' : undefined}
+          aria-label={step === 'name' ? 'Enter your name' : step === 'message' ? 'Enter your message' : 'Terminal input'}
+          aria-hidden={step === 'idle' || step === 'sending' || step === 'done' || step === 'error'}
+        />
 
         {/* ── Action buttons — kept as fallback ── */}
         <div className="contact-actions">
