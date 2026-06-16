@@ -1091,6 +1091,47 @@ section {
 }
 
 
+/* Hidden input that captures keystrokes for the terminal form.
+   Positioned off-screen so it's invisible but still focusable. */
+.ct-hidden-input {
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+  pointer-events: none;
+}
+
+/* The text the user is currently typing — shown inline */
+.ct-input-val {
+  color: var(--color-text);
+}
+
+/* Blinking block cursor */
+.ct-cursor {
+  display: inline-block;
+  color: var(--color-primary);
+  animation: blink 1s step-end infinite;
+}
+
+/* Prompt lines that are interactive — pointer cursor on hover */
+.ct-prompt-line,
+.ct-input-line,
+.ct-reset {
+  cursor: text;
+  outline: none;
+}
+
+/* Success text */
+.ct-success {
+  color: var(--color-green);
+}
+
+/* Error text */
+.ct-error {
+  color: #f87171;
+}
+
+
 /* ===== Footer ===== */
 .footer {
   padding: 1.75rem 0;
