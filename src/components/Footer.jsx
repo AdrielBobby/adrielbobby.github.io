@@ -1,7 +1,12 @@
 // Footer.jsx — A simple site-wide footer at the very bottom of the page.
 // It shows a copyright line and nothing else — keeping things clean.
 
+import { useState } from 'react';
+import EasterEgg from './EasterEgg';
+
 export default function Footer() {
+  const [showEgg, setShowEgg] = useState(false);
+
   return (
     // <footer> is a semantic HTML5 element for the bottom-of-page content.
     // It mirrors <header> — both are recognized by browsers and screen readers
@@ -16,6 +21,17 @@ export default function Footer() {
             You could also type © directly — both work the same in JSX.
             Update the year here whenever you want to refresh the copyright line. */}
         <p>&copy; 2026 Adriel Bobby</p>
+
+        <p
+          className="footer-psst"
+          onClick={() => setShowEgg(true)}
+          role="button"
+          tabIndex={0}
+          onKeyDown={(e) => e.key === 'Enter' && setShowEgg(true)}
+        >
+          psst — know what kv stands for?
+        </p>
+        {showEgg && <EasterEgg onClose={() => setShowEgg(false)} />}
 
       </div>
     </footer>
