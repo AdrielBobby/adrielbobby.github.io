@@ -20,7 +20,7 @@ export default function Certifications() {
         <ScrollReveal direction="up" delay={0}>
           <GlowCard className="cert-card">
             <h3>Certified Penetration Tester</h3>
-            <p className="cert-issuer">RedTeam Academy — May 2025 – Aug 2025</p>
+            <p className="cert-issuer">RedTeam Academy</p>
             <ul>{bullets.map(b => <li key={b}>{b}</li>)}</ul>
           </GlowCard>
         </ScrollReveal>

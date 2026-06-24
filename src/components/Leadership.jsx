@@ -24,14 +24,25 @@ export default function Leadership() {
         <h2 className="section-title">
           <DecryptText text="Leadership & Communities" speed={30} />
         </h2>
-        <div className="edu-cards">
+        <div className="exp-timeline">
           {roles.map((role, index) => (
             <ScrollReveal key={role.title} direction="up" delay={index * 0.15}>
-              <GlowCard className="leadership-card">
-                <h3>{role.title}</h3>
-                <p className="leadership-org">{role.org} — {role.date}</p>
-                <ul>{role.bullets.map(b => <li key={b}>{b}</li>)}</ul>
-              </GlowCard>
+              <div className="exp-timeline-item">
+                <GlowCard className="exp-card">
+                  <div className="exp-card-header">
+                    <div>
+                      <h3>{role.title}</h3>
+                      <p className="exp-org">{role.org}</p>
+                    </div>
+                    <span className="exp-date-badge">{role.date}</span>
+                  </div>
+                  <ul className="exp-bullets">
+                    {role.bullets.map((b) => (
+                      <li key={b}>{b}</li>
+                    ))}
+                  </ul>
+                </GlowCard>
+              </div>
             </ScrollReveal>
           ))}
         </div>
