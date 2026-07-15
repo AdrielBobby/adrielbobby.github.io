@@ -1,46 +1,77 @@
-// App.jsx — The root component of the entire portfolio.
-// Think of it like the "blueprint" of your page: it decides what sections exist
-// and in what order they appear, but doesn't contain the actual content itself.
-// Each section is its own component imported from the components/ folder.
+// App.jsx — Root component. Orchestrates the full loading sequence.
+//
+// ── State machine ────────────────────────────────────────────────────────────
+//
+//   loading:   true  → Loader is mounted (fullscreen terminal overlay)
+//   ripple:    false → passed to PixelGrid; flips true when Loader calls onDone
+//   heroReady: false → passed to Hero as animateIn; flips true on ripple complete
+//
+// ── Timing sequence (all times relative to page load at T=0) ────────────────
+//
+//   T+0       Page loads. loading=true, ripple=false, heroReady=false.
+//   T+300     Terminal begins typing (START_DELAY inside Loader).
+//   T+1850    Typing complete (31 chars × 50ms).
+//   T+2150    onDone fires from Loader:
+//               • ripple=true  → PixelGrid wave starts from canvas center
+//               • Loader overlay begins CSS fade-out (opacity 1→0 over 400ms)
+//               • 400ms timer starts to unmount Loader
+//   T+2550    Loader unmounts (fade complete, timing matches CSS transition).
+//   T+3150    Wave covers full screen diagonal (RIPPLE_DURATION = 1000ms).
+//               • onRippleComplete fires → heroReady=true
+//               • Hero begins fading in (opacity 0→1, 500ms)
+//               • Hero children stagger in with delays up to 1200ms
+//   T+4350    Scroll indicator fully visible (last element, 1200ms delay).
+//
+// ── Z-index layering ─────────────────────────────────────────────────────────
+//
+//   PixelGrid canvas  →  position:fixed, z-index:0   (always behind everything)
+//   Page content      →  normal flow                  (above fixed z-index:0)
+//   Loader overlay    →  position:fixed, z-index:9999 (topmost)
+//
+// As Loader fades out (opacity 1→0), the PixelGrid ripple is revealed beneath.
 
-// Import each section component. The path './components/Navbar' means
-// "look in the same folder as this file, inside the 'components' sub-folder".
-// Vite automatically adds the '.jsx' extension so we don't need to write it.
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import About from './components/About';
-import Education from './components/Education';
+import { useState, useCallback } from 'react';
+
+import Loader   from './components/Loader';
+
+import Navbar         from './components/Navbar';
+import Hero           from './components/Hero';
+import About          from './components/About';
+import Education      from './components/Education';
 import Certifications from './components/Certifications';
-import Experience from './components/Experience';
-import Projects from './components/Projects';
-import Hackathons from './components/Hackathons';
-import Leadership from './components/Leadership';
-import Contact from './components/Contact';
-import Footer from './components/Footer';
+import Experience     from './components/Experience';
+import Projects       from './components/Projects';
+import Hackathons     from './components/Hackathons';
+import Leadership     from './components/Leadership';
+import Contact        from './components/Contact';
+import Footer         from './components/Footer';
 
-// 'export default' means other files can import this component by any name they like.
-// Here we define a function called App that returns JSX — the page structure.
-// In React, every component is just a function that returns JSX.
 export default function App() {
+  const [loading,   setLoading]   = useState(true);
+  const [heroReady, setHeroReady] = useState(false);
+
+  // Called by Loader when typing + post-typing wait are complete.
+  // Starts the 400ms countdown to unmount the overlay and triggers hero entrance.
+  const handleDone = useCallback(() => {
+    setHeroReady(true);
+    setTimeout(() => setLoading(false), 400);         // → Loader unmounts after fade
+  }, []);
+
   return (
-    // The empty angle brackets <> </> are called a "Fragment".
-    // React components must return a single root element, but we don't want
-    // an extra unnecessary <div> wrapping everything — so we use a Fragment instead.
     <>
-      {/* <header> is a semantic HTML5 element that tells browsers (and screen readers)
-          this area contains navigation / introductory content for the page. */}
+      {/* ── Loader: fullscreen terminal overlay, unmounts after fade ──────────── */}
+      {loading && <Loader onDone={handleDone} />}
+
+      {/* ── Normal page content ───────────────────────────────────────────────── */}
       <header>
-        {/* Render the Navbar component here. React will call the Navbar function
-            and insert the returned JSX at this position. */}
+        {/* Navbar floats above everything at z-index:100 */}
         <Navbar />
       </header>
 
-      {/* <main> is another semantic HTML5 element — it wraps the primary content of the page.
-          Screen readers and Google use it to jump straight to the main content. */}
       <main>
-        {/* Each component below maps to one visible section on the page.
-            To reorder sections on the site, just move these lines around. */}
-        <Hero />
+        {/* Hero receives animateIn so it can coordinate its entrance animations.
+            PixelGrid is no longer rendered inside Hero — it's the App-level canvas above. */}
+        <Hero animateIn={heroReady} />
         <About />
         <Education />
         <Certifications />
@@ -51,7 +82,6 @@ export default function App() {
         <Contact />
       </main>
 
-      {/* Footer lives outside <main> because it's site-wide, not page-content. */}
       <Footer />
     </>
   );

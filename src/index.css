@@ -352,12 +352,8 @@ section {
   justify-content: center;
   align-items: center;
   width: 100%;
-  overflow: hidden;
   box-sizing: border-box;
-  background-color: var(--color-bg);
   border-bottom: none;
-  /* Ensure a clean stacking context for backdrop-filters and absolute children */
-  isolation: isolate;
 }
 
 /* ── Centered content column ── */
@@ -1622,4 +1618,155 @@ section {
 .footer-psst:hover {
   opacity: 1;
   color: var(--color-primary);
-}
+}
+
+
+/* ============================================================
+   LOADER TERMINAL
+   Fullscreen overlay that types the boot command, then fades
+   out to reveal the PixelGrid ripple beneath.
+   ============================================================ */
+
+/* ── Overlay ── */
+.loader-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;           /* pure black — covers everything on load      */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Fade the entire overlay (background + text) so the ripple is revealed   */
+  opacity: 1;
+  transition: opacity 400ms ease;
+  pointer-events: none;       /* don't block scroll/click once fading         */
+}
+
+/* Applied by Loader.jsx when onDone fires — triggers the fade              */
+.loader-overlay.fading {
+  opacity: 0;
+}
+
+/* ── Terminal prompt ── */
+.loader-terminal {
+  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
+  font-size: clamp(0.85rem, 2vw, 1.1rem);
+  color: var(--color-primary);             /* terminal green (--color-green)               */
+  letter-spacing: 0.04em;
+  line-height: 1.6;
+  white-space: pre;           /* preserve spaces in the command string        */
+  display: flex;
+  align-items: center;
+}
+
+/* ── Blinking block cursor ── */
+.loader-cursor {
+  display: inline-block;
+  opacity: 0;                 /* hidden by default                            */
+  color: var(--color-primary);
+  /* no transition — instant blink via JS class toggle                       */
+}
+
+.loader-cursor.visible {
+  opacity: 1;
+}
+
+
+/* ============================================================
+   HERO ENTRANCE ANIMATIONS
+   Uses explicit class names (not :nth-child) so delays are
+   never thrown off by non-.hero-fade-item siblings.
+
+   Initial (hidden) state is defined here. The .animate-in
+   modifier is added by Hero.jsx when animateIn becomes true.
+   ============================================================ */
+
+/* ── Hero section — fade in ── */
+.hero {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.hero.animate-in {
+  opacity: 1;
+}
+
+/* ── ASCII art wrapper — scale reveal ──
+   Scales from a slim horizontal sliver to full size.
+   The abrupt-start spring easing gives a satisfying "pop".  */
+.hero-ascii {
+  transform: scaleX(0.04) scaleY(0);
+  transform-origin: center center;
+  transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-ascii.animate-in {
+  transform: scaleX(1) scaleY(1);
+}
+
+/* ── Status line — simple fade, no delay ── */
+.hero-status {
+  opacity: 0;
+  transition: opacity 500ms ease;
+}
+
+.hero-status.animate-in {
+  opacity: 1;
+}
+
+/* ── Subtitle — fade up, delay 300ms ── */
+.hero-subtitle {
+  opacity: 0;
+  transform: translateY(15px);
+  transition:
+    opacity   700ms ease 300ms,
+    transform 700ms ease 300ms;
+}
+
+.hero-subtitle.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Tagline — fade up, delay 500ms ── */
+.hero-tagline {
+  opacity: 0;
+  transform: translateY(15px);
+  transition:
+    opacity   700ms ease 500ms,
+    transform 700ms ease 500ms;
+}
+
+.hero-tagline.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── CTA buttons — fade up, delay 800ms ── */
+.hero-actions {
+  opacity: 0;
+  transform: translateY(15px);
+  transition:
+    opacity   700ms ease 800ms,
+    transform 700ms ease 800ms;
+}
+
+.hero-actions.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Scroll indicator — fade up, delay 1200ms ── */
+.hero-scroll-indicator {
+  opacity: 0;
+  transform: translateY(15px);
+  transition:
+    opacity   700ms ease 1200ms,
+    transform 700ms ease 1200ms;
+}
+
+.hero-scroll-indicator.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
