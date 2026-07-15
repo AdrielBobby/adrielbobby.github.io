@@ -483,55 +483,6 @@ section {
   z-index: 2;
 }
 
-/* ── Hero content fade-up animation — CSS only, no JS thread needed ──
-   Uses transform + opacity exclusively — guaranteed compositor thread on mobile.
-   Items start invisible and slide up; .hero-animate-in class (added by Hero.jsx
-   once the loader finishes) triggers the transitions with staggered delays. */
-
-/* Hero section fades in so it cross-fades with the dissolving loader
-   instead of snapping in hard. */
-#hero {
-  opacity: 0;
-  transition: opacity 0.5s ease-out;
-}
-#hero.hero-animate-in {
-  opacity: 1;
-}
-
-/* Hero content fade-up animation — compositor-thread only */
-.hero-fade-item {
-  opacity: 0;
-  transform: translateY(15px);
-  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
-}
-
-.hero-animate-in .hero-fade-item {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ASCII art block — starts collapsed and expands outward when
-   hero-animate-in fires, creating a cursor-to-ASCII morph effect. */
-.hero-ascii {
-  transform: scaleX(0.04) scaleY(0);
-  transform-origin: left center;
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  overflow: hidden;
-  will-change: transform;
-}
-.hero-animate-in .hero-ascii {
-  transform: scaleX(1) scaleY(1);
-}
-
-/* Staggered delays — all items now delayed so nothing appears
-   before the section itself has started fading in. */
-.hero-animate-in .hero-content .hero-fade-item:nth-child(1) { transition-delay: 0.3s; }
-.hero-animate-in .hero-content .hero-fade-item:nth-child(2) { transition-delay: 0.5s; }
-.hero-animate-in .hero-content .hero-fade-item:nth-child(3) { transition-delay: 0.8s; }
-.hero-animate-in .hero-content .hero-fade-item:nth-child(4) { transition-delay: 1.2s; }
-.hero-animate-in .hero-content .hero-fade-item:nth-child(5) { transition-delay: 1.6s; }
-/* Scroll indicator (direct child of .hero section) */
-.hero-animate-in > .hero-scroll-indicator { transition-delay: 2.0s; }
 
 .scroll-label {
   font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
@@ -1231,9 +1182,8 @@ section {
 }
 
 /* Bio lines typed out after the command — scoped to .terminal-body so this
-   selector (0-2-0 specificity) beats the generic .terminal-line block defined
-   later in the loader section (0-1-0), which was overriding align-items and
-   flex-wrap and causing the arrow to detach from its text on narrow screens. */
+   selector (0-2-0 specificity) keeps align-items and flex-wrap correct,
+   preventing the arrow from detaching from its text on narrow screens. */
 .terminal-body .terminal-output {
   color: var(--color-green);
   display: flex;
@@ -1599,120 +1549,6 @@ section {
   }
 }
 
-/* ── Loading Screen ── */
-#loader {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  /* Solid black background ensures grid-cell seams are invisible.
-     Previously removed, but sub-pixel gaps between spans caused visible lines. */
-  background-color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-}
-
-.terminal-loader {
-  font-family: 'Fira Code', 'JetBrains Mono', 'Courier New', monospace;
-  font-size: 1.5rem;
-  color: #fff;
-  width: fit-content;
-  margin: 0 auto;
-  padding: 20px;
-  position: relative;
-  z-index: 2;
-}
-
-.terminal-line {
-  display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.prompt-path {
-  color: #a0a0a0;
-}
-
-.loader-typed-text {
-  color: #fff;
-  font-weight: bold;
-  display: inline-block;
-}
-
-.loader-cursor {
-  color: #8b5cf6;
-  animation: blink 1s step-end infinite;
-  display: inline-block; /* Needed for transform */
-  transition: transform 0.5s cubic-bezier(0.2, 1, 0.4, 1);
-  /* blink keyframes already exist — do NOT redefine */
-}
-
-/* The pixel grid — sits behind terminal text, covers entire screen */
-.pixel-grid {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  grid-template-columns: repeat(var(--grid-cols, 20), 1fr);
-  grid-template-rows: repeat(var(--grid-rows, 20), 1fr);
-  /* Explicitly zero the gap and clip any fractional-pixel bleed at edges */
-  gap: 0;
-  overflow: hidden;
-  z-index: 1;
-  pointer-events: none;
-}
-
-/* Each pixel cell */
-.pixel-grid span {
-  background-color: #000;
-  transition: none;
-  /* Promote cells to their own compositor layer before dissolve fires —
-     eliminates the paint flash at animation-start. */
-  will-change: opacity, transform;
-}
-
-/* When dissolving, fade out the text but let JS translate the cursor */
-#loader.dissolving .prompt-path,
-#loader.dissolving .loader-typed-text {
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.loader-typed-text span {
-  opacity: 0;
-  animation: typing-fade 0.3s ease forwards;
-}
-
-@keyframes typing-fade {
-  from { opacity: 0; transform: translateY(2px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-#loader.dissolving .pixel-grid span {
-  animation: pixel-dissolve 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: var(--delay, 0ms);
-}
-
-@keyframes pixel-dissolve {
-  0% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  100% {
-    opacity: 0;
-    transform: scale(0.4);
-  }
-}
-
-/* Respect reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  #loader.dissolving .pixel-grid span {
-    animation: none;
-    opacity: 0;
-    transition: opacity 0.01ms;
-  }
-}
 
 /* ===== Easter Egg Modal ===== */
 .easter-backdrop {

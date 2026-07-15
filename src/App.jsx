@@ -6,7 +6,6 @@
 // Import each section component. The path './components/Navbar' means
 // "look in the same folder as this file, inside the 'components' sub-folder".
 // Vite automatically adds the '.jsx' extension so we don't need to write it.
-import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import About from './components/About';
@@ -18,31 +17,16 @@ import Hackathons from './components/Hackathons';
 import Leadership from './components/Leadership';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Loader from './components/Loader';
 
 // 'export default' means other files can import this component by any name they like.
 // Here we define a function called App that returns JSX — the page structure.
 // In React, every component is just a function that returns JSX.
 export default function App() {
-  const [loading, setLoading] = useState(true);
-  const [heroReady, setHeroReady] = useState(false);
-
-  // Restore <main> visibility after loader finishes.
-  // We hide it in index.html to prevent a flash before React mounts.
-  useEffect(() => {
-    if (!loading) {
-      const main = document.querySelector('main');
-      if (main) main.style.visibility = 'visible';
-    }
-  }, [loading]);
-
   return (
     // The empty angle brackets <> </> are called a "Fragment".
     // React components must return a single root element, but we don't want
     // an extra unnecessary <div> wrapping everything — so we use a Fragment instead.
     <>
-      {loading && <Loader onDone={() => { setLoading(false); setHeroReady(true); }} />}
-      
       {/* <header> is a semantic HTML5 element that tells browsers (and screen readers)
           this area contains navigation / introductory content for the page. */}
       <header>
@@ -56,7 +40,7 @@ export default function App() {
       <main>
         {/* Each component below maps to one visible section on the page.
             To reorder sections on the site, just move these lines around. */}
-        <Hero animateIn={heroReady} />
+        <Hero />
         <About />
         <Education />
         <Certifications />

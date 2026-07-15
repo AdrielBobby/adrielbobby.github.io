@@ -24,13 +24,7 @@ const STATUS_MESSAGES = [
   'deploying honeypots…',
 ];
 
-// ── Stagger timing constants (kept for DecryptText startDelay) ──────
-// These match the CSS transition-delay values in index.css so both
-// the CSS fade-up and the decrypt text animations stay in sync.
-const STAGGER_DELAY = 0.8; // starts just after ASCII art completes
-const CHILD_GAP = 0.4;     // generous gap for dramatic effect
-
-export default function Hero({ animateIn = false }) {
+export default function Hero() {
   // ── Rotating status line ──────────────────────────────────────────
   const [statusIdx, setStatusIdx] = useState(0);
 
@@ -41,19 +35,8 @@ export default function Hero({ animateIn = false }) {
     return () => clearInterval(id);
   }, []);
 
-  // Delay ASCII animation by one rAF after animateIn fires.
-  // Ensures loader is fully removed from DOM before ASCII scramble starts
-  // — prevents loader dissolve and ASCII scramble competing for main thread.
-  const [asciiReady, setAsciiReady] = useState(false);
-  useEffect(() => {
-    if (!animateIn) return;
-    // Start scramble immediately on mount (which now happens after loader cursor centers)
-    const id = requestAnimationFrame(() => setAsciiReady(true));
-    return () => cancelAnimationFrame(id);
-  }, [animateIn]);
-
   return (
-    <section id="hero" className={`hero${animateIn ? ' hero-animate-in' : ''}`}>
+    <section id="hero" className="hero">
 
       <PixelGrid />
 
@@ -64,44 +47,40 @@ export default function Hero({ animateIn = false }) {
 
         {/* ── ASCII art block (decrypt + glitch handled internally) ── */}
         <div className="hero-ascii">
-          <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={asciiReady} />
+          <AsciiDecrypt lines={ASCII_ART} speed={25} glitchDuration={150} animate={true} />
         </div>
 
-        {/* ── Status line — CSS opacity transition, no JS animation lib ── */}
+        {/* ── Status line ── */}
         <p
           className="hero-status"
           key={statusIdx}
-          style={{
-            opacity: animateIn ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}
         >
           <span className="hero-status-label">status:</span>{' '}
           {STATUS_MESSAGES[statusIdx]}
         </p>
 
-        {/* ── Subtitle (hero-fade-item index 1) ── */}
-        <p className="hero-subtitle hero-fade-item">
+        {/* ── Subtitle ── */}
+        <p className="hero-subtitle">
           <DecryptText
             text="Computer Science Engineer"
             speed={17}
-            startDelay={STAGGER_DELAY * 1000}
-            animate={animateIn}
+            startDelay={0}
+            animate={true}
           />
         </p>
 
-        {/* ── Tagline (hero-fade-item index 2) ── */}
-        <p className="hero-tagline hero-fade-item">
+        {/* ── Tagline ── */}
+        <p className="hero-tagline">
           <DecryptText
             text="Breaking into cybersecurity one packet at a time."
             speed={15}
-            startDelay={(STAGGER_DELAY + CHILD_GAP) * 1000}
-            animate={animateIn}
+            startDelay={0}
+            animate={true}
           />
         </p>
 
-        {/* ── CTA buttons (hero-fade-item index 3) ── */}
-        <div className="hero-actions hero-fade-item">
+        {/* ── CTA buttons ── */}
+        <div className="hero-actions">
           <a href="#projects" className="btn btn-primary">View My Work</a>
           <a
             href="/Resume_v3.pdf"
@@ -114,16 +93,16 @@ export default function Hero({ animateIn = false }) {
         </div>
       </div>
 
-      {/* ── Scroll indicator (hero-fade-item index 4) ── */}
-      <div className="hero-scroll-indicator hero-fade-item">
+      {/* ── Scroll indicator ── */}
+      <div className="hero-scroll-indicator">
         {/* Use inline paddingLeft to perfectly balance the 0.25em letter-spacing on the right.
             Wrapping in a div ensures HMR instantly updates the UI regardless of CSS cache. */}
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <DecryptText
             text="SCROLL"
             speed={20}
-            startDelay={(STAGGER_DELAY + 3 * CHILD_GAP) * 1000}
-            animate={animateIn}
+            startDelay={0}
+            animate={true}
             className="scroll-label"
             style={{ marginRight: '-0.25em' }} /* Mathematically offsets the trailing 0.25em letter-spacing */
           />
