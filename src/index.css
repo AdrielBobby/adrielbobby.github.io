@@ -1632,18 +1632,29 @@ section {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;           /* pure black — covers everything on load      */
+  background: transparent;
   display: flex;
   align-items: center;
   justify-content: center;
-  /* Fade the entire overlay (background + text) so the ripple is revealed   */
-  opacity: 1;
-  transition: opacity 400ms ease;
-  pointer-events: none;       /* don't block scroll/click once fading         */
+  pointer-events: none;
 }
 
-/* Applied by Loader.jsx when onDone fires — triggers the fade              */
-.loader-overlay.fading {
+/* Fragment base */
+.loader-fragment {
+  position: absolute;
+  inset: 0;
+  background: #07080d;
+  clip-path: var(--clip);
+  transform: translate(0, 0) rotate(0deg);
+  opacity: 1;
+  transition: transform 400ms cubic-bezier(0.55, 0, 1, 0.45) var(--delay, 0ms),
+              opacity 200ms ease calc(var(--delay, 0ms) + 200ms);
+  z-index: 1;
+}
+
+/* Fragment exit */
+.loader-overlay.shattering .loader-fragment {
+  transform: translate(var(--tx), var(--ty)) rotate(var(--rot));
   opacity: 0;
 }
 
@@ -1657,6 +1668,19 @@ section {
   white-space: pre;           /* preserve spaces in the command string        */
   display: flex;
   align-items: center;
+  z-index: 10;
+}
+
+/* Glitch effect */
+@keyframes glitch-text {
+  0%, 100% { text-shadow: -3px 0 red, 3px 0 cyan; transform: skewX(0deg); }
+  25% { text-shadow: 3px 0 red, -3px 0 cyan; transform: skewX(1deg); }
+  50% { text-shadow: -3px 0 red, 3px 0 cyan; transform: skewX(-1deg); }
+  75% { text-shadow: none; transform: skewX(0deg); }
+}
+
+.loader-terminal.glitching {
+  animation: glitch-text 50ms steps(1) infinite;
 }
 
 /* ── Blinking block cursor ── */

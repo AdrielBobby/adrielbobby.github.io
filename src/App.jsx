@@ -50,17 +50,15 @@ export default function App() {
   const [loading,   setLoading]   = useState(true);
   const [heroReady, setHeroReady] = useState(false);
 
-  // Called by Loader when typing + post-typing wait are complete.
-  // Starts the 400ms countdown to unmount the overlay and triggers hero entrance.
-  const handleDone = useCallback(() => {
+  const handleShatterComplete = useCallback(() => {
+    setLoading(false);
     setHeroReady(true);
-    setTimeout(() => setLoading(false), 400);         // → Loader unmounts after fade
   }, []);
 
   return (
     <>
-      {/* ── Loader: fullscreen terminal overlay, unmounts after fade ──────────── */}
-      {loading && <Loader onDone={handleDone} />}
+      {/* ── Loader: fullscreen terminal overlay, unmounts after shatter ──────────── */}
+      {loading && <Loader onShatterComplete={handleShatterComplete} />}
 
       {/* ── Normal page content ───────────────────────────────────────────────── */}
       <header>
