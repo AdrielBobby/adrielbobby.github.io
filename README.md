@@ -1,26 +1,78 @@
-# adrielbobby.github.io
+# Adriel Bobby — Portfolio
 
-My personal portfolio website.
+Personal portfolio of Adriel Bobby, a Computer Science Engineering student specializing in cybersecurity and ethical hacking.
+
+**Live site:** https://adrielbobby.github.io/
 
 ## Overview
 
-This site is my web‑based CV as a Computer Science Engineering student focused on **cybersecurity** and ethical hacking.[page:1]
+A single-page site with a terminal-inspired design that presents my background, work, and security interests.
 
-It showcases:
+### Sections
 
-- Terminal‑style hero section with my tagline “Breaking into cybersecurity one packet at a time”.[page:1]
-- About section with background, technical skills, and interests in offensive security, web app security, and network security.[page:1]
-- Education history (B.Tech CSE at Rajagiri + CBSE 10/12).[page:1]
-- Certifications, including a Certified Penetration Tester course from RedTeam Academy.[page:1]
-- Projects ranging from a Vaccine Dispatch Tracker to a homelab for pentesting and fun side builds like MIS‑COMMUNICATION‑NATER and an ESP32 Marauder setup.[page:1]
-- Hackathon submissions and a leadership section highlighting my role with IEEE RSET SB.[page:1]
-- An interactive “Secure Uplink” contact console with ASCII satellite, decryption animation, and secure channel reveal for my email and socials.[page:1]
+- **Boot sequence:** a fullscreen terminal loader that transitions into the hero.
+- **Hero:** an interactive WebGL pixel-grid background with animated entrance.
+- **About:** background, technical skills, focus areas in offensive security, web application security, and network security, and a GitHub contribution calendar.
+- **Education:** B.Tech in Computer Science Engineering at Rajagiri School of Engineering and Technology (2024–2028), plus CBSE Class X and XII.
+- **Experience:** Cybersecurity Intern at Kerala Police Cyberdome (Android malware analysis with MobSF, Frida, Genymotion, and ADB).
+- **Leadership and Communities:** Electronic Communications Coordinator and Technical Coordinator at IEEE RSET Student Branch.
+- **Certifications:** including the Certified Penetration Tester course from RedTeam Academy.
+- **Projects:** Vaccine Dispatch Tracker, ESP32 Marauder, a cybersecurity homelab, PoolDetect AI, Calm-Cockpit, and other builds.
+- **Hackathons:** prize-winning submissions, including a vertical-axis wind turbine street lamp and the KruizeX transit queue ideathon.
+- **Contact:** an interactive "Secure Uplink" console with an ASCII satellite and a decryption animation that reveals email and social links.
 
-Live site: https://adrielbobby.github.io/
+## Tech Stack
 
-## Tech stack
+| Area | Tools |
+| --- | --- |
+| Framework | React 18, Vite |
+| Animation | Framer Motion, CSS animations |
+| Graphics | Three.js, postprocessing (WebGL) |
+| Data | react-github-calendar (contribution graph) |
+| Deployment | GitHub Pages via `gh-pages` |
 
-- HTML for structure (`index.html`)
-- CSS for layout, theming, and animations (`styles.css`)
-- JavaScript for interactive elements like navigation behavior and the secure uplink console (`script.js`)
-- Assets (icons, images) served from the `/assets` 
+## Getting Started
+
+**Prerequisites:** Node.js 20.19 or later and npm.
+
+```bash
+# Clone the repository
+git clone https://github.com/AdrielBobby/adrielbobby.github.io.git
+cd adrielbobby.github.io
+
+# Install dependencies
+npm install
+
+# Start the development server
+npm run dev
+```
+
+## Scripts
+
+| Command | Description |
+| --- | --- |
+| `npm run dev` | Start the Vite dev server with hot reload |
+| `npm run build` | Create a production build in `dist/` |
+| `npm run preview` | Preview the production build locally |
+| `npm run deploy` | Publish `dist/` to GitHub Pages |
+
+## Project Structure
+
+```
+├── public/            Static assets (resume PDF, favicon)
+├── src/
+│   ├── components/    Section and UI components
+│   ├── App.jsx        App shell and loader state machine
+│   ├── main.jsx       Entry point
+│   └── index.css      Global styles and theme variables
+├── index.html
+└── vite.config.js
+```
+
+## Deployment
+
+Run `npm run deploy` to build the site and publish `dist/` to the `gh-pages` branch.
+
+## Contact
+
+Reach me through the contact section on the [live site](https://adrielbobby.github.io/).
