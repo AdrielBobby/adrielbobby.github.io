@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Navbar: collapsed and expanded</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0f1211; --dark2:#1a1f1d; --line:#2e3532; --fg:#eceef2; --muted:#a3aba7; --green:#4fb08a; --greenL:#337058; --light:#e7e9e6; --mono:"JetBrains Mono",monospace; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ink); color:var(--fg); font-family:Manrope,system-ui,sans-serif; line-height:1.55; padding:32px clamp(16px,4vw,56px) 80px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { font:400 34px/1.1 "Young Serif",serif; margin:0 0 10px; }
+  h2 { font:400 12px/1.3 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin:44px 0 10px; }
+  .intro, .note { color:var(--muted); max-width:78ch; margin:0 0 6px; }
+  .note { font-size:14px; margin-top:16px; }
+  .mono { font:400 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+  .grid { display:grid; grid-template-columns:110px 200px minmax(0,1fr); gap:10px; align-items:stretch; }
+  .head { color:var(--muted); padding:0 0 4px; }
+  .rowlab { color:var(--muted); display:flex; align-items:center; }
+  .stage { height:130px; display:flex; justify-content:center; align-items:flex-start; padding-top:22px; border:1px solid var(--line); overflow:hidden; position:relative; }
+  .s-dark { background:var(--ink); }
+  .s-green { background:var(--green); border-color:var(--green); }
+  .s-light { background:var(--light); border-color:#c3c8c4; }
+  .fake { position:absolute; left:50%; bottom:-6px; width:60%; transform:translateX(-50%); height:34px; border-radius:6px 6px 0 0; opacity:.5; }
+  .s-dark .fake { background:var(--dark2); } .s-green .fake { background:#3f9a76; } .s-light .fake { background:#d3d7d3; }
+
+  /* ---------- the navbar ---------- */
+  .nav { --pbg:rgba(26,31,29,.86); --pbd:#2e3532; --tx:#a3aba7; --txh:#eceef2; --ac:#4fb08a; --mkbg:#4fb08a; --mkfg:#0f1211; --resbd:#4fb08a;
+         position:relative; z-index:2; }
+  .nav.t-green { --pbg:rgba(15,18,17,.92); --pbd:#0f1211; --tx:#a3aba7; --txh:#eceef2; --ac:#4fb08a; --mkbg:#4fb08a; --mkfg:#0f1211; }
+  .nav.t-light { --pbg:rgba(242,243,241,.9); --pbd:#c3c8c4; --tx:#566059; --txh:#12141a; --ac:#337058; --mkbg:#337058; --mkfg:#e7e9e6; --resbd:#337058; }
+  .pill { display:inline-flex; align-items:center; padding:5px; border:1px solid var(--pbd); border-radius:999px; background:var(--pbg); backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px); }
+  .grp { display:flex; align-items:center; gap:2px; overflow:hidden; max-width:0; opacity:0; transition:max-width .42s cubic-bezier(.2,.8,.2,1), opacity .22s ease; white-space:nowrap; }
+  .grp.l { justify-content:flex-end; } .grp.r { justify-content:flex-start; }
+  .nav.open .grp { max-width:360px; opacity:1; }
+  .grp a { font:600 14px/1 Manrope,sans-serif; color:var(--tx); text-decoration:none; padding:11px 13px; border-radius:999px; position:relative; transition:color .15s; }
+  .grp a:hover, .grp a:focus-visible { color:var(--txh); }
+  .grp a.on { color:var(--ac); }
+  .grp a.on::after { content:""; position:absolute; left:50%; bottom:4px; width:4px; height:4px; margin-left:-2px; border-radius:50%; background:var(--ac); }
+  .grp a.res { border:1px solid var(--resbd); color:var(--ac); padding:9px 14px; margin-left:6px; }
+  .grp a.res:hover { background:var(--ac); color:var(--mkfg); }
+  .mk { width:42px; height:42px; padding:0; margin:0 3px; border:0; background:none; cursor:pointer; border-radius:50%; display:grid; place-items:center; flex:none; }
+  .mk:focus-visible, .grp a:focus-visible { outline:2px solid var(--ac); outline-offset:2px; }
+  .mk svg { width:34px; height:34px; display:block; }
+  .nav .mk svg polygon { fill:var(--mkbg); } .nav .mk svg text { fill:var(--mkfg); }
+  @media (prefers-reduced-motion: reduce){ .grp { transition:none; } }
+
+  .live { height:190px; background:var(--ink); border:1px solid var(--line); display:flex; flex-direction:column; align-items:center; padding-top:22px; gap:14px; position:relative; }
+  .live .hint { color:var(--muted); }
+  .controls { display:flex; gap:8px; flex-wrap:wrap; justify-content:center; }
+  .btn { background:none; border:1px solid var(--line); color:var(--muted); font:400 12px/1 var(--mono); letter-spacing:.06em; text-transform:uppercase; padding:9px 12px; cursor:pointer; }
+  .btn:hover { color:var(--fg); border-color:var(--muted); }
+  ul.rules { color:var(--muted); padding-left:18px; max-width:80ch; }
+  ul.rules li { margin:6px 0; }
+  ul.rules b { color:var(--fg); font-weight:600; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono" style="color:var(--green);letter-spacing:.12em">NAVBAR / SKETCH</div>
+  <h1>The kv pill, collapsed and expanded</h1>
+  <p class="intro">Fixed at the top centre of every page. Collapsed it is just the kv mark in a small pill. Expanded it opens outward from the mark: About, Projects, Skills on the left, Experience, Contact and Resume on the right. Desktop only for now.</p>
+
+  <h2>1. The two states on each surface</h2>
+  <div class="grid" id="states">
+    <div></div><div class="head mono">Collapsed</div><div class="head mono">Expanded (Projects active)</div>
+  </div>
+
+  <h2>2. Try it</h2>
+  <div class="live" id="live">
+    <span class="mono hint">Hover or focus the kv mark. Click it to pin open.</span>
+  </div>
+  <div class="controls" style="margin-top:12px;justify-content:flex-start">
+    <button class="btn" data-surf="dark">Graphite</button>
+    <button class="btn" data-surf="green">Green</button>
+    <button class="btn" data-surf="light">Pale grey</button>
+    <button class="btn" id="cycle">Move active section</button>
+  </div>
+
+  <h2>3. How it behaves</h2>
+  <ul class="rules">
+    <li><b>At the very top of the page</b> (the opening animation) only the kv mark shows, so the animation stays clean.</li>
+    <li><b>After the opening</b> it opens when you hover or tab to the mark, and closes when you leave. Click pins it open, click again closes it.</li>
+    <li><b>The active section</b> gets the surface's accent colour and a small dot. It updates as you scroll.</li>
+    <li><b>Colour follows the scene</b>: dark pill on graphite and green, light pill on pale grey, mark always the site green.</li>
+    <li><b>Resume</b> is the only outlined item, because it opens a PDF instead of scrolling.</li>
+    <li><b>Case file pages</b> use the same pill, with "Projects" marked active and a back link beside it.</li>
+    <li><b>Accessibility</b>: the mark is a button with an expanded state, links are real links, the open animation is switched off for reduced motion.</li>
+  </ul>
+  <p class="note">The pill borrows the notched tile from the logo page, so the favicon, the opening tile and the nav all read as one mark.</p>
+</div>
+
+<script>
+const ITEMS_L=['About','Projects','Skills'], ITEMS_R=['Experience','Contact','Resume'];
+const MARK='<svg viewBox="0 0 64 64" aria-hidden="true"><polygon points="12.8,0 51.2,0 64,12.8 64,51.2 51.2,64 12.8,64 0,51.2 0,12.8"/><text x="32" y="43" text-anchor="middle" font-family="\'Young Serif\',serif" font-size="30">kv</text></svg>';
+function navHTML(theme,open,active){
+  const a=(t)=>`<a href="#${t.toLowerCase()}" class="${t==='Resume'?'res':''} ${t===active?'on':''}">${t}</a>`;
+  return `<div class="nav t-${theme} ${open?'open':''}"><div class="pill"><div class="grp l">${ITEMS_L.map(a).join('')}</div><button class="mk" type="button" aria-label="Open menu" aria-expanded="${open}">${MARK}</button><div class="grp r">${ITEMS_R.map(a).join('')}</div></div></div>`;
+}
+const SURF={dark:'Graphite',green:'Green page',light:'Pale grey'};
+document.getElementById('states').insertAdjacentHTML('beforeend',
+  Object.keys(SURF).map(k=>`<div class="rowlab mono">${SURF[k]}</div>
+    <div class="stage s-${k}"><div class="fake"></div>${navHTML(k,false,'Projects')}</div>
+    <div class="stage s-${k}"><div class="fake"></div>${navHTML(k,true,'Projects')}</div>`).join(''));
+
+// live demo
+const live=document.getElementById('live'); let surf='dark', active='Projects', pinned=false;
+const order=['About','Projects','Skills','Experience','Contact'];
+function render(){
+  const old=live.querySelector('.nav'); if(old) old.remove();
+  live.style.background={dark:'#0f1211',green:'#4fb08a',light:'#e7e9e6'}[surf];
+  live.style.borderColor={dark:'#2e3532',green:'#4fb08a',light:'#c3c8c4'}[surf];
+  live.querySelector('.hint').style.color={dark:'#a3aba7',green:'#0f1211',light:'#566059'}[surf];
+  live.insertAdjacentHTML('afterbegin',navHTML(surf,pinned,active));
+  bind();
+}
+function bind(){
+  const nav=live.querySelector('.nav'), mk=nav.querySelector('.mk');
+  const set=(o)=>{nav.classList.toggle('open',o); mk.setAttribute('aria-expanded',o);};
+  nav.addEventListener('mouseenter',()=>set(true));
+  nav.addEventListener('mouseleave',()=>set(pinned));
+  nav.addEventListener('focusin',()=>set(true));
+  nav.addEventListener('focusout',(e)=>{ if(!nav.contains(e.relatedTarget)) set(pinned); });
+  mk.addEventListener('click',()=>{pinned=!pinned; set(pinned);});
+  nav.querySelectorAll('a').forEach(l=>l.addEventListener('click',e=>e.preventDefault()));
+}
+document.querySelectorAll('[data-surf]').forEach(b=>b.addEventListener('click',()=>{surf=b.dataset.surf;render();}));
+document.getElementById('cycle').addEventListener('click',()=>{active=order[(order.indexOf(active)+1)%order.length];render();});
+render();
+</script>
+</body>
+</html>

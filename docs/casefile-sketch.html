@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Case file: Thaalam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --bg:#0f1211; --bg2:#1a1f1d; --line:#2e3532; --fg:#eceef2; --muted:#a3aba7; --green:#4fb08a; --accent:#d9a441; --on-accent:#0f1211; --mono:"JetBrains Mono",monospace; }
+  :root[data-theme="light"] { --bg:#e7e9e6; --bg2:#f2f3f1; --line:#c3c8c4; --fg:#12141a; --muted:#566059; --green:#337058; --accent:#8a6410; --on-accent:#e7e9e6; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--fg); font-family:Manrope,system-ui,sans-serif; line-height:1.6; transition:background .3s,color .3s; }
+  a { color:inherit; }
+  .mono { font:400 12px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+  .top { position:sticky; top:0; z-index:5; display:grid; grid-template-columns:1fr auto 1fr; align-items:center; padding:12px clamp(16px,4vw,48px); background:color-mix(in srgb,var(--bg) 88%,transparent); backdrop-filter:blur(8px); border-bottom:1px solid var(--line); }
+  .top .back { color:var(--muted); text-decoration:none; justify-self:start; }
+  .top .back:hover { color:var(--accent); }
+  .top .kv { width:32px; height:32px; }
+  .top .theme { justify-self:end; background:none; border:1px solid var(--line); color:var(--muted); font:inherit; padding:6px 10px; cursor:pointer; }
+  .wrap { max-width:1240px; margin:0 auto; padding:0 clamp(16px,4vw,48px); }
+  header.hero { padding:clamp(40px,8vw,96px) 0 32px; border-bottom:1px solid var(--line); }
+  .stamp { display:inline-flex; gap:10px; align-items:center; color:var(--accent); border:1px solid var(--accent); padding:6px 10px; margin-bottom:22px; }
+  .stamp i { width:8px; height:8px; background:var(--accent); display:block; }
+  h1 { font:400 clamp(48px,9vw,120px)/.98 "Young Serif",serif; margin:0 0 16px; letter-spacing:-.015em; }
+  .sub { font-size:clamp(17px,2vw,22px); color:var(--muted); max-width:52ch; margin:0; }
+  .layout { display:grid; grid-template-columns:300px minmax(0,1fr); gap:clamp(28px,5vw,72px); padding:40px 0 96px; align-items:start; }
+  aside { position:sticky; top:72px; align-self:start; }
+  .card { border:1px solid var(--line); background:var(--bg2); }
+  .card .head { display:flex; justify-content:space-between; padding:12px 16px; border-bottom:1px solid var(--line); color:var(--accent); }
+  dl { margin:0; }
+  .row { padding:11px 16px; border-bottom:1px solid var(--line); display:grid; gap:2px; }
+  .row:last-child { border-bottom:0; }
+  dt { color:var(--muted); font:400 11px/1.3 var(--mono); letter-spacing:.1em; text-transform:uppercase; }
+  dd { margin:0; font-weight:600; font-size:15px; }
+  .tags { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
+  .tags span { font:400 11px/1 var(--mono); border:1px solid var(--line); padding:5px 7px; color:var(--muted); }
+  nav.toc { margin-top:20px; display:grid; }
+  nav.toc a { text-decoration:none; color:var(--muted); font:400 12px/1.3 var(--mono); letter-spacing:.08em; text-transform:uppercase; padding:9px 0 9px 14px; border-left:2px solid var(--line); }
+  nav.toc a.on { color:var(--accent); border-left-color:var(--accent); }
+  nav.toc a:hover { color:var(--fg); }
+  section { padding:0 0 56px; scroll-margin-top:84px; }
+  section > .mono { color:var(--accent); display:block; margin-bottom:10px; }
+  h2 { font:400 clamp(28px,3.4vw,42px)/1.1 "Young Serif",serif; margin:0 0 16px; }
+  p { margin:0 0 14px; max-width:68ch; }
+  .photo { aspect-ratio:16/9; border:1px dashed var(--accent); display:grid; place-items:center; color:var(--accent); background:repeating-linear-gradient(135deg,transparent 0 14px,color-mix(in srgb,var(--accent) 10%,transparent) 14px 15px); margin-bottom:48px; text-align:center; padding:16px; }
+  .outcome { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); border:1px solid var(--line); }
+  .outcome div { padding:18px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); margin:0 -1px -1px 0; }
+  .outcome b { display:block; font:400 34px/1.1 "Young Serif",serif; color:var(--accent); }
+  .outcome span { color:var(--muted); font-size:14px; }
+  .flow { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:0; border:1px solid var(--line); margin:18px 0; }
+  .flow div { padding:18px; border-right:1px solid var(--line); background:var(--bg2); position:relative; }
+  .flow div:last-child { border-right:0; }
+  .flow div + div::before { content:"\2192"; position:absolute; left:-11px; top:16px; background:var(--bg); color:var(--accent); width:22px; text-align:center; z-index:1; }
+  .flow h3 { font:400 12px/1.3 var(--mono); letter-spacing:.1em; text-transform:uppercase; color:var(--accent); margin:0 0 8px; }
+  .flow p { font-size:14px; color:var(--muted); margin:0; }
+  .decisions { list-style:none; margin:0; padding:0; counter-reset:d; border-top:1px solid var(--line); }
+  .decisions li { counter-increment:d; padding:20px 0 20px 52px; border-bottom:1px solid var(--line); position:relative; }
+  .decisions li::before { content:counter(d,decimal-leading-zero); position:absolute; left:0; top:22px; font:400 13px/1 var(--mono); color:var(--accent); }
+  .decisions h3 { margin:0 0 4px; font-size:18px; }
+  .decisions p { margin:0; color:var(--muted); font-size:15px; }
+  .evidence { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+  .ev { border:1px solid var(--line); background:var(--bg2); padding:16px; }
+  .ev .mono { color:var(--accent); display:block; margin-bottom:6px; }
+  .ev p { font-size:14px; color:var(--muted); margin:0; }
+  .links { display:flex; flex-wrap:wrap; gap:10px; }
+  .btn { display:inline-block; text-decoration:none; padding:11px 16px; font-weight:600; font-size:15px; border:1px solid var(--accent); color:var(--accent); }
+  .btn.solid { background:var(--accent); color:var(--on-accent); }
+  .btn:hover { filter:brightness(1.1); }
+  .next { border-top:1px solid var(--line); padding:32px 0 64px; display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--muted); }
+  .draft { margin:0 0 28px; padding:12px 14px; border:1px dashed var(--line); color:var(--muted); font-size:14px; }
+  @media (max-width:900px){ .layout { grid-template-columns:1fr; } aside { position:static; } nav.toc { display:none; } .flow { grid-template-columns:1fr; } .flow div { border-right:0; border-bottom:1px solid var(--line); } .flow div:last-child { border-bottom:0; } .flow div + div::before { content:"\2193"; left:16px; top:-12px; } }
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+</style>
+</head>
+<body>
+<div class="top">
+  <a class="back mono" href="#">&larr; Projects</a>
+  <svg class="kv" viewBox="0 0 64 64" role="img" aria-label="kv"><polygon points="12.8,0 51.2,0 64,12.8 64,51.2 51.2,64 12.8,64 0,51.2 0,12.8" fill="var(--green)"/><text x="32" y="43" text-anchor="middle" font-family="'Young Serif',serif" font-size="30" fill="var(--bg)">kv</text></svg>
+  <button class="theme mono" id="theme" type="button">Light</button>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="stamp mono"><i></i> Case file 01 / Winner, Best Use of Gemma</div>
+    <h1>Thaalam</h1>
+    <p class="sub">A glove that teaches chenda rhythm. On-device Gemma turns any track into a finger-by-finger lesson, then coaches you back in Malayalam.</p>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <div class="card">
+        <div class="head mono"><span>File 01</span><span>Shipped</span></div>
+        <dl>
+          <div class="row"><dt>Event</dt><dd>Google Physical AI Hackathon: Onam Edition</dd></div>
+          <div class="row"><dt>Where / when</dt><dd>TinkerSpace Kochi, 29&ndash;30 Aug 2026</dd></div>
+          <div class="row"><dt>Build time</dt><dd>24 hours, team of 3</dd></div>
+          <div class="row"><dt>My part</dt><dd>Backend and UI</dd></div>
+          <div class="row"><dt>Stack</dt><dd><div class="tags"><span>Python</span><span>FastAPI</span><span>WebSockets</span><span>Gemma 3n</span><span>Ollama</span><span>Raspberry Pi 5</span><span>MPU6050</span></div></dd></div>
+        </dl>
+      </div>
+      <nav class="toc" id="toc">
+        <a href="#outcome" class="on">Outcome</a>
+        <a href="#problem">The problem</a>
+        <a href="#built">What was built</a>
+        <a href="#decisions">Key decisions</a>
+        <a href="#evidence">Evidence</a>
+        <a href="#links">Links</a>
+      </nav>
+    </aside>
+
+    <main>
+      <div class="photo mono">Photo slot: the glove (hardware hero image)</div>
+      <p class="draft">Draft copy for layout review. Facts come from the project README; the problem paragraph is my own paraphrase. What you built, in your own voice, still needs adding.</p>
+
+      <section id="outcome">
+        <span class="mono">01 / Outcome</span>
+        <h2>Won Best Use of Gemma.</h2>
+        <div class="outcome">
+          <div><b>24h</b><span>from idea to working glove</span></div>
+          <div><b>3</b><span>people: AI/ML, backend and UI, hardware</span></div>
+          <div><b>182</b><span>automated tests in the repo</span></div>
+        </div>
+      </section>
+
+      <section id="problem">
+        <span class="mono">02 / The problem</span>
+        <h2>Learning rhythm needs a teacher in the room.</h2>
+        <p>The chenda is learned by ear and by feel, from a teacher who hears you and corrects you. The team wanted a way to practise any track without one: strike the air with your fingers, feel the tempo, see which finger is next, and get coached afterwards.</p>
+      </section>
+
+      <section id="built">
+        <span class="mono">03 / What was built</span>
+        <h2>Sense, think, act.</h2>
+        <p>A glove with an IMU, a vibration motor and an LED on each finger, connected to a Raspberry Pi 5 and a live dashboard.</p>
+        <div class="flow">
+          <div><h3>Sense</h3><p>MPU6050 on the finger detects strikes (peak against rest, 120 ms refractory). Laptop keys stand in for the other fingers with the same strike event.</p></div>
+          <div><h3>Think</h3><p>Timing math judges every hit in under a millisecond. Gemma hears a track and decides its structure, finger map and coaching.</p></div>
+          <div><h3>Act</h3><p>Five buzzers and five LEDs on the Pi's GPIO, browser and Pi audio, and a dashboard with falling notes and live judging.</p></div>
+        </div>
+      </section>
+
+      <section id="decisions">
+        <span class="mono">04 / Key decisions</span>
+        <h2>What the model does, and what it doesn't.</h2>
+        <ol class="decisions">
+          <li><h3>Judge timing with math, not the model</h3><p>Every hit is scored by deterministic code. Gemma is kept for what math can't do: hearing a track, deciding its cycle and finger mapping, coaching and composing drills.</p></li>
+          <li><h3>Keep Malayalam coaching deterministic</h3><p>No offline Malayalam speech exists, and a small model gets the language wrong. The Malayalam text is generated by code, so it is accurate; Gemma writes English and Manglish.</p></li>
+          <li><h3>Two Gemma engines, side by side</h3><p>A larger Gemma 3n runs on a laptop GPU over an SSH tunnel, and Gemma 2 2B runs fully on the Pi. A dashboard card switches between them and shows timings. A smaller 3n variant ran out of memory on the Pi's 4 GB and is documented.</p></li>
+        </ol>
+      </section>
+
+      <section id="evidence">
+        <span class="mono">05 / Evidence</span>
+        <h2>What backs it up.</h2>
+        <div class="evidence">
+          <div class="ev"><span class="mono">Tests</span><p>182 pytest tests across the judging, scoring and lesson layers.</p></div>
+          <div class="ev"><span class="mono">Docs</span><p>Wiring, parts list and model notes written up alongside the code.</p></div>
+          <div class="ev"><span class="mono">Honest limits</span><p>Cycle detection is confident on clean recordings and correctly uncertain on noisy festival audio. The small on-device model coaches more plainly.</p></div>
+          <div class="ev"><span class="mono">Screenshots</span><p>Slot for dashboard screenshots: falling notes, judging, the 3D chenda stage.</p></div>
+        </div>
+      </section>
+
+      <section id="links">
+        <span class="mono">06 / Links</span>
+        <h2>Look closer.</h2>
+        <div class="links">
+          <a class="btn solid" href="https://github.com/AdrielBobby/thaalam">Source on GitHub</a>
+          <a class="btn" href="https://physicalai.tinkerhub.org/">The hackathon</a>
+        </div>
+      </section>
+
+      <div class="next mono"><span>&larr; Previous: none</span><span>Next: Calm Cockpit &rarr;</span></div>
+    </main>
+  </div>
+</div>
+
+<script>
+// scroll spy
+const links=[...document.querySelectorAll('#toc a')];
+const secs=links.map(a=>document.querySelector(a.getAttribute('href')));
+function spy(){
+  const y=window.scrollY+window.innerHeight*0.32; let cur=0;
+  secs.forEach((s,i)=>{ if(s.offsetTop<=y) cur=i; });
+  links.forEach((a,i)=>a.classList.toggle('on',i===cur));
+}
+window.addEventListener('scroll',spy,{passive:true}); spy();
+
+// accent: matched OKLCH set, hue 82 (Hardware), contrast-adjusted per mode
+const INK='#0f1211', LIGHT='#e7e9e6';
+const toHex=v=>Math.round(Math.max(0,Math.min(1,v))*255).toString(16).padStart(2,'0');
+const lin2s=c=>c<=0.0031308?12.92*c:1.055*Math.pow(c,1/2.4)-0.055;
+function oklch(L,C,h){const a=C*Math.cos(h*Math.PI/180),b=C*Math.sin(h*Math.PI/180);const l_=L+0.3963377774*a+0.2158037573*b,m_=L-0.1055613458*a-0.0638541728*b,s_=L-0.0894841775*a-1.2914855480*b;const l=l_**3,m=m_**3,s=s_**3;return [4.0767416621*l-3.3077115913*m+0.2309699292*s,-1.2684380046*l+2.6097574011*m-0.3413193965*s,-0.0041960863*l-0.7034186147*m+1.7076147010*s];}
+function hexOf(L,C,h){let c=C,r=oklch(L,c,h);while(!r.every(v=>v>=-0.0005&&v<=1.0005)&&c>0){c-=0.004;r=oklch(L,c,h);}return '#'+r.map(lin2s).map(toHex).join('');}
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const lum=h=>{const c=rgb(h).map(v=>v/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2];};
+const cr=(a,b)=>{const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);};
+function variant(h,bg,L,C,dir){let hx=hexOf(L,C,h),i=0;while(cr(hx,bg)<4.5&&i<80){L+=dir*0.01;hx=hexOf(L,C,h);i++;}return hx;}
+const ACC={dark:variant(82,INK,0.74,0.13,+1), light:variant(82,LIGHT,0.50,0.12,-1)};
+function apply(mode){
+  const r=document.documentElement; r.dataset.theme=mode==='light'?'light':'dark';
+  r.style.setProperty('--accent',ACC[mode]);
+  document.getElementById('theme').textContent=mode==='light'?'Dark':'Light';
+}
+let mode='dark'; apply(mode);
+document.getElementById('theme').addEventListener('click',()=>{mode=mode==='dark'?'light':'dark';apply(mode);});
+</script>
+</body>
+</html>
