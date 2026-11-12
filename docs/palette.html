@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Palette: graphite + patina green</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0f1211; --dark2:#1a1f1d; --line:#2e3532; --fg:#eceef2; --muted:#a3aba7; --green:#4fb08a; --greenL:#337058; --light:#e7e9e6; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ink); color:var(--fg); font-family:Manrope,system-ui,sans-serif; line-height:1.55; padding:24px 16px 64px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { font-family:"Young Serif",serif; font-weight:400; font-size:34px; margin:0 0 10px; }
+  h2 { font:400 12px/1.3 "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--green); margin:40px 0 12px; }
+  .mono { font:400 12px/1.5 "JetBrains Mono",monospace; letter-spacing:.04em; }
+  .intro { color:var(--muted); max-width:74ch; margin:0 0 6px; }
+  .swatches { display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); border:1px solid var(--line); }
+  .sw { min-height:96px; padding:10px; font:400 12px/1.45 "JetBrains Mono",monospace; display:flex; flex-direction:column; justify-content:space-between; }
+  .sw b { font-weight:400; letter-spacing:.06em; text-transform:uppercase; }
+  .flow { display:flex; border:1px solid var(--line); min-height:110px; }
+  .flow > div { flex:1; padding:12px; font:400 12px/1.45 "JetBrains Mono",monospace; display:flex; flex-direction:column; justify-content:space-between; min-width:0; }
+  .arrow { flex:0 0 28px !important; display:grid !important; place-items:center; background:var(--dark2); color:var(--muted); padding:0 !important; }
+  .tablewrap { overflow-x:auto; border:1px solid var(--line); background:var(--dark2); }
+  table { border-collapse:collapse; width:100%; min-width:720px; font-size:14px; }
+  th, td { padding:10px 14px; text-align:left; border-bottom:1px solid var(--line); vertical-align:middle; }
+  th { font:400 11px/1.3 "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  td.num { font-family:"JetBrains Mono",monospace; font-size:12px; font-variant-numeric:tabular-nums; }
+  .chip { display:inline-block; width:14px; height:14px; border-radius:2px; vertical-align:-2px; margin-right:8px; border:1px solid #ffffff22; }
+  .pass { color:#52c48a; } .fail { color:#ff7a70; }
+  ul.rules { margin:0; padding-left:20px; color:var(--muted); max-width:78ch; }
+  ul.rules li { margin:0 0 6px; } ul.rules b { color:var(--fg); font-weight:600; }
+  .demo { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); border:1px solid var(--line); }
+  @media (max-width:760px) { .demo { grid-template-columns:minmax(0,1fr); } .flow { flex-direction:column; } .arrow { flex-basis:24px !important; } }
+  .demo > div { padding:20px; min-height:170px; }
+  .demo h3 { font-family:"Young Serif",serif; font-weight:400; font-size:22px; margin:0 0 8px; }
+  .demo p { margin:0 0 12px; font-size:14px; max-width:30ch; }
+  .tag { display:inline-block; font:400 11px/1 "JetBrains Mono",monospace; letter-spacing:.08em; padding:5px 8px; border:1px solid; margin:0 6px 6px 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono" style="color:var(--green);letter-spacing:.12em">PALETTE / FINAL</div>
+  <h1>Graphite + patina green</h1>
+  <p class="intro">The chosen palette. A graphite base, a pale grey light mode, and one site colour (patina green) that is reserved for the site itself. The five project accents are a matched set at equal lightness and chroma, with no hue near the green. Contrast ratios below are calculated live in this page (WCAG: 4.5 or higher for small text).</p>
+
+  <h2>Core colours</h2>
+  <div class="swatches" id="core"></div>
+
+  <h2>The page sequence in the opening animation</h2>
+  <div class="flow" id="flow"></div>
+
+  <h2>Project accents: dark-mode and light-mode variants</h2>
+  <div class="tablewrap"><table id="accents"></table></div>
+
+  <h2>In use</h2>
+  <div class="demo" id="demo"></div>
+
+  <h2>Rules</h2>
+  <ul class="rules">
+    <li><b>One site colour.</b> Patina green belongs to the site: nav, links, focus rings, the logo tile. No project uses it.</li>
+    <li><b>Every accent has two variants.</b> The lighter one is for dark and green surfaces, the darker one for light surfaces. Never use one hex for both.</li>
+    <li><b>Accents carry meaning.</b> They identify a branch or project (Security, Hardware, Backend, Local AI, Dashboards). They are not decoration.</li>
+    <li><b>No more than two strong accents in one view</b>, from the first calibration. The grey and green base does the rest.</li>
+    <li><b>Text stays dark on green.</b> Near-black on the green page; pale grey on dark; dark grey on light.</li>
+  </ul>
+</div>
+
+<script>
+const INK="#0f1211", DARK2="#1a1f1d", LIGHT="#e7e9e6", GREEN="#4fb08a", GREENL="#337058";
+const FG_G="#0f1211", FG_W="#2a312e", DT="#eceef2", LT="#12141a";
+function toHex(v){return Math.round(Math.max(0,Math.min(1,v))*255).toString(16).padStart(2,'0');}
+function lin2s(c){return c<=0.0031308?12.92*c:1.055*Math.pow(c,1/2.4)-0.055;}
+function oklch(L,C,h){const a=C*Math.cos(h*Math.PI/180),b=C*Math.sin(h*Math.PI/180);const l_=L+0.3963377774*a+0.2158037573*b,m_=L-0.1055613458*a-0.0638541728*b,s_=L-0.0894841775*a-1.2914855480*b;const l=l_**3,m=m_**3,s=s_**3;return [4.0767416621*l-3.3077115913*m+0.2309699292*s,-1.2684380046*l+2.6097574011*m-0.3413193965*s,-0.0041960863*l-0.7034186147*m+1.7076147010*s];}
+function hexOf(L,C,h){let c=C,r=oklch(L,c,h);while(!r.every(v=>v>=-0.0005&&v<=1.0005)&&c>0){c-=0.004;r=oklch(L,c,h);}return '#'+r.map(lin2s).map(toHex).join('');}
+function rgb(h){return [1,3,5].map(i=>parseInt(h.slice(i,i+2),16));}
+function lum(h){const c=rgb(h).map(v=>v/255).map(v=>v<=0.03928?v/12.92:Math.pow((v+0.055)/1.055,2.4));return .2126*c[0]+.7152*c[1]+.0722*c[2];}
+function cr(a,b){const x=lum(a),y=lum(b);return (Math.max(x,y)+.05)/(Math.min(x,y)+.05);}
+function variant(h,bg,startL,C,dir){let L=startL,hx=hexOf(L,C,h),i=0;while(cr(hx,bg)<4.5&&i<80){L+=dir*0.01;hx=hexOf(L,C,h);i++;}return hx;}
+const txt=(bg)=>lum(bg)>0.4?'#12141a':'#eceef2';
+const HUES={ "Security":28, "Hardware":82, "Backend":245, "Local AI":305, "Dashboards":352 };
+const ACC=Object.entries(HUES).map(([k,h])=>({k,h,d:variant(h,INK,0.74,0.13,+1),l:variant(h,LIGHT,0.50,0.12,-1)}));
+
+const core=[
+  ['Graphite',INK,'base, dark pages'],['Graphite 2',DARK2,'cards, panels'],['Pale grey',LIGHT,'light pages'],
+  ['Patina green',GREEN,'site colour, green page, on dark'],['Patina green (light)',GREENL,'site colour on light'],
+  ['Text on dark',DT,'body on graphite'],['Text on light',LT,'body on pale grey']
+];
+document.getElementById('core').innerHTML=core.map(([n,h,u])=>`<div class="sw" style="background:${h};color:${txt(h)}"><b>${n}</b><span>${h}<br>${u}</span></div>`).join('');
+
+const step=(label,bg,fg,note)=>`<div style="background:${bg};color:${fg}"><b>${label}</b><span>${bg}<br>text ${fg}<br>${note}</span></div>`;
+document.getElementById('flow').innerHTML =
+  step('Dark','#0f1211','#eceef2','tile at rest')+`<div class="arrow">→</div>`+
+  step('Green','#4fb08a','#0f1211','face is built here')+`<div class="arrow">→</div>`+
+  step('Pale grey','#e7e9e6','#2a312e','final, readable pages');
+
+const rows=ACC.map(a=>`<tr>
+  <td><i class="chip" style="background:${a.d}"></i>${a.k}</td><td class="num">hue ${a.h}</td>
+  <td class="num"><i class="chip" style="background:${a.d}"></i>${a.d}</td>
+  <td class="num ${cr(a.d,INK)>=4.5?'pass':'fail'}">${cr(a.d,INK).toFixed(2)} on graphite</td>
+  <td class="num ${cr(a.d,DARK2)>=4.5?'pass':'fail'}">${cr(a.d,DARK2).toFixed(2)} on graphite 2</td>
+  <td class="num"><i class="chip" style="background:${a.l}"></i>${a.l}</td>
+  <td class="num ${cr(a.l,LIGHT)>=4.5?'pass':'fail'}">${cr(a.l,LIGHT).toFixed(2)} on pale grey</td></tr>`).join('');
+const green=`<tr><td><i class="chip" style="background:${GREEN}"></i>Site green</td><td class="num">hue 165</td>
+  <td class="num"><i class="chip" style="background:${GREEN}"></i>${GREEN}</td>
+  <td class="num ${cr(GREEN,INK)>=4.5?'pass':'fail'}">${cr(GREEN,INK).toFixed(2)} on graphite</td>
+  <td class="num ${cr(GREEN,DARK2)>=4.5?'pass':'fail'}">${cr(GREEN,DARK2).toFixed(2)} on graphite 2</td>
+  <td class="num"><i class="chip" style="background:${GREENL}"></i>${GREENL}</td>
+  <td class="num ${cr(GREENL,LIGHT)>=4.5?'pass':'fail'}">${cr(GREENL,LIGHT).toFixed(2)} on pale grey</td></tr>
+  <tr><td>Text on the green page</td><td class="num">n/a</td><td class="num"><i class="chip" style="background:${FG_G}"></i>${FG_G}</td>
+  <td class="num ${cr(FG_G,GREEN)>=4.5?'pass':'fail'}">${cr(FG_G,GREEN).toFixed(2)} on green</td><td></td><td></td><td></td></tr>`;
+document.getElementById('accents').innerHTML=`<tr><th>Accent</th><th>Hue</th><th>Dark / green mode</th><th colspan="2">Contrast</th><th>Light mode</th><th>Contrast</th></tr>`+rows+green;
+
+const tags=(mode)=>ACC.slice(0,3).map(a=>`<span class="tag" style="color:${mode==='d'?a.d:a.l};border-color:${mode==='d'?a.d:a.l}">${a.k.toUpperCase()}</span>`).join('');
+document.getElementById('demo').innerHTML=
+  `<div style="background:${INK};color:${DT}"><h3 style="color:${GREEN}">On graphite</h3><p>Thaalam, a glove that teaches chenda rhythm.</p>${tags('d')}</div>`+
+  `<div style="background:${GREEN};color:${FG_G}"><h3>On the green page</h3><p>Dark ink on patina green.</p><span class="tag" style="color:${FG_G};border-color:${FG_G}">STACK</span><span class="tag" style="color:${FG_G};border-color:${FG_G}">YEAR 2026</span></div>`+
+  `<div style="background:${LIGHT};color:${LT}"><h3 style="color:${GREENL}">On pale grey</h3><p>Thangan, a local second brain.</p>${tags('l')}</div>`;
+</script>
+</body>
+</html>

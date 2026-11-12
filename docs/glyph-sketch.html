@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Glyph sketch: 28 custom skill icons</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0f1211; --dark2:#1a1f1d; --line:#2e3532; --fg:#eceef2; --muted:#a3aba7; --green:#4fb08a; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--ink); color:var(--fg); font-family:Manrope,system-ui,sans-serif; line-height:1.5; padding:24px 16px 64px; }
+  .wrap { max-width:1100px; margin:0 auto; }
+  h1 { font-family:"Young Serif",serif; font-weight:400; font-size:34px; margin:0 0 10px; }
+  h2 { font:400 12px/1.3 "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; margin:36px 0 14px; color:var(--green); }
+  .mono { font:400 12px/1.5 "JetBrains Mono",monospace; letter-spacing:.04em; }
+  .intro { color:var(--muted); max-width:74ch; margin:0 0 8px; }
+  .rules { color:var(--muted); max-width:74ch; margin:8px 0 0; padding-left:20px; font-size:14px; }
+  .board { background:var(--dark2); border:1px solid var(--line); padding:22px 20px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(96px,1fr)); gap:22px 14px; }
+  .cell { display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .tile { position:relative; width:60px; height:60px; background:var(--c);
+    clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px); }
+  .tile::before { content:""; position:absolute; inset:2px; background:var(--ink);
+    clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px); }
+  .tile .g { position:absolute; inset:0; display:grid; place-items:center; }
+  .tile svg { width:30px; height:30px; display:block; color:var(--c); fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .tile .ic { width:30px; height:30px; background:var(--c); -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat; }
+  .cap { font:400 12px/1.3 Manrope,sans-serif; text-align:center; overflow-wrap:anywhere; }
+  .grp { margin:0 0 6px; }
+  .big { display:flex; flex-wrap:wrap; gap:26px; align-items:center; }
+  .big svg { width:96px; height:96px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="mono" style="color:var(--green);letter-spacing:.12em">SKILL TREE / CUSTOM GLYPHS</div>
+  <h1>Glyph sketch</h1>
+  <p class="intro">Drawn for the 28 skills that have no logo in the Simple Icons set. They are generic symbols for what each tool does, not copies of any tool's own logo, so they carry no trademark risk. The top row shows five real logos next to five glyphs so you can judge whether they sit together.</p>
+  <ul class="rules">
+    <li><b>Grid:</b> 24 by 24, drawn to fill about 18 units, so every glyph has the same visual size.</li>
+    <li><b>Stroke:</b> 2 units, round caps and joins, no fills. The real logos are solid, so glyphs use a heavier stroke to read at a similar weight.</li>
+    <li><b>Concept:</b> one idea per glyph. Where two tools do similar jobs (the three scanners, the two stego tools) they share a frame and differ by one inner symbol.</li>
+    <li><b>Colour:</b> tinted in the branch colour, never in brand colours.</li>
+  </ul>
+
+  <h2>Real logos next to glyphs (comparison)</h2>
+  <div class="board"><div class="grid" id="compare"></div></div>
+
+  <h2>All 28 glyphs, by branch</h2>
+  <div class="board" id="groups"></div>
+
+  <h2>Largest size (96px) to check the drawing</h2>
+  <div class="board"><div class="big" id="big"></div></div>
+</div>
+
+<script>
+const C = { lang:"#4fb08a", web:"#5db2f7", ai:"#be95ec", sec:"#f2897c", dom:"#d3a23b" };
+const FRAME = '<rect x="3" y="4" width="18" height="16" rx="2"/>';
+const PHONE = '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/>';
+const G = {
+ // [branch, name, svg inner markup]
+ languages:[
+  ["lang","SQL / PL-SQL",'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>']],
+ web:[
+  ["web","REST APIs",'<path d="M4 8h14M14 4l4 4-4 4"/><path d="M20 16H6M10 12l-4 4 4 4"/>'],
+  ["web","WebSockets",'<path d="M3 12h18"/><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>']],
+ ai:[
+  ["ai","StableLM",'<path d="M4 5h16v11h-9l-4 4v-4H4z"/><circle cx="9" cy="10.5" r="1" fill="currentColor"/><circle cx="12" cy="10.5" r="1" fill="currentColor"/><circle cx="15" cy="10.5" r="1" fill="currentColor"/>'],
+  ["ai","Context window",'<path d="M8 4H5v16h3M16 4h3v16h-3"/><path d="M9 9h6M9 12h6M9 15h4"/>'],
+  ["ai","Rich",FRAME+'<path d="M7 9.5l3 2.5-3 2.5M12 15h5"/>'],
+  ["ai","Pillow",FRAME+'<circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-4 4 3 3-2 6 4"/>'],
+  ["ai","Matplotlib",'<path d="M4 4v16h16"/><path d="M8 15l3-4 3 2 4-6"/>']],
+ security:[
+  ["sec","Nmap",'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r="1" fill="currentColor"/>'],
+  ["sec","Gobuster",'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M13.5 10l-3 6"/>'],
+  ["sec","WPScan",FRAME+'<path d="M3 9h18"/><path d="M7 14h10" stroke-dasharray="2 2.5"/>'],
+  ["sec","Joomscan",'<path d="M5 8h3.2a2.5 2.5 0 1 1 5 0H17v3.2a2.5 2.5 0 1 1 0 5V20H5z"/>'],
+  ["sec","SQLMap",'<path d="M20 4l-4 4"/><path d="M15 3l6 6"/><path d="M15 7l-8 8-1 4 4-1 8-8"/><path d="M5 19l-2 2"/>'],
+  ["sec","Searchsploit",'<circle cx="10" cy="10" r="6"/><path d="M15 15l5 5"/><path d="M11 6.5l-2 3.5h3l-2 3.5"/>'],
+  ["sec","Hydra",'<path d="M12 21v-5"/><path d="M12 16c0-4-6-3-6-9"/><path d="M12 16V6"/><path d="M12 16c0-4 6-3 6-9"/><path d="M4 7h4L6 3z" fill="currentColor"/><path d="M10 6h4l-2-4z" fill="currentColor"/><path d="M16 7h4l-2-4z" fill="currentColor"/>'],
+  ["sec","John the Ripper",'<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/>'],
+  ["sec","Hashcat",'<path d="M9.5 4L7.5 20M16.5 4l-2 16M4 9h17M3 15h17"/>'],
+  ["sec","Netcat",'<path d="M5 9V4l4.5 3h5L19 4v5c1 1.2 1.5 2.600 1.500 4.200 0 4-3.600 6.800-8.500 6.800S3.500 17.200 3.500 13.200C3.500 11.600 4 10.200 5 9z"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="15" cy="13" r="1" fill="currentColor"/><path d="M10.500 16.500q1.500 1.200 3 0"/>'],
+  ["sec","Steghide",FRAME+'<rect x="9" y="12" width="6" height="5" rx="1"/><path d="M10.5 12v-1.2a1.5 1.5 0 0 1 3 0V12"/>'],
+  ["sec","Stegseek",FRAME+'<path d="M7 12s2-3.5 5-3.5 5 3.5 5 3.5-2 3.5-5 3.5S7 12 7 12z"/><circle cx="12" cy="12" r="1.3"/>'],
+  ["sec","MobSF",PHONE+'<circle cx="12" cy="12" r="3"/><path d="M12 8v1.5M12 14.5V16M8 12h1.5M14.5 12H16"/>'],
+  ["sec","Frida",'<circle cx="12" cy="4.5" r="1.8"/><path d="M12 6.3V16a5 5 0 0 1-9.5 2.2"/><path d="M2.5 18.2l-.2-3.7M2.5 18.2l3.4-1.2"/>'],
+  ["sec","Genymotion",'<rect x="8" y="3" width="11" height="17" rx="2.5"/><path d="M5 7v11a2.5 2.5 0 0 0 2.5 2.5" stroke-dasharray="2 2"/>'],
+  ["sec","JADX",'<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M10 10l-2 2 2 2M14 10l2 2-2 2"/>']],
+ domains:[
+  ["dom","Web app security",FRAME+'<path d="M3 9h18"/><rect x="9.5" y="12" width="5" height="4.5" rx="1"/><path d="M10.5 12v-.8a1.5 1.5 0 0 1 3 0v.8"/>'],
+  ["dom","Network security",'<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 6h10M6 8l5 9M18 8l-5 9"/>'],
+  ["dom","Mobile security",PHONE+'<path d="M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z"/>'],
+  ["dom","Social media",'<path d="M4 10v4h3l8 4V6L7 10z"/><path d="M18 9a4 4 0 0 1 0 6M7 14l1 5h3l-1-4.5"/>']]
+};
+const LABEL = { languages:"Languages (1)", web:"Web + Backend (2)", ai:"AI + Embedded (5)", security:"Security (16)", domains:"Domains (4)" };
+const tile=(color,inner,cap)=>`<div class="cell"><div class="tile" style="--c:${color}"><span class="g">${inner}</span></div><span class="cap">${cap}</span></div>`;
+const svg=(m)=>`<svg viewBox="0 0 24 24" aria-hidden="true">${m}</svg>`;
+let n=0;
+document.getElementById('groups').innerHTML = Object.entries(G).map(([k,list])=>`<div class="grp mono" style="color:var(--muted);margin:${k==='languages'?0:22}px 0 12px">${LABEL[k]}</div><div class="grid">${list.map(([b,name,m])=>{n++;return tile(C[b],svg(m),name);}).join('')}</div>`).join('');
+document.getElementById('big').innerHTML = Object.values(G).flat().map(([b,name,m])=>`<div style="color:${C[b]}" title="${name}">${svg(m)}</div>`).join('');
+// comparison row: real logos (inlined via fetch) beside glyphs
+const ICON='https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/';
+const real=[["Python","python","lang"],["Docker","docker","sec"],["Wireshark","wireshark","sec"],["React","react","web"],["Linux","linux","sec"]];
+const cmp=document.getElementById('compare');
+real.forEach(([name,slug,b])=>{ const id='r'+slug; cmp.insertAdjacentHTML('beforeend',tile(C[b],`<span id="${id}"></span>`,name)); });
+[["sec","Nmap"],["sec","Hydra"],["sec","Frida"],["web","REST APIs"],["ai","Pillow"]].forEach(([b,name])=>{ const g=Object.values(G).flat().find(x=>x[1]===name); cmp.insertAdjacentHTML('beforeend',tile(C[b],svg(g[2]),name+' (glyph)')); });
+real.forEach(([name,slug,b])=>{ fetch(ICON+slug+'.svg').then(r=>r.text()).then(t=>{ document.getElementById('r'+slug).outerHTML=`<span class="ic" style="--m:url('data:image/svg+xml;utf8,${encodeURIComponent(t)}')"></span>`; }).catch(()=>{}); });
+</script>
+</body>
+</html>
