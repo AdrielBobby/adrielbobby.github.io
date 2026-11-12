@@ -105,6 +105,7 @@
         <a href="#outcome" class="on">Outcome</a>
         <a href="#problem">The problem</a>
         <a href="#built">What was built</a>
+        <a href="#mypart">My part</a>
         <a href="#decisions">Key decisions</a>
         <a href="#evidence">Evidence</a>
         <a href="#links">Links</a>
@@ -113,7 +114,7 @@
 
     <main>
       <div class="photo mono">Photo slot: the glove (hardware hero image)</div>
-      <p class="draft">Draft copy for layout review. Facts come from the project README; the problem paragraph is my own paraphrase. What you built, in your own voice, still needs adding.</p>
+      <p class="draft">Draft copy. Facts come from the project README. "My part" is built from Adriel's own answers, lightly edited. The problem paragraph is a paraphrase and still needs his wording.</p>
 
       <section id="outcome">
         <span class="mono">01 / Outcome</span>
@@ -142,8 +143,17 @@
         </div>
       </section>
 
+      <section id="mypart">
+        <span class="mono">04 / My part</span>
+        <h2>I took the backend.</h2>
+        <p>Of the three of us, backend was where I was strongest. The hardware and the model work were other people's strengths, so it was an easy call, and it's the one I'm proudest of. The backend is the part I'm really happy with.</p>
+        <p>The first version we had was in the terminal: notes came down in queues, you had to play the right letter at the right time, and it told you whether you were right, early or late. The dashboard grew out of that.</p>
+        <p><b>The hardest part:</b> getting the 3D chenda into the UI. I had to find a drum model, fit it into the dashboard, and then add the note tiles and the animations on top of it.</p>
+        <p><b>What I'd change:</b> the hardware. We only had one IMU sensor, so only one finger was real, and the glove we bought was cheap. With more parts, every finger would be sensed.</p>
+      </section>
+
       <section id="decisions">
-        <span class="mono">04 / Key decisions</span>
+        <span class="mono">05 / Key decisions</span>
         <h2>What the model does, and what it doesn't.</h2>
         <ol class="decisions">
           <li><h3>Judge timing with math, not the model</h3><p>Every hit is scored by deterministic code. Gemma is kept for what math can't do: hearing a track, deciding its cycle and finger mapping, coaching and composing drills.</p></li>
@@ -153,18 +163,18 @@
       </section>
 
       <section id="evidence">
-        <span class="mono">05 / Evidence</span>
+        <span class="mono">06 / Evidence</span>
         <h2>What backs it up.</h2>
         <div class="evidence">
           <div class="ev"><span class="mono">Tests</span><p>182 pytest tests across the judging, scoring and lesson layers.</p></div>
           <div class="ev"><span class="mono">Docs</span><p>Wiring, parts list and model notes written up alongside the code.</p></div>
-          <div class="ev"><span class="mono">Honest limits</span><p>Cycle detection is confident on clean recordings and correctly uncertain on noisy festival audio. The small on-device model coaches more plainly.</p></div>
+          <div class="ev"><span class="mono">Honest limits</span><p>One IMU sensor, so one real finger; the others are keyboard keys. Cycle detection is confident on clean recordings and correctly uncertain on noisy festival audio. The small on-device model coaches more plainly.</p></div>
           <div class="ev"><span class="mono">Screenshots</span><p>Slot for dashboard screenshots: falling notes, judging, the 3D chenda stage.</p></div>
         </div>
       </section>
 
       <section id="links">
-        <span class="mono">06 / Links</span>
+        <span class="mono">07 / Links</span>
         <h2>Look closer.</h2>
         <div class="links">
           <a class="btn solid" href="https://github.com/AdrielBobby/thaalam">Source on GitHub</a>
