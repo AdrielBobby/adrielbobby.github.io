@@ -1,6 +1,6 @@
 # Portfolio rebuild plan
 
-Status: still planning. Nothing is built until the design brief is approved.
+Status: planning complete. The design brief (design-brief.md) is approved by Adriel; the build follows it.
 
 ## Decided so far
 - **Content inventory** (`content-inventory.md`): projects, resume, LinkedIn posts, GitHub repos compared and reconciled.

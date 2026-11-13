@@ -1,6 +1,6 @@
 # Design brief: Adriel Bobby portfolio rebuild
 
-Status: **draft for approval.** Desktop only. Nothing is built until this is approved. Details and history live in `plan.md`; this page is the single source for the build.
+Status: **approved by Adriel.** Desktop only. Details and history live in `plan.md`; this page is the single source for the build.
 
 ## 1. Goal
 A technical-editorial portfolio that shows real, checkable work first and personality second. Easy to read, one clear path to projects and contact. Replaces the current purple-gradient React site.
@@ -23,6 +23,7 @@ A technical-editorial portfolio that shows real, checkable work first and person
 4. **Skills** (graphite). A large headline, then a vertical list of the six branches on the left and the selected branch's clusters on the right as icon tiles on branch lines (65 skills; 37 real logos, 28 custom glyphs). Click a tile for where it was used. Lines draw in and tiles settle in once on arrival; switching branch replays a quick version. Prototypes: `skills-scene-sketch.html`, `skill-tree.html`, `glyph-sketch.html`.
 5. **Experience** (pale grey). A sticky headline column on the left; on the right, plain ruled rows in four groups (Experience, Credentials, Awards, Education), each with a mono date or prize, a Young Serif title, an org line and an optional caption. Not a timeline. Rows fade up once. Prototype: `experience-sketch.html`. Hackathons and credentials sit here (VAWT and KruizeX prizes belong in these rows; Mis-Communication-Nater does not).
 6. **Contact** (halftone dissolve to black). A pale "Let's talk." screen, then black dots grow across the page, scroll-linked, until it is black. A `contact.sh` terminal then types itself in once. It is live: `help`, `email`, `github`, `linkedin`, `resume`, `projects`, `message` (name, optional email, message, posted to the existing Formspree form), `clear`, and one hidden easter egg. Open mail client and Copy email buttons stay for people who will not type. Prototype: `contact-sketch.html`.
+7. **Easter egg: the axolotl** (replaces the footer "psst" line as the visible hint). Appears bottom-right once the Contact terminal has finished typing. A green axolotl (site green) whose face is the kv logo. First only its head pops up over the bottom edge with its hands on the ledge, and a comic bubble says "psst psst"; the head bobs and the bubble pulses gently while it waits. Clicking (or Enter) makes the bubble pop away and the axolotl climb up and lift a poster: "know what kv stands for? click here to type". Clicking the poster opens the existing "what does kv stand for?" terminal, which checks the answer and redirects to the hidden page (the current soft gate is kept; the answer is never written into docs). Keep a plain, focusable "psst, know what kv stands for?" footer link for keyboard and screen-reader users. Reduced motion: head and bubble sit still, click goes straight to the poster. Prototype: `axolotl-sketch.html`.
 
 Rhythm: light, light, dark, light, black, so no two heavy scenes touch.
 
@@ -40,7 +41,7 @@ Always dark graphite with the project accent. Sticky "file card" on the left (st
 - Three kinds only: scroll-linked, triggered once, hover or focus.
 - Timing: hover 150 ms; small state 250 to 400 ms; scene entrance 500 to 700 ms; ease `cubic-bezier(.2,.8,.2,1)`; no bounce.
 - Global eased scroll (factor about 0.12); no scroll-jacking.
-- Never animates: body text, anything shifting layout while reading, loops (except the terminal cursor), flashing, sound.
+- Never animates: body text, anything shifting layout while reading, loops (except the terminal cursor and the axolotl's small idle bob, bubble pulse and gill sway, which stop with reduced motion), flashing, sound.
 - Reduced motion: finished logo and portrait, instant colour changes, straight cut to dark, instant terminal, no eased scroll.
 - Home to case file is a plain cut for now.
 - Only transform, opacity and canvas animate; 60 fps target.
@@ -60,7 +61,8 @@ Always dark graphite with the project accent. Sticky "file card" on the left (st
 ## 9. What Adriel still supplies
 - Resume PDF (new version).
 - Pictures and clips for all four projects (Thaalam: hardware and UI).
-- Who-I-am headline and role line.
+- Your own wording for the 11 Other projects tiles (current-site wording is used until then).
+- Resume link, the real email address and the Formspree endpoint carry over from the current site.
 - Review of all four case-file drafts once before launch.
 - Evidence for three Thangan figures (114 of 115, 91 of 115, about 0.1 s median), or they stay off the page.
 - Optional: more detail for MedLedger's "My part"; Torn view for Calm Cockpit once it exists.
@@ -74,8 +76,8 @@ Always dark graphite with the project accent. Sticky "file card" on the left (st
 6. Case-file template, then the four files.
 7. Skills.
 8. Experience.
-9. Contact and dissolve.
+9. Contact and dissolve, then the axolotl easter egg.
 10. Metadata, accessibility, performance and link checks, deploy.
 
 ## 11. Approval
-Build starts when Adriel says so. Changes to this brief are made here and in `plan.md` first.
+Approved by Adriel after the axolotl was added (the brief now covers every scene). The build is a fresh React/Vite structure, section by section, in the order above. Changes to this brief are made here and in `plan.md` first.
