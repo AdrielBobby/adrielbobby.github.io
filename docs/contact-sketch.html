@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Contact scene sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --light:#e7e9e6; --ink:#0f1211; --line:#2e3532; --green:#4fb08a; --muted:#a3aba7; --text:#c9cec9; --mono:"JetBrains Mono",monospace; --ease:cubic-bezier(.2,.8,.2,1); }
+  * { box-sizing:border-box; }
+  html,body { margin:0; }
+  body { background:#000; color:var(--text); font-family:Manrope,system-ui,sans-serif; }
+  .hud { position:fixed; top:14px; left:16px; z-index:20; font:400 12px/1.4 var(--mono); letter-spacing:.04em; pointer-events:none; background:rgba(15,18,17,.88); color:#c9cec9; padding:6px 10px; max-width:calc(100% - 32px); }
+  .before { height:40vh; background:var(--light); display:grid; place-items:center; color:#566059; font:400 12px/1.6 var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+  .track { height:300vh; position:relative; background:var(--light); }
+  .stage { position:sticky; top:0; height:100vh; overflow:hidden; background:var(--light); }
+  .lets { position:absolute; inset:0; display:grid; place-items:center; text-align:center; padding:0 5vw; }
+  .lets h2 { font:400 clamp(56px,10vw,160px)/1 "Young Serif",serif; margin:0; letter-spacing:-.02em; color:#1b201e; }
+  .lets p { font:400 12px/1.3 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:#337058; margin:0 0 22px; }
+  #dots { position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+  .win { position:absolute; left:50%; top:50%; transform:translate(-50%,-46%); width:min(860px,90vw); background:var(--ink); border:1px solid var(--line); opacity:0; pointer-events:none; transition:opacity .5s var(--ease), transform .5s var(--ease); }
+  .win.on { opacity:1; transform:translate(-50%,-50%); pointer-events:auto; }
+  .bar { display:flex; align-items:center; gap:12px; padding:10px 14px; border-bottom:1px solid var(--line); font:400 12px/1 var(--mono); letter-spacing:.08em; color:var(--muted); }
+  .bar .mk { width:16px; height:16px; background:var(--green); clip-path:polygon(25% 0,75% 0,100% 25%,100% 75%,75% 100%,25% 100%,0 75%,0 25%); }
+  .body { padding:18px 20px 16px; font:400 15px/1.7 var(--mono); min-height:340px; max-height:62vh; overflow:auto; cursor:text; }
+  .body p { margin:0; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .pr { color:var(--green); }
+  .ok { color:var(--green); }
+  .er { color:#f2897c; }
+  .mu { color:var(--muted); }
+  .key { display:inline-block; min-width:11ch; color:var(--muted); }
+  .body a { color:#e7e9e6; text-decoration:underline; text-decoration-color:var(--green); text-underline-offset:4px; }
+  .body a:hover, .body a:focus-visible { color:var(--green); outline:none; }
+  .inl { display:flex; align-items:center; gap:8px; }
+  .inl label { color:var(--green); white-space:pre; }
+  .inl input { flex:1; min-width:0; background:transparent; border:0; outline:0; color:#e7e9e6; font:inherit; caret-color:var(--green); padding:0; }
+  .cur { display:inline-block; width:.6em; background:var(--green); animation:blink 1.1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity:0; } }
+  .acts { position:absolute; left:50%; bottom:6vh; transform:translateX(-50%); display:flex; gap:12px; opacity:0; pointer-events:none; transition:opacity .5s var(--ease); }
+  .acts.on { opacity:1; pointer-events:auto; }
+  .btn { font:600 14px/1 Manrope,sans-serif; color:#e7e9e6; background:transparent; border:1px solid #5b6560; padding:13px 18px; text-decoration:none; cursor:pointer; transition:border-color .15s ease, color .15s ease; }
+  .btn:hover, .btn:focus-visible { border-color:var(--green); color:var(--green); outline:none; }
+  .btn.pri { border-color:var(--green); color:var(--green); }
+  .after { background:#000; padding:7vh 5vw 8vh; text-align:center; color:#6f7a75; font:400 12px/1.7 var(--mono); letter-spacing:.04em; }
+  .draft { max-width:80ch; margin:0 auto 16px; color:#8a948f; }
+  @media (prefers-reduced-motion: reduce){ .win, .acts { transition:none; } .cur { animation:none; } }
+</style>
+</head>
+<body>
+<div class="hud">CONTACT SKETCH / scroll down slowly. At the end, click the window and type help. Nothing is sent from this sketch.</div>
+<div class="before">end of the Experience scene</div>
+
+<div class="track" id="track">
+  <div class="stage" id="stage">
+    <div class="lets" id="lets"><div><p>06 / Contact</p><h2>Let's talk.</h2></div></div>
+    <canvas id="dots" aria-hidden="true"></canvas>
+    <div class="win" id="win" role="region" aria-label="contact.sh terminal">
+      <div class="bar"><i class="mk"></i><span>contact.sh</span></div>
+      <div class="body" id="body" aria-live="polite"></div>
+    </div>
+    <div class="acts" id="acts">
+      <a class="btn pri" href="mailto:email@example.com">Open mail client</a>
+      <button class="btn" id="copy" type="button">Copy email</button>
+    </div>
+  </div>
+</div>
+<div class="after">
+  <p class="draft">Sketch. The address here is a placeholder. In the build the terminal posts messages to the existing Formspree endpoint; here the form only pretends to send. Commands: help, email, github, linkedin, resume, projects, message, clear, and one hidden extra.</p>
+  <p>Logos are trademarks of their owners, used only to name tools I have used.</p>
+</div>
+
+<script>
+const EMAIL='email@example.com', GITHUB='github.com/AdrielBobby', LINKEDIN='linkedin.com/in/adrielbobby', TINKER='@adriel_bobby';
+const clamp=(t)=>Math.max(0,Math.min(1,t)), lerp=(a,b,t)=>a+(b-a)*t;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const track=document.getElementById('track'), stage=document.getElementById('stage'), cv=document.getElementById('dots'), cx=cv.getContext('2d');
+const lets=document.getElementById('lets'), win=document.getElementById('win'), acts=document.getElementById('acts'), body=document.getElementById('body');
+
+// ---- halftone dissolve: black dots grow across the pale page until it is black ----
+let W=0,H=0,dpr=1; const SP=16;
+function hash(x,y){ let h=(x*374761393+y*668265263)|0; h=(h^(h>>13))*1274126177|0; return ((h^(h>>16))>>>0)/4294967295; }
+function vnoise(x,y){ const xi=Math.floor(x), yi=Math.floor(y), xf=x-xi, yf=y-yi, u=xf*xf*(3-2*xf), v=yf*yf*(3-2*yf);
+  return lerp(lerp(hash(xi,yi),hash(xi+1,yi),u), lerp(hash(xi,yi+1),hash(xi+1,yi+1),u), v); }
+function size(){ dpr=Math.min(devicePixelRatio||1,2); W=stage.clientWidth; H=stage.clientHeight; cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); lastP=-1; }
+let lastP=-1;
+function drawDots(p){
+  cx.setTransform(dpr,0,0,dpr,0,0); cx.clearRect(0,0,W,H);
+  if(p<=0) return;
+  if(p>=0.985){ cx.fillStyle='#000'; cx.fillRect(0,0,W,H); return; }
+  cx.fillStyle='#000';
+  const cols=Math.ceil(W/SP)+1, rows=Math.ceil(H/SP)+1, rmax=SP*0.78;
+  for(let j=0;j<rows;j++) for(let i=0;i<cols;i++){
+    const f=0.5*(j/rows)+0.5*vnoise(i*0.18,j*0.18);          // sweeps downward with organic variation
+    const r=rmax*clamp((p*1.55-f*0.9)/0.5);
+    if(r<0.4) continue;
+    cx.beginPath(); cx.arc(i*SP,j*SP,r,0,6.2832); cx.fill();
+  }
+}
+
+// ---- terminal ----
+let started=false, flow=null, data={};
+const out=[];
+function esc(s){return s.replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]));}
+function line(html,cls){ const p=document.createElement('p'); if(cls) p.className=cls; p.innerHTML=html; body.insertBefore(p, inlEl); body.scrollTop=body.scrollHeight; return p; }
+function typeLine(html,text,speed){ // types plain text, then swaps in the full html (so links work)
+  return new Promise(res=>{
+    if(reduce){ line(html); return res(); }
+    const p=line(''); let i=0;
+    const t=setInterval(()=>{ p.textContent=text.slice(0,++i); if(i>=text.length){ clearInterval(t); p.innerHTML=html; res(); } },speed);
+  });
+}
+const wait=(ms)=>new Promise(r=>setTimeout(r,reduce?0:ms));
+// the live input line
+const inlEl=document.createElement('div'); inlEl.className='inl';
+inlEl.innerHTML='<label id="lab" for="inp">&gt; </label><input id="inp" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal input">';
+body.appendChild(inlEl);
+const inp=inlEl.querySelector('input'), lab=inlEl.querySelector('label');
+function setPrompt(t){ lab.textContent=t; }
+async function intro(){
+  inlEl.style.visibility='hidden';
+  await typeLine('<span class="pr">&gt;</span> ping adriel','> ping adriel',35); await wait(150);
+  line('<span class="pr">&gt;</span> status: <span class="ok">online &#9679;</span>'); await wait(120);
+  const rows=[['email','<a href="mailto:'+EMAIL+'">'+EMAIL+'</a>'],['github','<a href="https://'+GITHUB+'">'+GITHUB+'</a>'],['linkedin','<a href="https://'+LINKEDIN+'">'+LINKEDIN+'</a>'],['tinkerhub','<a href="https://tinkerhub.org/'+TINKER+'">'+TINKER+'</a>']];
+  for(const r of rows){ line('<span class="key">'+r[0]+'</span>: '+r[1]); await wait(110); }
+  line('<span class="mu">type help for commands, or message to write to me.</span>');
+  inlEl.style.visibility=''; acts.classList.add('on');
+  inp.focus({preventScroll:true});
+}
+function run(cmdRaw){
+  const cmd=cmdRaw.trim(); line('<span class="pr">'+esc(lab.textContent)+'</span>'+esc(cmdRaw));
+  if(flow){ return flowStep(cmd); }
+  const c=cmd.toLowerCase();
+  if(!c) return;
+  if(c==='help'){ ['help      this list','email     my address','github    my github','linkedin  my linkedin','resume    my resume (PDF)','projects  the four case files','message   write to me from here','clear     clear the screen'].forEach(t=>line('  '+esc(t),'mu')); }
+  else if(c==='email'){ line('<a href="mailto:'+EMAIL+'">'+EMAIL+'</a>'); }
+  else if(c==='github'){ line('<a href="https://'+GITHUB+'">'+GITHUB+'</a>'); }
+  else if(c==='linkedin'){ line('<a href="https://'+LINKEDIN+'">'+LINKEDIN+'</a>'); }
+  else if(c==='tinkerhub'){ line('<a href="https://tinkerhub.org/'+TINKER+'">'+TINKER+'</a>'); }
+  else if(c==='resume'){ line('<a href="#" onclick="return false">Resume.pdf</a> <span class="mu">(opens in a new tab)</span>'); }
+  else if(c==='projects'){ ['thaalam','calm-cockpit','medledger','thangan'].forEach(n=>line('<a href="#" onclick="return false">/projects/'+n+'</a>')); }
+  else if(c==='message'||c==='contact'||c==='start'){ flow='name'; data={}; line('initializing secure channel...','mu'); setPrompt('> enter your name: '); }
+  else if(c==='clear'){ [...body.querySelectorAll('p')].forEach(p=>p.remove()); }
+  else if(c==='sudo hire adriel'){ line('[sudo] password for recruiter: ','mu'); line('permission granted.','ok'); line('no paperwork needed. just <a href="mailto:'+EMAIL+'">send me an email</a>.'); }
+  else { line('command not found: '+esc(cmd)+'. type <span class="ok">help</span>.','er'); }
+}
+async function flowStep(v){
+  if(flow==='name'){ if(!v){ return; } data.name=v; flow='email'; setPrompt('> enter your email (optional): '); }
+  else if(flow==='email'){ data.email=v; flow='message'; setPrompt('> enter your message: '); }
+  else if(flow==='message'){ if(!v){ return; } data.message=v; flow=null; setPrompt('> '); inlEl.style.visibility='hidden';
+    line('sending...','mu'); await wait(700);
+    line('message delivered &#10003; <span class="mu">(sketch: nothing was sent)</span>','ok'); line('connection closed.','ok');
+    inlEl.style.visibility=''; inp.focus({preventScroll:true}); }
+}
+inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ const v=inp.value; inp.value=''; run(v); } });
+body.addEventListener('click',e=>{ if(!e.target.closest('a')) inp.focus({preventScroll:true}); });
+document.getElementById('copy').addEventListener('click',(e)=>{ const b=e.currentTarget; (navigator.clipboard?navigator.clipboard.writeText(EMAIL):Promise.resolve()).catch(()=>{}).finally(()=>{ b.textContent='Copied'; setTimeout(()=>b.textContent='Copy email',1500); }); });
+
+// ---- scroll: eased progress drives the dissolve; the terminal types in once the page is black ----
+let target=0, cur=0, raf=0;
+function progress(){ const r=track.getBoundingClientRect(); return clamp(-r.top/(track.offsetHeight-innerHeight)); }
+function apply(p){
+  if(p!==lastP){ drawDots(p); lastP=p; }
+  lets.style.opacity=(1-clamp((p-0.12)/0.3)).toFixed(3);
+  const show=p>=0.86;
+  win.classList.toggle('on',show);
+  if(show && !started){ started=true; intro(); }
+}
+function frame(){ cur+=(target-cur)*0.12; if(Math.abs(target-cur)<0.0005) cur=target; apply(cur); raf=cur===target?0:requestAnimationFrame(frame); }
+function onScroll(){ target=progress(); if(reduce){ cur=target; apply(cur); return; } if(!raf) raf=requestAnimationFrame(frame); }
+addEventListener('resize',()=>{ size(); apply(cur); });
+size();
+if(reduce){ track.style.height='200vh'; }
+addEventListener('scroll',onScroll,{passive:true}); onScroll(); apply(cur);
+window.__contact={set:(p)=>{ target=cur=p; apply(p); }, run:(c)=>run(c), setPrompt};
+</script>
+</body>
+</html>
