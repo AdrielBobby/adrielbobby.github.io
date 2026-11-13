@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Experience scene sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1b201e; --muted:#566059; --line:#c3c8c4; --greenL:#337058; --light:#e7e9e6; --mono:"JetBrains Mono",monospace; --ease:cubic-bezier(.2,.8,.2,1); }
+  * { box-sizing:border-box; }
+  html,body { margin:0; }
+  body { background:var(--light); color:var(--ink); font-family:Manrope,system-ui,sans-serif; line-height:1.55; }
+  .hud { position:fixed; top:14px; left:16px; right:16px; z-index:5; font:400 12px/1.4 var(--mono); letter-spacing:.04em; pointer-events:none; background:rgba(15,18,17,.88); color:#c9cec9; padding:6px 10px; width:fit-content; max-width:calc(100% - 32px); }
+  .band { display:grid; place-items:center; font:400 12px/1.6 var(--mono); letter-spacing:.08em; text-transform:uppercase; }
+  .band.top { height:40vh; background:#0f1211; color:#a3aba7; }
+  .band.bottom { height:40vh; background:#000; color:#a3aba7; }
+
+  .scene { padding:16vh clamp(16px,5vw,72px) 16vh; }
+  .inner { max-width:1280px; margin:0 auto; display:grid; grid-template-columns:minmax(0,.8fr) minmax(0,1.5fr); gap:clamp(24px,5vw,72px); align-items:start; }
+  .side { position:sticky; top:14vh; }
+  .tag { font:400 12px/1.3 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--greenL); margin:0 0 18px; }
+  h2.big { font:400 clamp(44px,5.6vw,88px)/1.02 "Young Serif",serif; margin:0; letter-spacing:-.015em; }
+  .side p.lede { color:var(--muted); font-size:17px; max-width:34ch; margin:22px 0 0; }
+
+  .group { margin:0 0 7vh; }
+  .group h3 { font:400 12px/1.3 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--greenL); margin:0 0 14px; }
+  .row { display:grid; grid-template-columns:150px minmax(0,1fr); gap:6px 24px; padding:20px 0 22px; border-top:1px solid var(--line); opacity:0; transform:translateY(16px); transition:opacity .5s var(--ease), transform .5s var(--ease), background-color .15s ease; transition-delay:calc(var(--i) * 60ms), calc(var(--i) * 60ms), 0s; }
+  .row:last-child { border-bottom:1px solid var(--line); }
+  .group.in .row { opacity:1; transform:none; }
+  .row:hover { background:rgba(27,32,30,.04); }
+  .when { font:400 12px/1.5 var(--mono); letter-spacing:.06em; text-transform:uppercase; color:var(--greenL); padding-top:8px; }
+  .title { font:400 clamp(22px,2.4vw,32px)/1.15 "Young Serif",serif; margin:0; }
+  .org { font-weight:600; font-size:15px; color:var(--muted); margin:3px 0 0; }
+  .cap { color:var(--muted); font-size:15px; margin:8px 0 0; max-width:60ch; }
+  .draft { margin:6vh 0 0; color:var(--muted); font:400 12px/1.6 var(--mono); max-width:80ch; }
+  @media (prefers-reduced-motion: reduce){ .row { opacity:1; transform:none; transition:none; } }
+</style>
+</head>
+<body>
+<div class="hud">EXPERIENCE SKETCH / scroll down. Rows fade up once, 60 ms apart. Sample headline.</div>
+<div class="band top">end of the Skills scene</div>
+
+<section class="scene" id="experience" aria-labelledby="ex-h">
+  <div class="inner">
+    <div class="side">
+      <p class="tag">05 / Experience</p>
+      <h2 class="big" id="ex-h">Where I've worked and what I've earned.</h2>
+      <p class="lede">Roles, certifications and awards, newest first.</p>
+    </div>
+    <div>
+      <div class="group">
+        <h3>Experience</h3>
+        <div class="row" style="--i:0"><div class="when">Mar 2026 to now</div><div><h4 class="title" style="font-weight:400">Technical Coordinator</h4><p class="org">IEEE RSET Student Branch</p></div></div>
+        <div class="row" style="--i:1"><div class="when">May to Jun 2026</div><div><h4 class="title" style="font-weight:400">Cybersecurity Intern</h4><p class="org">Kerala Police Cyberdome</p><p class="cap">A month of hands-on work: web flaws, an Android malware lab and network traffic analysis, on controlled vulnerable apps and PortSwigger labs.</p></div></div>
+        <div class="row" style="--i:2"><div class="when">Mar 2025 to Mar 2026</div><div><h4 class="title" style="font-weight:400">Electronic Communications Coordinator</h4><p class="org">IEEE RSET Student Branch</p></div></div>
+      </div>
+
+      <div class="group">
+        <h3>Credentials</h3>
+        <div class="row" style="--i:0"><div class="when">May to Aug 2025</div><div><h4 class="title" style="font-weight:400">Certified Penetration Tester</h4><p class="org">RedTeam Academy</p><p class="cap">Nmap, Burp Suite, Metasploit, privilege escalation and report writing.</p></div></div>
+      </div>
+
+      <div class="group">
+        <h3>Awards</h3>
+        <div class="row" style="--i:0"><div class="when">Winner</div><div><h4 class="title" style="font-weight:400">Best Use of Gemma</h4><p class="org">Google Physical AI Hackathon, Onam Edition</p><p class="cap">For Thaalam, the glove that teaches chenda rhythms.</p></div></div>
+        <div class="row" style="--i:1"><div class="when">1st prize</div><div><h4 class="title" style="font-weight:400">KruizeX Ideathon</h4><p class="cap">A token-based boarding queue for Kochi Water Metro and feeder buses.</p></div></div>
+        <div class="row" style="--i:2"><div class="when">3rd prize</div><div><h4 class="title" style="font-weight:400">VAWT Street Lamp</h4><p class="cap">A vertical-axis wind turbine powering an LED street lamp.</p></div></div>
+      </div>
+
+      <div class="group">
+        <h3>Education</h3>
+        <div class="row" style="--i:0"><div class="when">2024 to now</div><div><h4 class="title" style="font-weight:400">B.Tech, Computer Science and Engineering</h4><p class="org">RSET Kochi</p><p class="cap">CGPA 8.</p></div></div>
+        <div class="row" style="--i:1"><div class="when">CBSE</div><div><h4 class="title" style="font-weight:400">Class 12</h4><p class="org">Rajagiri Public School, Kalamassery</p><p class="cap">8.9.</p></div></div>
+        <div class="row" style="--i:2"><div class="when">CBSE</div><div><h4 class="title" style="font-weight:400">Class 10</h4><p class="org">The Charter School, Pukattupady</p><p class="cap">8.9.</p></div></div>
+      </div>
+      <p class="draft">Draft. Facts come from the resume and the Cyberdome LinkedIn post. Dates for the awards are not in the inventory, so the left column shows the prize instead. The Cyberdome wording follows the post, not "internal applications". Add links (LinkedIn post, certificate) only where they exist.</p>
+    </div>
+  </div>
+</section>
+<div class="band bottom">Contact scene follows</div>
+
+<script>
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const groups=[...document.querySelectorAll('.group')];
+if(reduce){ groups.forEach(g=>g.classList.add('in')); }
+else{
+  const io=new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }),{threshold:0.2});
+  groups.forEach(g=>io.observe(g));
+}
+window.__exp={showAll:()=>groups.forEach(g=>g.classList.add('in'))};
+</script>
+</body>
+</html>

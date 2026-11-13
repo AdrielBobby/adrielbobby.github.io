@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Skills scene sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#0f1211; --dark2:#1a1f1d; --line:#2e3532; --fg:#eceef2; --muted:#a3aba7; --green:#4fb08a; --ease:cubic-bezier(.2,.8,.2,1); }
+  * { box-sizing:border-box; }
+  html,body { margin:0; }
+  body { background:var(--ink); color:var(--fg); font-family:Manrope,system-ui,sans-serif; line-height:1.5; }
+  .hud { position:fixed; top:14px; left:16px; right:16px; z-index:5; font:400 12px/1.4 "JetBrains Mono",monospace; letter-spacing:.04em; color:var(--muted); pointer-events:none; }
+  .lead { height:70vh; background:#e7e9e6; display:grid; place-items:center; color:#566059; font:400 12px/1.6 "JetBrains Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+  .after { height:50vh; background:#e7e9e6; display:grid; place-items:center; color:#566059; font:400 12px/1.6 "JetBrains Mono",monospace; letter-spacing:.08em; text-transform:uppercase; }
+  .scene { padding:14vh clamp(16px,5vw,72px) 14vh; }
+  .inner { max-width:1280px; margin:0 auto; }
+  .mono { font:400 12px/1.5 "JetBrains Mono",monospace; letter-spacing:.04em; }
+  .tag { font:400 12px/1.3 "JetBrains Mono",monospace; letter-spacing:.12em; text-transform:uppercase; color:var(--green); margin:0 0 18px; }
+  h2.big { font:400 clamp(44px,6.6vw,104px)/1.02 "Young Serif",serif; margin:0 0 22px; letter-spacing:-.015em; max-width:14ch; }
+  .legend { display:flex; gap:22px; flex-wrap:wrap; color:var(--muted); margin:0 0 6vh; align-items:center; }
+  .legend .t { display:inline-block; width:18px; height:18px; vertical-align:-4px; margin-right:8px; border:2px solid var(--muted); border-radius:4px; }
+  .legend .t.dash { border-style:dashed; opacity:.7; }
+
+  .layout { display:grid; grid-template-columns:230px minmax(0,1fr); gap:clamp(24px,4vw,56px); align-items:start; }
+  .rail { display:flex; flex-direction:column; border-top:1px solid var(--line); }
+  .tab { display:grid; grid-template-columns:22px 1fr; gap:6px 10px; align-items:center; text-align:left; background:transparent; color:var(--muted); border:0; border-bottom:1px solid var(--line); border-left:3px solid transparent; padding:14px 12px 14px 12px; cursor:pointer; font:600 16px/1.2 Manrope,sans-serif; transition:color .15s ease, background-color .15s ease; }
+  .tab::before { content:""; width:10px; height:10px; background:var(--c); transform:rotate(45deg); justify-self:center; opacity:.7; transition:opacity .15s ease; }
+  .tab .n { grid-column:2; font:400 11px/1.3 "JetBrains Mono",monospace; letter-spacing:.06em; text-transform:uppercase; opacity:.8; margin-top:-2px; }
+  .tab:hover { color:var(--fg); }
+  .tab[aria-selected="true"] { color:var(--c); border-left-color:var(--c); background:rgba(255,255,255,.03); }
+  .tab[aria-selected="true"]::before { opacity:1; }
+  .tab:focus-visible, .tile:focus-visible { outline:2px solid var(--fg); outline-offset:3px; }
+
+  .stage { min-width:0; }
+  .panel { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:30px 30px; min-height:440px; align-content:start; }
+  .cl { --c:var(--bc); min-width:0; }
+  .cl h3 { margin:0 0 14px; padding-left:24px; position:relative; font:400 12px/1.3 "JetBrains Mono",monospace; letter-spacing:.1em; text-transform:uppercase; color:var(--c); }
+  .cl h3::before { content:""; position:absolute; left:2px; top:0; width:11px; height:11px; background:var(--c); transform:rotate(45deg); }
+  .row { position:relative; display:flex; flex-wrap:wrap; gap:18px 10px; padding-left:2px; }
+  .row::before { content:""; position:absolute; left:0; right:0; top:30px; height:2px; background:var(--c); opacity:.45; transform-origin:left center; }
+  .cell { position:relative; width:80px; display:flex; flex-direction:column; align-items:center; gap:8px; }
+  .tile { position:relative; width:60px; height:60px; border:0; padding:0; cursor:pointer; background:var(--c); color:var(--c);
+    clip-path:polygon(12px 0,calc(100% - 12px) 0,100% 12px,100% calc(100% - 12px),calc(100% - 12px) 100%,12px 100%,0 calc(100% - 12px),0 12px); transition:transform .15s ease; }
+  .tile::before { content:""; position:absolute; inset:2px; background:var(--ink);
+    clip-path:polygon(11px 0,calc(100% - 11px) 0,100% 11px,100% calc(100% - 11px),calc(100% - 11px) 100%,11px 100%,0 calc(100% - 11px),0 11px); }
+  .tile:hover { transform:translateY(-2px); }
+  .tile .g { position:absolute; inset:0; display:grid; place-items:center; }
+  .tile .ic { width:30px; height:30px; background:var(--c); -webkit-mask:var(--m) center/contain no-repeat; mask:var(--m) center/contain no-repeat; }
+  .tile .mg { font:700 15px/1 "JetBrains Mono",monospace; letter-spacing:.02em; color:var(--c); }
+  .tile svg { width:30px; height:30px; display:block; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .tile[aria-pressed="true"]::before { background:color-mix(in srgb, var(--c) 22%, var(--ink)); }
+  .cell.learn .tile { background:repeating-linear-gradient(90deg,var(--c) 0 5px,transparent 5px 9px); }
+  .cell.learn .tile .g { opacity:.65; }
+  .cap { font:400 12px/1.3 Manrope,sans-serif; text-align:center; color:var(--fg); overflow-wrap:anywhere; }
+  .cell.sel .cap { color:var(--c); font-weight:600; }
+
+  .detail { border-top:1px solid var(--line); margin-top:30px; padding:16px 0; min-height:84px; }
+  .detail b { font-family:"Young Serif",serif; font-weight:400; font-size:22px; }
+  .detail .used { color:var(--muted); margin-top:4px; }
+  .detail .used span { color:var(--fg); }
+  .note { color:var(--muted); font-size:13px; max-width:78ch; margin:6vh 0 0; }
+
+  /* arrival: lines draw in, tiles settle in one after another (once, when the scene is reached) */
+  .panel.wait .cell, .panel.wait .cl h3 { opacity:0; }
+  .panel.wait .row::before { transform:scaleX(0); }
+  .panel.enter .row::before { animation:draw .6s var(--ease) both; }
+  .panel.enter .cl h3 { animation:fade .4s var(--ease) both; }
+  .panel.enter .cell { animation:pop .45s var(--ease) both; animation-delay:calc(var(--i) * 28ms + 140ms); }
+  .panel.enter.fast .row::before { animation-duration:.3s; }
+  .panel.enter.fast .cl h3 { animation-duration:.25s; }
+  .panel.enter.fast .cell { animation-duration:.25s; animation-delay:calc(var(--i) * 8ms); }
+  @keyframes draw { from { transform:scaleX(0); } to { transform:scaleX(1); } }
+  @keyframes fade { from { opacity:0; } to { opacity:1; } }
+  @keyframes pop { from { opacity:0; transform:translateY(8px) scale(.92); } to { opacity:1; transform:none; } }
+  @media (prefers-reduced-motion: reduce){ .panel.enter .row::before, .panel.enter .cl h3, .panel.enter .cell { animation:none; } .panel.wait .cell, .panel.wait .cl h3 { opacity:1; } .panel.wait .row::before { transform:none; } .tab, .tile { transition:none; } }
+</style>
+</head>
+<body>
+<div class="hud">SKILLS SCENE SKETCH / scroll down. Lines draw and tiles settle in once, when the scene is reached. Sample headline.</div>
+<div class="lead">end of the Projects scene</div>
+
+<section class="scene" id="skills" aria-labelledby="sk-h">
+  <div class="inner">
+    <p class="tag">04 / Skills</p>
+    <h2 class="big" id="sk-h">What I build with.</h2>
+    <div class="legend mono"><span><i class="t"></i>learned to use</span><span><i class="t dash"></i>learning now</span><span id="count"></span></div>
+    <div class="layout">
+      <div class="rail" role="tablist" aria-orientation="vertical" id="rail"></div>
+      <div class="stage">
+        <div class="panel wait" id="panel" role="tabpanel"></div>
+        <div class="detail" id="detail" aria-live="polite"></div>
+      </div>
+    </div>
+    <p class="note">Logos come from the Simple Icons set (CC0 files), loaded from a CDN on this page; the real site bundles them. All trademarks belong to their respective owners, and logos are shown only to indicate tools I use. The other 28 icons are custom glyphs drawn for this site.</p>
+  </div>
+</section>
+<div class="after">Experience scene follows</div>
+
+<script>
+// [name, icon slug or null, used-in projects, optional "learning", optional short caption]
+const B = [
+ { name:"Languages", c:"#4fb08a", clusters:[
+  ["Core", [["Python","python",["Calm Cockpit","Thangan","Thaalam","PoolDetect","Vaccine Dispatch","Gemini Context Monitor"]],["C","c",[]],["Java","openjdk",[]],["Lua","lua",["Mend Your Heart"]]]],
+  ["Web + data", [["JavaScript","javascript",["Calm Cockpit","SkyBrief"]],["TypeScript","typescript",["MedLedger","RSMS-Reimagined","Student Marks Tracker"]],["SQL / PL-SQL",null,["MedLedger"],0,"SQL"],["HTML / CSS","html5",["Calm Cockpit","SkyBrief","College Helper","kv"]]]] ]},
+ { name:"Web + Backend", c:"#5db2f7", clusters:[
+  ["Servers", [["Flask","flask",["Calm Cockpit"]],["FastAPI","fastapi",["Thaalam","PoolDetect"]],["Node.js","nodedotjs",["MedLedger"]],["Express","express",["MedLedger","RSMS-Reimagined"]],["REST APIs",null,["Calm Cockpit","MedLedger","SkyBrief (Open-Meteo)"]],["WebSockets",null,["Thaalam"]]]],
+  ["Frontend", [["React","react",["MedLedger","RSMS-Reimagined"]],["Vite","vite",["MedLedger","this portfolio"]],["Chart.js","chartdotjs",["Calm Cockpit"]]]],
+  ["Bots", [["discord.py","discord",["Thangan"]]]] ]},
+ { name:"AI + Embedded", c:"#be95ec", clusters:[
+  ["Local models", [["Ollama","ollama",["Thangan","Thaalam"]],["Llama 3.1","meta",["Thangan"]],["Gemma 3n","googlegemini",["Thaalam"]],["StableLM",null,["Vibe Night team project"]],["Context-window management",null,["Thangan","Gemini Context Monitor"],0,"Context window"]]],
+  ["Vision + output", [["OpenCV","opencv",["PoolDetect"]],["Rich",null,["Thangan"]],["Pillow",null,["Thangan"]],["Matplotlib",null,["Vaccine Dispatch"]]]],
+  ["Hardware", [["Raspberry Pi","raspberrypi",["Thaalam","Vibe Night team project"]],["ESP32","espressif",["ESP32 Marauder"],1]]] ]},
+ { name:"Security", c:"#f2897c", clusters:[
+  ["Recon + scanning", [["Nmap",null,[]],["Gobuster",null,[]],["WPScan",null,[]],["Joomscan",null,[]]]],
+  ["Exploitation", [["Burp Suite","burpsuite",[]],["Metasploit","metasploit",[]],["SQLMap",null,[]],["Searchsploit",null,[]]]],
+  ["Password attacks", [["Hydra",null,[]],["John the Ripper",null,[],0,"John"],["Hashcat",null,[]]]],
+  ["Network + stego", [["Wireshark","wireshark",[]],["Netcat",null,[]],["Tor","torproject",[]],["Steghide",null,[]],["Stegseek",null,[]]]],
+  ["Mobile analysis", [["MobSF",null,[]],["Frida",null,[]],["Genymotion",null,[]],["ADB","android",[]],["JADX",null,[]]]],
+  ["Lab", [["Linux","linux",[]],["Kali Linux","kalilinux",[]],["VirtualBox","virtualbox",[]],["Docker","docker",["MedLedger","Cyberdome internship"]]]] ]},
+ { name:"Platforms + Data", c:"#e987b3", clusters:[
+  ["Databases", [["MySQL","mysql",["Vaccine Dispatch"]],["SQLite","sqlite",["Calm Cockpit","RSMS-Reimagined"]],["Oracle Database","oracle",["MedLedger"],0,"Oracle"]]],
+  ["Tooling", [["Git + GitHub","github",["every project"]],["pytest","pytest",["Thangan"]],["Arduino IDE","arduino",["ESP32 Marauder"],1],["Vercel","vercel",["College Helper"]]]] ]},
+ { name:"Domains", c:"#d3a23b", clusters:[
+  ["Security", [["Web application security",null,["Cyberdome internship","RedTeam Academy"],0,"Web app security"],["Network security",null,["Cyberdome internship"]],["Mobile security",null,["Cyberdome internship"]]]],
+  ["Other", [["Social media management",null,["IEEE RSET Student Branch"],0,"Social media"]]] ]}
+];
+// Custom glyphs for the 28 skills with no logo (24-unit grid, 2-unit round stroke). Keyed by node name.
+const FRAME = '<rect x="3" y="4" width="18" height="16" rx="2"/>';
+const PHONE = '<rect x="6" y="2.5" width="12" height="19" rx="2.5"/>';
+const GLYPH = {
+ "SQL / PL-SQL":'<ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v12c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12c0 1.7 3.1 3 7 3s7-1.3 7-3"/>',
+ "REST APIs":'<path d="M4 8h14M14 4l4 4-4 4"/><path d="M20 16H6M10 12l-4 4 4 4"/>',
+ "WebSockets":'<path d="M3 12h18"/><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><circle cx="12" cy="12" r="1.4" fill="currentColor"/>',
+ "StableLM":'<path d="M4 5h16v11h-9l-4 4v-4H4z"/><circle cx="9" cy="10.5" r="1" fill="currentColor"/><circle cx="12" cy="10.5" r="1" fill="currentColor"/><circle cx="15" cy="10.5" r="1" fill="currentColor"/>',
+ "Context-window management":'<path d="M8 4H5v16h3M16 4h3v16h-3"/><path d="M9 9h6M9 12h6M9 15h4"/>',
+ "Rich":FRAME+'<path d="M7 9.5l3 2.5-3 2.5M12 15h5"/>',
+ "Pillow":FRAME+'<circle cx="9" cy="10" r="1.6"/><path d="M3 17l5-4 4 3 3-2 6 4"/>',
+ "Matplotlib":'<path d="M4 4v16h16"/><path d="M8 15l3-4 3 2 4-6"/>',
+ "Nmap":'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4.5"/><path d="M12 12l6-6"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
+ "Gobuster":'<path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M13.5 10l-3 6"/>',
+ "WPScan":FRAME+'<path d="M3 9h18"/><path d="M7 14h10" stroke-dasharray="2 2.5"/>',
+ "Joomscan":'<path d="M5 8h3.2a2.5 2.5 0 1 1 5 0H17v3.2a2.5 2.5 0 1 1 0 5V20H5z"/>',
+ "SQLMap":'<path d="M20 4l-4 4"/><path d="M15 3l6 6"/><path d="M15 7l-8 8-1 4 4-1 8-8"/><path d="M5 19l-2 2"/>',
+ "Searchsploit":'<circle cx="10" cy="10" r="6"/><path d="M15 15l5 5"/><path d="M11 6.5l-2 3.5h3l-2 3.5"/>',
+ "Hydra":'<path d="M12 21v-5"/><path d="M12 16c0-4-6-3-6-9"/><path d="M12 16V6"/><path d="M12 16c0-4 6-3 6-9"/><path d="M4 7h4L6 3z" fill="currentColor"/><path d="M10 6h4l-2-4z" fill="currentColor"/><path d="M16 7h4l-2-4z" fill="currentColor"/>',
+ "John the Ripper":'<circle cx="8" cy="12" r="4"/><path d="M12 12h9M18 12v3M21 12v2"/>',
+ "Hashcat":'<path d="M9.5 4L7.5 20M16.5 4l-2 16M4 9h17M3 15h17"/>',
+ "Netcat":'<path d="M5 9V4l4.5 3h5L19 4v5c1 1.2 1.5 2.6 1.5 4.2 0 4-3.6 6.8-8.5 6.8S3.5 17.2 3.5 13.2C3.5 11.6 4 10.2 5 9z"/><circle cx="9" cy="13" r="1" fill="currentColor"/><circle cx="15" cy="13" r="1" fill="currentColor"/><path d="M10.5 16.5q1.5 1.2 3 0"/>',
+ "Steghide":FRAME+'<rect x="9" y="12" width="6" height="5" rx="1"/><path d="M10.5 12v-1.2a1.5 1.5 0 0 1 3 0V12"/>',
+ "Stegseek":FRAME+'<path d="M7 12s2-3.5 5-3.5 5 3.5 5 3.5-2 3.5-5 3.5S7 12 7 12z"/><circle cx="12" cy="12" r="1.3"/>',
+ "MobSF":PHONE+'<circle cx="12" cy="12" r="3"/><path d="M12 8v1.5M12 14.5V16M8 12h1.5M14.5 12H16"/>',
+ "Frida":'<circle cx="12" cy="4.5" r="1.8"/><path d="M12 6.3V16a5 5 0 0 1-9.5 2.2"/><path d="M2.5 18.2l-.2-3.7M2.5 18.2l3.4-1.2"/>',
+ "Genymotion":'<rect x="8" y="3" width="11" height="17" rx="2.5"/><path d="M5 7v11a2.5 2.5 0 0 0 2.5 2.5" stroke-dasharray="2 2"/>',
+ "JADX":'<path d="M3 8l9-5 9 5v8l-9 5-9-5z"/><path d="M10 10l-2 2 2 2M14 10l2 2-2 2"/>',
+ "Web application security":FRAME+'<path d="M3 9h18"/><rect x="9.5" y="12" width="5" height="4.5" rx="1"/><path d="M10.5 12v-.8a1.5 1.5 0 0 1 3 0v.8"/>',
+ "Network security":'<circle cx="5" cy="6" r="2"/><circle cx="19" cy="6" r="2"/><circle cx="12" cy="19" r="2"/><path d="M7 6h10M6 8l5 9M18 8l-5 9"/>',
+ "Mobile security":PHONE+'<path d="M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z"/>',
+ "Social media management":'<path d="M4 10v4h3l8 4V6L7 10z"/><path d="M18 9a4 4 0 0 1 0 6M7 14l1 5h3l-1-4.5"/>'
+};
+const ICON='https://cdn.jsdelivr.net/npm/simple-icons@13.21.0/icons/';
+const total = B.reduce((a,b)=>a+b.clusters.reduce((x,c)=>x+c[1].length,0),0);
+const noIcon = B.flatMap(b=>b.clusters.flatMap(c=>c[1])).filter(n=>!n[1]&&!GLYPH[n[0]]).map(n=>n[0]);
+if(noIcon.length) console.warn('No logo or glyph for:', noIcon);
+function glyphOf(n){ return GLYPH[n[0]] ? `<svg viewBox="0 0 24 24" aria-hidden="true">${GLYPH[n[0]]}</svg>` : `<span class="mg">${mono(n[0])}</span>`; }
+function esc(s){return s.replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));}
+function mono(name){const w=name.replace(/[^A-Za-z0-9 +.]/g,'').split(/[ .]+/).filter(Boolean); return (w.length>1?w[0][0]+w[1][0]:name.slice(0,2)).toUpperCase();}
+
+document.getElementById('count').textContent = total+' skills in '+B.length+' branches';
+const rail=document.getElementById('rail'), panel=document.getElementById('panel'), detail=document.getElementById('detail');
+let cur=3, sel=null, started=false;
+const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+function replay(fast){ panel.classList.remove('enter','fast'); void panel.offsetWidth; panel.classList.add('enter'); if(fast) panel.classList.add('fast'); }
+function render(fast){
+  rail.innerHTML = B.map((b,i)=>{const n=b.clusters.reduce((x,c)=>x+c[1].length,0);
+    return `<button class="tab" role="tab" id="tab${i}" aria-selected="${i===cur}" aria-controls="panel" tabindex="${i===cur?0:-1}" data-i="${i}" style="--c:${b.c}">${b.name}<span class="n">${n} skills</span></button>`}).join('');
+  const b=B[cur]; let idx=0;
+  panel.setAttribute('aria-labelledby','tab'+cur);
+  panel.innerHTML = b.clusters.map((c,ci)=>`<div class="cl" style="--bc:${b.c}"><h3>${esc(c[0])}</h3><div class="row">${
+    c[1].map((n,ni)=>{const isSel=sel&&sel[0]===cur&&sel[1]===ci&&sel[2]===ni;
+      return `<div class="cell ${n[3]?'learn':''} ${isSel?'sel':''}" style="--i:${idx++}"><button class="tile" data-ci="${ci}" data-ni="${ni}" aria-pressed="${isSel}" aria-label="${esc(n[0])}"><span class="g">${glyphOf(n)}</span></button><span class="cap">${esc(n[4]||n[0])}</span></div>`}).join('')}</div></div>`).join('');
+  panel.querySelectorAll('.tile').forEach(t=>{
+    const n=b.clusters[+t.dataset.ci][1][+t.dataset.ni]; if(!n[1]) return;
+    fetch(ICON+n[1]+'.svg').then(r=>{if(!r.ok) throw 0; return r.text();}).then(svg=>{
+      t.querySelector('.g').innerHTML=`<span class="ic" style="--m:url('data:image/svg+xml;utf8,${encodeURIComponent(svg)}')"></span>`;
+    }).catch(()=>{});
+  });
+  if(started){ panel.classList.remove('wait'); if(!reduce) replay(fast); }
+  showDetail();
+}
+function showDetail(){
+  if(!sel||sel[0]!==cur){ detail.innerHTML=`<span class="mono" style="color:var(--muted)">Select a tile to see where it was used.</span>`; return; }
+  const n=B[sel[0]].clusters[sel[1]][1][sel[2]];
+  const status = n[3] ? 'Currently learning.' : 'Learned to use.';
+  detail.innerHTML = `<b style="color:${B[sel[0]].c}">${esc(n[0])}</b><div class="used">${status}${n[2].length?' Used in: <span>'+n[2].map(esc).join(', ')+'</span>':''}</div>`;
+}
+rail.addEventListener('click',e=>{const t=e.target.closest('.tab'); if(!t)return; cur=+t.dataset.i; render(true);});
+rail.addEventListener('keydown',e=>{ if(e.key==='ArrowDown'||e.key==='ArrowUp'){ e.preventDefault(); cur=(cur+(e.key==='ArrowDown'?1:B.length-1))%B.length; render(true); document.getElementById('tab'+cur).focus(); }});
+panel.addEventListener('click',e=>{const t=e.target.closest('.tile'); if(!t)return; sel=[cur,+t.dataset.ci,+t.dataset.ni];
+  [...panel.querySelectorAll('.cell')].forEach(c=>c.classList.remove('sel')); t.closest('.cell').classList.add('sel');
+  panel.querySelectorAll('.tile').forEach(x=>x.setAttribute('aria-pressed', x===t)); showDetail(); });
+render();
+// the scene plays its arrival once, when it is first reached
+const io=new IntersectionObserver((es)=>es.forEach(e=>{ if(e.isIntersecting && !started){ started=true; panel.classList.remove('wait'); if(!reduce) replay(false); io.disconnect(); } }),{threshold:0.3});
+io.observe(document.getElementById('skills'));
+window.__skills={arrive:()=>{started=true;panel.classList.remove('wait');replay(false);},pick:(i)=>{cur=i;render(true);}};
+</script>
+</body>
+</html>
