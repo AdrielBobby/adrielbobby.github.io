@@ -1,0 +1,81 @@
+# Design brief: Adriel Bobby portfolio rebuild
+
+Status: **draft for approval.** Desktop only. Nothing is built until this is approved. Details and history live in `plan.md`; this page is the single source for the build.
+
+## 1. Goal
+A technical-editorial portfolio that shows real, checkable work first and personality second. Easy to read, one clear path to projects and contact. Replaces the current purple-gradient React site.
+
+## 2. Scope
+- **Pages:** `/` (the scroll site) and four case files: `/projects/thaalam`, `/projects/calm-cockpit`, `/projects/medledger`, `/projects/thangan`. Resume is a PDF link. A simple 404.
+- **Desktop only.** Phones get their own planning pass later.
+- **Not included:** blog, theme toggle, analytics, 3D scene, sound.
+
+## 3. Visual system
+- **Type:** Young Serif (headlines, one weight, no italic), Manrope (body, nav, buttons), JetBrains Mono (metadata labels). Self-hosted woff2.
+- **Colour:** graphite `#0f1211` and `#1a1f1d`, pale grey `#e7e9e6`, patina green `#4fb08a` on dark and `#337058` on light. Project accents in OKLCH (hues: Security 28, Hardware 82, Backend 245, Local AI 305, Dashboards 352), each adjusted to 4.5:1 contrast on its surface. The old purple gradient is gone.
+- **Marks:** the **kv mark** (notched tile, kv cut out) for the nav and favicon; the **face logo** (version B, recoloured) at the end of the opening. Final SVGs are made at build time with text converted to outlines.
+- **Surfaces:** flat colour, ruled lines, mono captions. No glass, no gradients as decoration.
+
+## 4. Home page, top to bottom
+1. **Opening** (graphite, green, pale grey). Loads on the kv tile; scrolling grows it to a green page, the kv becomes stroke letters, the brush strokes paint on, the page fades to pale grey. About 5.6 screens, eased scroll. "Skip intro" link. Prototype: `hero-sketch.html`.
+2. **Who I am** (pale grey). The finished face logo breaks into `. , : - + *` symbols that sweep left to right and settle into the symbol portrait on the right (no zoom). The text enters scroll-linked: label, then a very large Young Serif headline whose words rise out of a mask, then the role line, then two stat tiles. Faint scroll-linked halftone field behind. Copy (Adriel's picks): headline "I build things end to end, then try to break them."; role line "Cybersecurity and software student who builds things end to end."; tiles **10+ Projects built** and **3 Awards won** (numbers only, no detail lines). A certificates tile is added later if more come. Prototypes: `transition-sketch.html` (full opening plus handoff), `portrait-sketch.html`.
+3. **Projects** (pale grey, page takes each project's accent as reached). The four featured projects as a scannable list, each opening its case file. Then **Other projects**: a three-column tile grid (name, GitHub arrow when public, two or three line description, stack chips), opening GitHub. Tiles: ESP32 Marauder, PoolDetect AI, Mis-Communication-Nater, Mend Your Heart, Vaccine Dispatch Tracker, RSMS-Reimagined, SkyBrief, Gemini Context Monitor, Student Marks Tracker.
+4. **Skills** (graphite). Icon tiles on branch lines, 65 skills in six branches, click a tile for where it was used. 37 real logos, 28 custom glyphs. Prototype: `skill-tree.html`, `glyph-sketch.html`.
+5. **Experience** (pale grey). Plain ruled rows with a one-line mono caption each. Not a timeline. Hackathons and credentials sit here (VAWT and KruizeX prizes belong in these rows; Mis-Communication-Nater does not).
+6. **Contact** (halftone dissolve to black). A `contact.sh` terminal that types itself in; commands `help`, `email`, `resume`, `projects`; buttons for Open Mail Client and Copy Email; one hidden easter egg.
+
+Rhythm: light, light, dark, light, black, so no two heavy scenes touch.
+
+## 5. Navigation
+Fixed top-centre kv pill. Collapsed: the mark only. Expanded (hover or focus; click pins): About, Projects, Skills | kv | Experience, Contact, Resume (outlined, opens the PDF). Active section gets the surface accent and a dot. Pill colour follows the scene. Only the mark shows during the opening. On case files the same pill, Projects active, plus a back link. Prototype: `navbar-sketch.html`.
+
+## 6. Case file page
+Always dark graphite with the project accent. Sticky "file card" on the left (status, context, stack, links) with scroll-spy contents; content on the right in this order: Outcome, Problem, What was built, My part, Key decisions, Evidence, Links. Previous and next move between files; "Back to projects" returns to the right scroll position. Prototype: `casefile-sketch.html`.
+
+- **Media:** Adriel supplies pictures for all four. Each has a lead image on the file card and an Evidence gallery of captioned photos, screenshots and short silent looping clips. Thaalam shows both the hardware (glove, drums) and the UI.
+- **Copy:** `case-files.md`. Wording rule: no "built it all from scratch myself" claims; talk about ideas, design and decisions; credit others' code (Ryyan Safar's ESE calculator in Calm Cockpit).
+- **Thangan:** private repo, so writing only, no repo link, marked in progress; its "honest limits" (Discord replies pass through Discord, no per-user allowlist) stay on the page.
+
+## 7. Motion
+- Three kinds only: scroll-linked, triggered once, hover or focus.
+- Timing: hover 150 ms; small state 250 to 400 ms; scene entrance 500 to 700 ms; ease `cubic-bezier(.2,.8,.2,1)`; no bounce.
+- Global eased scroll (factor about 0.12); no scroll-jacking.
+- Never animates: body text, anything shifting layout while reading, loops (except the terminal cursor), flashing, sound.
+- Reduced motion: finished logo and portrait, instant colour changes, straight cut to dark, instant terminal, no eased scroll.
+- Home to case file is a plain cut for now.
+- Only transform, opacity and canvas animate; 60 fps target.
+
+## 8. Technical
+- React 18 + Vite, GitHub Pages via `gh-pages`, `react-router-dom` with a `404.html` redirect for deep links.
+- Drop `three`, `postprocessing`, `react-github-calendar`, `framer-motion`.
+- One scroll hook plus IntersectionObserver for the nav; two canvases (portrait, dissolve).
+- Logos bundled locally from Simple Icons; trademark line in the footer. Fonts self-hosted, licences kept in the repo.
+- WebP images sized to display width, lazy-loaded; clips muted and paused off screen.
+- Resume at `public/Resume.pdf` (replaces `Resume_v3.pdf`).
+- Metadata: per-page titles, description, Open Graph card (kv tile), theme colour, favicon (SVG plus PNG), `robots.txt`, sitemap.
+- No analytics, cookies or third-party requests. `content-inventory.md` is never published.
+- Budget: first load under about 150 KB gzipped JS, LCP under 1.5 s, no layout shift.
+- Accessibility: landmarks, skip link, visible focus, 4.5:1 contrast on every accent, text alternatives for the canvases.
+
+## 9. What Adriel still supplies
+- Resume PDF (new version).
+- Pictures and clips for all four projects (Thaalam: hardware and UI).
+- Who-I-am headline and role line.
+- Review of all four case-file drafts once before launch.
+- Evidence for three Thangan figures (114 of 115, 91 of 115, about 0.1 s median), or they stay off the page.
+- Optional: more detail for MedLedger's "My part"; Torn view for Calm Cockpit once it exists.
+
+## 10. Build order
+1. Project scaffold: routing, fonts, tokens, 404 redirect, deploy check.
+2. Nav and scroll hook.
+3. Opening.
+4. Who I am with portrait.
+5. Projects list, other-projects tiles.
+6. Case-file template, then the four files.
+7. Skills.
+8. Experience.
+9. Contact and dissolve.
+10. Metadata, accessibility, performance and link checks, deploy.
+
+## 11. Approval
+Build starts when Adriel says so. Changes to this brief are made here and in `plan.md` first.
