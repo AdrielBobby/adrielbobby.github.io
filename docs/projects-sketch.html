@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Projects scene sketch</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+<style>
+  :root { --ink:#1b201e; --muted:#566059; --line:#c3c8c4; --mono:"JetBrains Mono",monospace;
+          --bg:#e7e9e6; --ac:#337058; --ease:cubic-bezier(.2,.8,.2,1); }
+  * { box-sizing:border-box; }
+  html,body { margin:0; }
+  body { background:var(--bg); color:var(--ink); font-family:Manrope,system-ui,sans-serif; line-height:1.55;
+         transition:background-color .5s var(--ease); }
+  /* the page picks up the accent of the project in view (soft tint of the page, accent for numerals, links and chips) */
+  body[data-active="1"] { --bg:#efe9d9; --ac:#835d00; }   /* Thaalam, amber */
+  body[data-active="2"] { --bg:#f6e6dd; --ac:#a54500; }   /* Calm Cockpit, orange */
+  body[data-active="3"] { --bg:#dcefe7; --ac:#1e5c47; }   /* MedLedger, forest green */
+  body[data-active="4"] { --bg:#e1eaf9; --ac:#2d63ba; }   /* Thangan, blue */
+
+  .hud { position:fixed; top:14px; left:16px; right:16px; z-index:5; font:400 12px/1.4 var(--mono); letter-spacing:.04em; color:var(--muted); pointer-events:none; }
+  .wrap { max-width:1280px; margin:0 auto; padding:0 clamp(16px,5vw,72px); }
+  .head { padding:16vh 0 6vh; }
+  .tag { font:400 12px/1.3 var(--mono); letter-spacing:.12em; text-transform:uppercase; color:var(--ac); margin:0 0 18px; transition:color .5s var(--ease); }
+  h2.big { font:400 clamp(44px,6.6vw,104px)/1.02 "Young Serif",serif; margin:0; letter-spacing:-.015em; max-width:14ch; }
+
+  .row { min-height:84vh; display:grid; grid-template-columns:minmax(0,1.05fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:center; border-top:1px solid var(--line); padding:7vh 0; }
+  .num { font:400 clamp(56px,8vw,120px)/1 "Young Serif",serif; color:var(--ac); transition:color .5s var(--ease); margin:0 0 6px; }
+  .name { font:400 clamp(40px,5.4vw,84px)/1.02 "Young Serif",serif; margin:0 0 18px; letter-spacing:-.012em; }
+  .one { font-size:18px; max-width:44ch; margin:0 0 22px; color:#2c3330; }
+  .meta { display:flex; flex-wrap:wrap; gap:8px; margin:0 0 26px; padding:0; list-style:none; }
+  .meta li { font:400 11px/1 var(--mono); letter-spacing:.08em; text-transform:uppercase; color:var(--ac); border:1px solid var(--ac); border-radius:999px; padding:7px 11px; transition:color .5s var(--ease), border-color .5s var(--ease); }
+  .open { display:inline-flex; gap:10px; align-items:center; font:600 15px/1 Manrope,sans-serif; color:var(--ink); text-decoration:none; border-bottom:2px solid var(--ac); padding-bottom:6px; transition:border-color .5s var(--ease); }
+  .open .arr { transition:transform .15s ease; display:inline-block; }
+  .row:hover .open .arr, .open:focus-visible .arr { transform:translateX(5px); }
+  .open:focus-visible { outline:2px solid var(--ac); outline-offset:6px; }
+  .media { position:relative; transition:transform .15s ease; }
+  .row:hover .media { transform:translateY(-4px); }
+  .ph { background:repeating-linear-gradient(135deg,rgba(27,32,30,.05) 0 14px,rgba(27,32,30,.09) 14px 28px); border:1px solid var(--line); display:grid; place-items:center; color:var(--muted); font:400 11px/1.4 var(--mono); letter-spacing:.08em; text-transform:uppercase; text-align:center; padding:12px; }
+  .ph.a { aspect-ratio:4/3; }
+  .ph.hw { aspect-ratio:4/3; width:82%; }
+  .ph.ui { aspect-ratio:16/10; width:64%; position:absolute; right:0; bottom:-9%; background-color:var(--bg); border-color:var(--ac); transition:border-color .5s var(--ease); }
+
+  .others { border-top:1px solid var(--line); padding:12vh 0 18vh; }
+  .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:6vh; }
+  .tile { border:1px solid var(--line); border-radius:12px; padding:20px 20px 18px; display:flex; flex-direction:column; gap:10px; transition:transform .15s ease, border-color .15s ease; background:rgba(255,255,255,.28); }
+  .tile:hover { transform:translateY(-4px); border-color:#8c968f; }
+  .tile h3 { font:400 24px/1.15 "Young Serif",serif; margin:0; display:flex; justify-content:space-between; gap:12px; align-items:flex-start; }
+  .tile h3 a { color:var(--ink); text-decoration:none; font:400 20px/1 var(--mono); }
+  .tile h3 a:focus-visible { outline:2px solid #337058; outline-offset:4px; }
+  .tile p { margin:0; color:var(--muted); font-size:15px; line-height:1.5; flex:1; }
+  .chips { display:flex; flex-wrap:wrap; gap:6px; }
+  .chips span { font:400 11px/1 var(--mono); letter-spacing:.06em; color:#337058; border:1px solid var(--line); border-radius:999px; padding:6px 9px; }
+  .draft { margin-top:6vh; color:var(--muted); font:400 12px/1.6 var(--mono); max-width:80ch; }
+  @media (prefers-reduced-motion: reduce){ body, .tag, .num, .meta li, .open, .ph.ui { transition:none; } .media, .tile, .open .arr { transition:none; } }
+</style>
+</head>
+<body>
+<div class="hud" id="hud">PROJECTS SKETCH / scroll slowly. Page tint and accent follow the project in view. Placeholders for pictures.</div>
+
+<div class="wrap">
+  <header class="head">
+    <p class="tag">03 / Projects</p>
+    <h2 class="big">Four builds I would show first.</h2>
+  </header>
+
+  <article class="row" data-i="1">
+    <div>
+      <p class="num">01</p>
+      <h3 class="name">Thaalam</h3>
+      <p class="one">A glove that teaches chenda rhythms. On-device Gemma turns a track into a finger-by-finger lesson and coaches in Malayalam.</p>
+      <ul class="meta"><li>Hackathon winner</li><li>Best Use of Gemma</li><li>Python, FastAPI, Raspberry Pi</li></ul>
+      <a class="open" href="#" onclick="return false">Open case file <span class="arr">&rarr;</span></a>
+    </div>
+    <div class="media">
+      <div class="ph hw">Hardware photo<br>glove and drums</div>
+      <div class="ph ui">UI screenshot<br>3D chenda</div>
+    </div>
+  </article>
+
+  <article class="row" data-i="2">
+    <div>
+      <p class="num">02</p>
+      <h3 class="name">Calm Cockpit</h3>
+      <p class="one">A personal dashboard for my own student life, built because my college portal would not show me my attendance percentage.</p>
+      <ul class="meta"><li>In use</li><li>Built for myself</li><li>Flask, SQLite, Chart.js</li></ul>
+      <a class="open" href="#" onclick="return false">Open case file <span class="arr">&rarr;</span></a>
+    </div>
+    <div class="media"><div class="ph a">Screenshot<br>attendance and timetable</div></div>
+  </article>
+
+  <article class="row" data-i="3">
+    <div>
+      <p class="num">03</p>
+      <h3 class="name">MedLedger</h3>
+      <p class="one">A DBMS class microproject that grew into a pharmacy stock system. The database itself refuses to sell expired or missing stock.</p>
+      <ul class="meta"><li>Complete</li><li>Oracle 23ai in Docker</li><li>React, Node, TypeScript</li></ul>
+      <a class="open" href="#" onclick="return false">Open case file <span class="arr">&rarr;</span></a>
+    </div>
+    <div class="media"><div class="ph a">Screenshot or schema diagram<br>batches, FEFO sales</div></div>
+  </article>
+
+  <article class="row" data-i="4">
+    <div>
+      <p class="num">04</p>
+      <h3 class="name">Thangan</h3>
+      <p class="one">A local AI second brain that answers questions about my college life in plain English. It runs on my own machine and is strictly read-only.</p>
+      <ul class="meta"><li>In progress</li><li>Private</li><li>Python, Ollama, Llama 3.1</li></ul>
+      <a class="open" href="#" onclick="return false">Open case file <span class="arr">&rarr;</span></a>
+    </div>
+    <div class="media"><div class="ph a">Screenshot<br>terminal app</div></div>
+  </article>
+
+  <section class="others" id="others">
+    <p class="tag">Other projects</p>
+    <h2 class="big" style="font-size:clamp(34px,4.6vw,64px);max-width:20ch">Smaller builds and experiments.</h2>
+    <div class="grid">
+      <div class="tile"><h3>ESP32 Marauder</h3><p>Wi-Fi and Bluetooth pentesting toolkit built on an ESP32 with Marauder firmware, for wireless auditing.</p><div class="chips"><span>ESP32</span><span>Arduino IDE</span><span>Wireshark</span></div></div>
+      <div class="tile"><h3>PoolDetect AI <a href="#" onclick="return false" aria-label="PoolDetect AI on GitHub">&#8599;</a></h3><p>Finds swimming pools in satellite imagery with a custom OpenCV morphology approach, under 0.1 s per image on CPU.</p><div class="chips"><span>Python</span><span>OpenCV</span><span>NumPy</span></div></div>
+      <div class="tile"><h3>Mis-Communication-Nater</h3><p>Experimental AI system on a Raspberry Pi where two models talk to each other instead of answering user queries.</p><div class="chips"><span>Raspberry Pi 4B</span><span>StableLM Zephyr 3B</span><span>LEDs</span></div></div>
+      <div class="tile"><h3>Mend Your Heart <a href="#" onclick="return false" aria-label="Mend Your Heart on GitHub">&#8599;</a></h3><p>A cozy Valentine’s Day pixel art adventure: mend a broken heart through NPC interactions, kindness and minigames.</p><div class="chips"><span>Love2D</span><span>Lua</span><span>Pixel art</span></div></div>
+      <div class="tile"><h3>RSMS-Reimagined <a href="#" onclick="return false" aria-label="RSMS-Reimagined on GitHub">&#8599;</a></h3><p>A privacy-safe student-portal demo with timetable, attendance eligibility and a leave planner, using fictional data.</p><div class="chips"><span>React</span><span>Express</span><span>SQLite</span></div></div>
+      <div class="tile"><h3>Student Marks Tracker <a href="#" onclick="return false" aria-label="Student Marks Tracker on GitHub">&#8599;</a></h3><p>Internship performance dashboard with holiday-aware mark entry, student visibility windows and scorecards with performance bands.</p><div class="chips"><span>TypeScript</span><span>SQLite</span></div></div>
+      <div class="tile"><h3>Spotify Tracks Data Analysis</h3><p>Exploratory analysis of a Spotify tracks dataset: cleaning audio features and charting popularity, tempo, genre and correlations.</p><div class="chips"><span>Python</span><span>Pandas</span><span>Matplotlib</span><span>Seaborn</span></div></div>
+      <div class="tile"><h3>Pong Game</h3><p>Face-powered two-player Pong that uses webcam face capture as the ball and winner animation, with a custom Tkinter GUI.</p><div class="chips"><span>Python</span><span>tkinter</span><span>OpenCV</span><span>Pillow</span><span>NumPy</span></div></div>
+      <div class="tile"><h3>Gemini Context Monitor <a href="#" onclick="return false" aria-label="Gemini Context Monitor on GitHub">&#8599;</a></h3><p>Developer dashboard for real-time tracking, history and token optimisation of Gemini CLI context windows.</p><div class="chips"><span>Python</span><span>CustomTkinter</span><span>SQLite</span></div></div>
+      <div class="tile"><h3>SkyBrief <a href="#" onclick="return false" aria-label="SkyBrief on GitHub">&#8599;</a></h3><p>A simple weather dashboard.</p><div class="chips"><span>HTML</span><span>CSS</span><span>JavaScript</span><span>Open-Meteo</span></div></div>
+      <div class="tile"><h3>Vaccine Dispatch Tracker <a href="#" onclick="return false" aria-label="Vaccine Dispatch Tracker on GitHub">&#8599;</a></h3><p>Full-stack vaccine inventory and logistics system with a GUI, automated order tracking and real-time visualisation.</p><div class="chips"><span>Python</span><span>MySQL</span><span>CustomTkinter</span><span>Matplotlib</span></div></div>
+    </div>
+    <p class="draft">Draft. 11 tiles. Wording is shortened from the current site, so these are Adriel’s own words where they exist (RSMS-Reimagined and SkyBrief come from GitHub, not the current site). Tiles without an arrow have no public repo (ESP32 Marauder, Mis-Communication-Nater, Pong Game, Spotify Tracks Data Analysis). Pictures are placeholders; Thaalam shows hardware and UI together.</p>
+  </section>
+</div>
+
+<script>
+const rows=[...document.querySelectorAll('.row')];
+let ticking=false;
+function update(){
+  ticking=false;
+  const mid=innerHeight/2; let best=null, bd=1e9;
+  rows.forEach(r=>{ const b=r.getBoundingClientRect(); const d=Math.abs((b.top+b.bottom)/2-mid); const inside=b.top<mid && b.bottom>mid; if(inside && d<bd){ bd=d; best=r; } });
+  const v = best ? best.dataset.i : '';
+  if(document.body.dataset.active!==v){ if(v) document.body.dataset.active=v; else delete document.body.dataset.active; }
+}
+addEventListener('scroll',()=>{ if(!ticking){ ticking=true; requestAnimationFrame(update); } },{passive:true});
+addEventListener('resize',update); update();
+window.__proj={setActive:(i)=>{ if(i) document.body.dataset.active=i; else delete document.body.dataset.active; }};
+</script>
+</body>
+</html>
