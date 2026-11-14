@@ -3,7 +3,7 @@
    the handoff into Who I am runs from 66% to 94%. */
 .opening { position: relative; height: 820vh; }
 .opening-stage {
-  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden;
   background: var(--graphite-900);
 }
 
@@ -15,7 +15,7 @@
 .opening-mark-about { top: 691vh; bottom: 0; }
 
 /* Reduced motion: a single screen showing the settled Who I am scene. */
-.opening.is-still { height: 100vh; }
+.opening.is-still { height: 100vh; height: 100svh; }
 .opening.is-still .opening-mark-intro { display: none; }
 .opening.is-still .opening-mark-about { top: 0; }
 .opening.is-still .opening-skip { display: none; }
@@ -39,7 +39,8 @@
 .opening-cue-arrow { display: inline-block; font-size: 15px; animation: cue-bob 1.4s ease-in-out infinite; }
 @keyframes cue-bob { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(5px); } }
 .opening.is-still .opening-cue { display: none; }
-.opening-skip:hover { text-decoration: underline; }
+.opening-skip:focus-visible { text-decoration: underline; }
+@media (hover: hover) { .opening-skip:hover { text-decoration: underline; } }
 .opening-skip:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
 /* ---- Who I am ---- */
@@ -77,6 +78,32 @@
 .about-stat dt { font: 400 12px/1.4 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
 .about-tag, .about-role, .about-stat { opacity: 0; }
 .about-portrait { position: relative; width: 100%; justify-self: center; }
+
+/* ---- phones: a shorter track that ends with the finished logo, then a stacked Who I am ---- */
+@media (max-width: 700px) {
+  .opening.is-phone { height: 340vh; }
+  .opening.is-phone.is-still { height: 100vh; height: 100svh; }
+  .opening.is-phone .opening-mark-intro { top: 0; height: 100%; }
+  .opening.is-phone .opening-art { width: 100vw; max-width: none; max-height: none; }
+  .opening-skip, .opening-cue { padding: 16px 14px; }
+  .opening-cue { left: var(--gutter); transform: none; padding-left: 0; } /* clear of Skip intro on the narrowest phones */
+}
+.about-phone { background: var(--pale); color: var(--ink); padding: 14vh var(--gutter) 12vh; }
+.about-phone-inner { max-width: 560px; margin: 0 auto; display: grid; gap: 44px; }
+.about-phone .about-head { font-size: clamp(34px, 10.4vw, 48px); margin-bottom: 22px; }
+.about-phone .about-role { font-size: 16px; margin-bottom: 24px; }
+.about-phone .about-stat dd { font-size: 44px; }
+.about-portrait-static { width: 100%; }
+.about-portrait-static canvas { display: block; }
+/* the text rises in once when it comes into view (.is-in is added by Opening.jsx) */
+.about-phone .about-tag, .about-phone .about-role, .about-phone .about-stat, .about-phone .about-portrait {
+  opacity: 1; transition: opacity 600ms var(--ease), transform 600ms var(--ease);
+}
+.about-phone .about-word-inner { transform: none; transition: transform 700ms var(--ease); }
+.about-phone:not(.is-in) .about-tag, .about-phone:not(.is-in) .about-role, .about-phone:not(.is-in) .about-stat, .about-phone:not(.is-in) .about-portrait { opacity: 0; transform: translateY(14px); }
+.about-phone:not(.is-in) .about-word-inner { transform: translateY(125%); }
+.about-phone .about-stat:nth-child(2) { transition-delay: 120ms; }
+.about-phone .about-portrait { transition-delay: 160ms; }
 
 @media (prefers-reduced-motion: reduce) {
   .opening-cue-arrow { animation: none; }

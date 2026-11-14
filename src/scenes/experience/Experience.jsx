@@ -88,8 +88,10 @@ export default function Experience() {
     const ctx = canvas.getContext('2d');
     const dark = getComputedStyle(document.documentElement).getPropertyValue('--graphite-900').trim() || '#0f1211';
     let W = 0, H = 0, dpr = 1, lastP = -1;
+    let cell = CELL; // smaller symbols on a phone, so the ring still reads on a narrow screen
     const size = () => {
       dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      cell = window.innerWidth <= 700 ? 14 : CELL;
       W = canvas.clientWidth; H = canvas.clientHeight;
       canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
       lastP = -1;
@@ -100,7 +102,7 @@ export default function Experience() {
       ctx.fillStyle = dark;
       if (p >= 1) return;
       if (p <= 0) { ctx.fillRect(0, 0, W, H); return; }
-      const cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL);
+      const cols = Math.ceil(W / cell), rows = Math.ceil(H / cell);
       const ox = W * 0.5, oy = H * 0.58; // where the ripple starts
       const maxD = Math.hypot(Math.max(ox, W - ox), Math.max(oy, H - oy));
       const front = p * 1.4, band = 0.2;
@@ -108,11 +110,11 @@ export default function Experience() {
       ctx.beginPath();
       for (let j = 0; j < rows; j++) {
         for (let i = 0; i < cols; i++) {
-          const cx = i * CELL + CELL / 2, cy = j * CELL + CELL / 2;
+          const cx = i * cell + cell / 2, cy = j * cell + cell / 2;
           const d = Math.hypot(cx - ox, cy - oy) / maxD + (noise(i * 0.22, j * 0.22) - 0.5) * 0.12;
           const s = (front - d) / band;
           if (s >= 1) continue; // the ripple has passed: clear
-          if (s <= 0) { ctx.rect(i * CELL, j * CELL, CELL, CELL); continue; } // not reached yet: still graphite
+          if (s <= 0) { ctx.rect(i * cell, j * cell, cell, cell); continue; } // not reached yet: still graphite
           const a = 1 - s; // dense next to the graphite, thinning out behind
           const ci = Math.min(CHARS.length - 1, Math.floor(a * CHARS.length));
           const ai = Math.min(LEVELS - 1, Math.floor(a * LEVELS));
@@ -123,7 +125,7 @@ export default function Experience() {
         }
       }
       ctx.fill();
-      ctx.font = `15px "JetBrains Mono", monospace`;
+      ctx.font = `${Math.round(cell * 0.83)}px "JetBrains Mono", monospace`;
       ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
       buckets.forEach((list, key) => {
         ctx.globalAlpha = 0.3 + 0.7 * ((key % LEVELS) / (LEVELS - 1));
@@ -133,7 +135,8 @@ export default function Experience() {
       ctx.globalAlpha = 1;
     };
     size();
-    const onResize = () => size();
+    // a phone's URL bar sliding away fires resize without changing the cover's size: nothing to do then
+    const onResize = () => { if (canvas.clientWidth !== W || canvas.clientHeight !== H) size(); };
     window.addEventListener('resize', onResize);
     const off = subscribeScroll(({ y, eased, vh }) => {
       const top = section.getBoundingClientRect().top + y - eased;

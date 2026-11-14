@@ -6,7 +6,7 @@ Personal portfolio of Adriel Bobby, a cybersecurity and software student who bui
 
 ## What it is
 
-A desktop-first scroll site plus four case-file pages. Plain React, no animation or 3D libraries, no analytics, no cookies and no third-party requests.
+A scroll site plus four case-file pages, with a simpler stacked layout on phones (under 700 px). Plain React, no animation or 3D libraries, no analytics, no cookies and no third-party requests.
 
 | Scene | What it does |
 | --- | --- |

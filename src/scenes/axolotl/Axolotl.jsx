@@ -6,6 +6,9 @@ import './axolotl.css';
 // The easter egg: a green axolotl with the kv logo for a face. It appears in
 // the corner of the Contact stage once the terminal has finished typing.
 // `active` starts it; `visible` hides it while the terminal is off screen.
+// touch screens say "tap", mouse and trackpad say "click"
+const touch = window.matchMedia('(pointer: coarse)').matches;
+
 export default function Axolotl({ active, visible }) {
   const rootRef = useRef(null);
   const axRef = useRef(null);
@@ -49,12 +52,12 @@ export default function Axolotl({ active, visible }) {
         </g>
         <g data-ax="arms" aria-hidden="true" />
         <g data-ax="posterwrap">
-          <g data-ax="poster" className="axo-poster" role="button" tabIndex={-1} aria-label="Know what kv stands for? Click here to type." onClick={openKv} onKeyDown={onPosterKey}>
+          <g data-ax="poster" className="axo-poster" role="button" tabIndex={-1} aria-label={`Know what kv stands for? ${touch ? 'Tap' : 'Click'} here to type.`} onClick={openKv} onKeyDown={onPosterKey}>
             <g className="axo-poster-inner" transform="rotate(-2 170 328)">
               <rect className="axo-poster-box" x="42" y="262" width="256" height="126" rx="6" fill="#e7e9e6" stroke="#0f1211" strokeWidth="2.5" />
               <text x="170" y="298" textAnchor="middle" fontFamily="'Young Serif',serif" fontSize="23" fill="#1b201e">know what kv</text>
               <text x="170" y="326" textAnchor="middle" fontFamily="'Young Serif',serif" fontSize="23" fill="#1b201e">stands for?</text>
-              <text x="170" y="364" textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="12.5" fontWeight="700" fill="#337058">click here to type &#9646;</text>
+              <text x="170" y="364" textAnchor="middle" fontFamily="'JetBrains Mono',monospace" fontSize="12.5" fontWeight="700" fill="#337058">{touch ? 'tap' : 'click'} here to type &#9646;</text>
             </g>
           </g>
         </g>

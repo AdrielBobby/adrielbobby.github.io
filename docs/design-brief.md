@@ -30,6 +30,18 @@ Rhythm: light, light, dark, light, black, so no two heavy scenes touch.
 ## 4b. Cursor
 Mouse and trackpad only (not touch screens, not with reduced motion). The pointer becomes a blinking green terminal caret (solid while moving, blinking when still) that turns into `[ ]` over links and buttons, and it leaves a trail of the site's own symbols (`. , : - + *`) as it moves: about two symbols every 4 px, 10 to 19 px tall, fading over about a second. The colour follows the surface (green on dark, deep green on pale, graphite on the opening's green tile). In typing areas (the contact and kv terminals, inputs) the normal text cursor returns and the trail pauses. Constants for density, size and fade are at the top of `src/components/Cursor.jsx`.
 
+## 4c. Phone layout
+Under 700 px wide the site switches to simpler, stacked layouts (`src/lib/phone.js`, plus `@media (max-width: 700px)`); tablets and landscape phones keep the desktop layout.
+- **Opening and Who I am:** a shorter track (340vh) that ends with the finished face logo; the symbol handoff is dropped. Who I am is a plain stacked section (text, stat tiles, then the symbol portrait drawn once by `staticPortrait.js`).
+- **Nav:** tap the kv mark for a vertical menu; it closes on a link tap, a tap outside, or Escape. Hover only counts where a device can hover.
+- **Projects:** the four cards stack (the same layout reduced motion uses), with the tint changing as each reaches the middle. The other projects are one column.
+- **Skills:** the branch tabs scroll sideways above a single column of tiles; the detail line sits above the tiles; a quick entrance replaces the scroll-linked draw-in.
+- **Experience:** one column, dates above titles; the Skills-to-Experience ripple stays with smaller symbols.
+- **Contact:** the 200vh dissolve; the terminal has a 16px input (no iOS zoom), stacked prompts, a `<form>` so the keyboard's Go/Send key works, an email keyboard on the email step, and tappable command chips (message, help, resume, projects, email).
+- **Axolotl and kv dialog:** a smaller axolotl (150px) clear of the buttons; the kv dialog sits near the top so the keyboard does not cover it, locks page scroll, and has a 44px close button.
+- **Case files:** the picture first, then the file card, then the story; the process steps stack with down arrows; screenshots open full size in a new tab.
+- **Everywhere:** stage heights use `svh` and `scroll.js` takes its viewport height from a `100svh` probe, so a phone's sliding URL bar does not shift the pinned scenes; `:hover` styles only apply where hover exists; touch targets are 44px or more.
+
 ## 5. Navigation
 Fixed top-centre kv pill. Collapsed: the mark only. Expanded (hover or focus; click pins): About, Projects, Skills | kv | Experience, Contact, Resume (outlined, opens the PDF). Active section gets the surface accent and a dot. Pill colour follows the scene. Only the mark shows during the opening. On load the mark draws itself on once: its outline is drawn round, then the tile, letters and pill fill in (after the opening intro on the home page). On case files the same pill, Projects active, plus a back link. Prototype: `navbar-sketch.html`.
 

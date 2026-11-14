@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ICONS, BRANCHES } from '../../data/skills.js';
 import { subscribeScroll } from '../../lib/scroll.js';
+import { usePhone } from '../../lib/phone.js';
 import './skills.css';
 
 const TOTAL = BRANCHES.reduce((n, b) => n + b.clusters.reduce((m, c) => m + c.skills.length, 0), 0);
@@ -22,6 +23,8 @@ function Icon({ skill }) {
 // Skills: six branches as vertical tabs, the selected branch's clusters as
 // icon tiles on branch lines. Selecting a tile says where the skill was used.
 export default function Skills() {
+  const phone = usePhone();
+  const [arrived, setArrived] = useState(false); // phones: the quick entrance has played
   const sectionRef = useRef(null);
   const panelRef = useRef(null);
   const tabRefs = useRef([]);
@@ -36,7 +39,15 @@ export default function Skills() {
   // afterwards plays the quick replay instead.
   useEffect(() => {
     const section = sectionRef.current;
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setArrived(true); return undefined; }
+    // Phones skip the per-frame scrub: the quick entrance plays once when the section comes into view.
+    if (phone) {
+      const io = new IntersectionObserver((entries) => {
+        if (entries.some((e) => e.isIntersecting)) { setArrived(true); io.disconnect(); }
+      }, { threshold: 0.15 });
+      io.observe(section);
+      return () => io.disconnect();
+    }
     const clamp = (t) => Math.max(0, Math.min(1, t));
     return subscribeScroll(({ y, eased, vh }) => {
       const panel = panelRef.current;
@@ -44,7 +55,7 @@ export default function Skills() {
       const top = section.getBoundingClientRect().top + y - eased;
       panel.style.setProperty('--draw', clamp((vh * 0.95 - top) / (vh * 1.0)).toFixed(4));
     });
-  }, []);
+  }, [phone]);
 
   // One branch line per visual line of tiles: find where each wrapped line of
   // a cluster starts and put a rule through the middle of its tiles.
@@ -69,10 +80,12 @@ export default function Skills() {
     setCurrent(i);
     setReplay((r) => r + 1);
     if (focus) tabRefs.current[i]?.focus();
+    // on a phone the tabs scroll sideways: keep the chosen one in view
+    if (phone) tabRefs.current[i]?.scrollIntoView({ inline: 'center', block: 'nearest', behavior: 'smooth' });
   };
   const onTabKey = (e) => {
     const last = BRANCHES.length - 1;
-    const to = { ArrowDown: current + 1, ArrowUp: current - 1, Home: 0, End: last }[e.key];
+    const to = { ArrowDown: current + 1, ArrowRight: current + 1, ArrowUp: current - 1, ArrowLeft: current - 1, Home: 0, End: last }[e.key];
     if (to === undefined) return;
     e.preventDefault();
     choose((to + BRANCHES.length) % BRANCHES.length, true);
@@ -83,7 +96,8 @@ export default function Skills() {
     ? branch.clusters.flatMap((c) => c.skills).find((s) => s.name === picked.name)
     : null;
   let index = 0;
-  const panelClass = replay === 0 ? 'sk-panel is-scrub' : 'sk-panel is-entering is-fast';
+  const panelClass = replay > 0 || (phone && arrived) ? 'sk-panel is-entering is-fast'
+    : phone ? 'sk-panel is-waiting' : 'sk-panel is-scrub';
 
   return (
     <section ref={sectionRef} id="skills" className="skills surface surface-dark" data-nav-theme="dark" aria-labelledby="skills-title">
@@ -102,7 +116,7 @@ export default function Skills() {
 
         <div className="sk-layout">
           <div className="sk-side">
-          <div className="sk-rail" role="tablist" aria-orientation="vertical" aria-label="Skill branches">
+          <div className="sk-rail" role="tablist" aria-orientation={phone ? 'horizontal' : 'vertical'} aria-label="Skill branches">
             {BRANCHES.map((b, i) => (
               <button
                 key={b.name}

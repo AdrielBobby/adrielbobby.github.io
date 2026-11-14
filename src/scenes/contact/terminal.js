@@ -35,8 +35,10 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
   let data = {};
 
   // the live input line
-  const inputRow = document.createElement('div');
+  const inputRow = document.createElement('form'); // a form, so the keyboard's Go/Send key submits on every phone
   inputRow.className = 'ct-input';
+  inputRow.noValidate = true;
+  inputRow.setAttribute('autocomplete', 'off');
   const label = document.createElement('label');
   label.htmlFor = 'ct-inp';
   label.textContent = '> ';
@@ -46,6 +48,8 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
   input.autocapitalize = 'off';
   input.spellcheck = false;
   input.setAttribute('aria-label', 'Terminal input. Type help for commands.');
+  input.setAttribute('autocorrect', 'off');
+  input.enterKeyHint = 'go';
   inputRow.append(label, input);
   body.replaceChildren(inputRow);
 
@@ -91,7 +95,23 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
       }, speed);
     });
   }
-  const setPrompt = (t) => { label.textContent = t; };
+  // The keyboard suits the step: names get capitals, the email step an email keyboard,
+  // the message ordinary sentences, commands none of it. A long prompt sits above the input on a phone.
+  const MODES = {
+    cmd: { type: 'text', inputMode: 'text', cap: 'off', hint: 'go' },
+    name: { type: 'text', inputMode: 'text', cap: 'words', hint: 'next' },
+    email: { type: 'email', inputMode: 'email', cap: 'off', hint: 'next' },
+    message: { type: 'text', inputMode: 'text', cap: 'sentences', hint: 'send' },
+  };
+  const setPrompt = (t, mode = 'cmd') => {
+    label.textContent = t;
+    const m = MODES[mode];
+    input.type = m.type;
+    input.inputMode = m.inputMode;
+    input.setAttribute('autocapitalize', m.cap);
+    input.enterKeyHint = m.hint;
+    inputRow.classList.toggle('is-stacked', t.length > 4);
+  };
   const hideInput = (hidden) => { inputRow.style.visibility = hidden ? 'hidden' : ''; };
 
   async function intro() {
@@ -104,7 +124,9 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
       line([span(key, 'ct-key'), ': ', value]);
       await wait(110);
     }
-    line('type help for commands, or message to write to me.', 'ct-mu');
+    line(window.matchMedia('(max-width: 700px)').matches
+      ? 'tap a command below, or tap here to type.'
+      : 'type help for commands, or message to write to me.', 'ct-mu');
     hideInput(false);
     onReady();
   }
@@ -133,10 +155,10 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
     if (v.toLowerCase() === 'cancel') { flow = null; setPrompt('> '); line('cancelled.', 'ct-mu'); return; }
     if (flow === 'name') {
       if (!v) return;
-      data.name = v; flow = 'email'; setPrompt('> enter your email (optional): ');
+      data.name = v; flow = 'email'; setPrompt('> enter your email (optional): ', 'email');
     } else if (flow === 'email') {
       if (v && !/^\S+@\S+\.\S+$/.test(v)) { line('that does not look like an email. try again, or press enter to skip.', 'ct-er'); return; }
-      data.email = v; flow = 'message'; setPrompt('> enter your message: ');
+      data.email = v; flow = 'message'; setPrompt('> enter your message: ', 'message');
     } else if (flow === 'message') {
       if (!v) return;
       data.message = v; flow = null; setPrompt('> ');
@@ -160,7 +182,7 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
     else if (c === 'message' || c === 'contact' || c === 'start') {
       flow = 'name'; data = {};
       line('initializing secure channel... (type cancel to stop)', 'ct-mu');
-      setPrompt('> enter your name: ');
+      setPrompt('> enter your name: ', 'name');
     } else if (c === 'clear') body.querySelectorAll('p').forEach((p) => p.remove());
     else if (c === 'sudo hire adriel') {
       line('[sudo] password for recruiter: ', 'ct-mu');
@@ -169,19 +191,36 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
     } else line([`command not found: ${cmd}. type `, span('help', 'ct-ok'), '.'], 'ct-er');
   }
 
-  const onKey = (e) => {
-    if (e.key !== 'Enter') return;
+  const onSubmit = (e) => {
+    e.preventDefault();
     const v = input.value;
     input.value = '';
     run(v);
   };
   const onClick = (e) => { if (!e.target.closest('a')) input.focus({ preventScroll: true }); };
-  input.addEventListener('keydown', onKey);
+  // On a phone the keyboard covers the lower half: bring the input into the middle once it is up.
+  const onFocus = () => {
+    if (window.matchMedia('(max-width: 700px)').matches) {
+      window.setTimeout(() => input.scrollIntoView({ block: 'center', behavior: 'smooth' }), 350);
+    }
+  };
+  inputRow.addEventListener('submit', onSubmit);
+  input.addEventListener('focus', onFocus);
   body.addEventListener('click', onClick);
 
   return {
     intro,
     focus: () => input.focus({ preventScroll: true }),
-    destroy: () => { input.removeEventListener('keydown', onKey); body.removeEventListener('click', onClick); },
+    // the tappable command chips: ignored in the middle of the message steps; "message" opens the keyboard
+    runCommand: (c) => {
+      if (flow) return;
+      run(c);
+      if (c === 'message') input.focus({ preventScroll: true });
+    },
+    destroy: () => {
+      inputRow.removeEventListener('submit', onSubmit);
+      input.removeEventListener('focus', onFocus);
+      body.removeEventListener('click', onClick);
+    },
   };
 }

@@ -73,6 +73,12 @@ export default function Nav() {
   const [override, setOverride] = useState(null);
   useEffect(() => onNavTheme(setOverride), []);
 
+  // The browser's own bar (phones) takes the colour of the page behind the nav pill.
+  const shown = override ?? theme;
+  useEffect(() => {
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', shown === 'light' ? '#e7e9e6' : '#0f1211');
+  }, [shown]);
+
   // The right group is wider than the left (it holds Resume). Measure both so
   // each opens to its exact width and the pill shifts by half the difference,
   // which keeps the kv mark still at the centre of the window.
@@ -98,6 +104,21 @@ export default function Nav() {
     return () => window.removeEventListener('keydown', onKey);
   }, [pinned]);
 
+  // A touch screen has no real hover, but browsers still send an emulated mouseenter on
+  // tap, which would make the first tap on the mark close the menu instead of opening it.
+  // So hover only counts where the device can hover.
+  const canHover = useRef(window.matchMedia('(hover: hover)').matches).current;
+
+  // On a phone the menu is a vertical list: a tap outside it closes it.
+  useEffect(() => {
+    if (!pinned) return undefined;
+    const onDown = (e) => {
+      if (navRef.current && !navRef.current.contains(e.target)) { setPinned(false); setClosed(true); }
+    };
+    document.addEventListener('pointerdown', onDown);
+    return () => document.removeEventListener('pointerdown', onDown);
+  }, [pinned]);
+
   // Open while hovered, while reached with the keyboard, or while pinned.
   // Clicking the mark on an open menu closes it at once; `closed` keeps it
   // shut until the pointer or the focus has left, so it does not spring back.
@@ -112,6 +133,7 @@ export default function Nav() {
   // change the route, so move there directly as well.
   const jump = (id) => () => {
     if (pathname === '/') document.getElementById(id)?.scrollIntoView();
+    if (!canHover) { setPinned(false); setClosed(true); } // a tap on a link puts the menu away
   };
 
   const item = ({ id, label }) => (
@@ -138,7 +160,7 @@ export default function Nav() {
         className={open ? 'nav-pill is-open' : 'nav-pill'}
         aria-label="Main"
         style={widths ? { '--w-left': `${widths.left}px`, '--w-right': `${widths.right}px` } : undefined}
-        onMouseEnter={() => setHover(true)}
+        onMouseEnter={() => { if (canHover) setHover(true); }}
         onMouseLeave={() => { setHover(false); setClosed(false); }}
         onFocus={(e) => { if (e.target.matches(':focus-visible')) setFocus(true); }}
         onBlur={(e) => {

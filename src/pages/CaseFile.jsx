@@ -154,7 +154,16 @@ export default function CaseFile() {
               </div>
               <ul className="cf-gallery">
                 {file.evidence.gallery.map(([pic, caption]) => (
-                  <li key={caption}><figure><Picture pic={pic} /><figcaption>{caption}</figcaption></figure></li>
+                  <li key={caption}>
+                    <figure>
+                      {/* on a phone the screenshot is small: a tap opens it full size, where it can be pinch-zoomed */}
+                      <a className="cf-pic-link" href={pic.src} target="_blank" rel="noopener noreferrer">
+                        <Picture pic={pic} />
+                        <span className="visually-hidden"> (opens the full size picture in a new tab)</span>
+                      </a>
+                      <figcaption>{caption}</figcaption>
+                    </figure>
+                  </li>
                 ))}
               </ul>
             </section>

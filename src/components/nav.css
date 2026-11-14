@@ -51,14 +51,15 @@
   padding: 11px 13px; border-radius: 999px;
   transition: color var(--t-hover) ease, background-color var(--t-hover) ease;
 }
-.nav-link:hover, .nav-link:focus-visible { color: var(--nav-text-strong); }
+.nav-link:focus-visible { color: var(--nav-text-strong); }
+@media (hover: hover) { .nav-link:hover { color: var(--nav-text-strong); } }
 .nav-link.is-active { color: var(--nav-ac); }
 .nav-link.is-active::after {
   content: ''; position: absolute; left: 50%; bottom: 4px; width: 4px; height: 4px;
   margin-left: -2px; border-radius: 50%; background: var(--nav-ac);
 }
 .nav-resume { border: 1px solid var(--nav-ac); color: var(--nav-ac); padding: 9px 14px; margin-left: 6px; }
-.nav-resume:hover { background: var(--nav-ac); color: var(--mark-letters); }
+@media (hover: hover) { .nav-resume:hover { background: var(--nav-ac); color: var(--mark-letters); } }
 
 .nav-mark {
   flex: none; width: 42px; height: 42px; padding: 0; margin: 0 3px;
@@ -76,7 +77,8 @@
   padding: 10px 0;
   transition: color var(--t-hover) ease;
 }
-.nav-back:hover, .nav-back:focus-visible { color: var(--nav-text-strong); }
+.nav-back:focus-visible { color: var(--nav-text-strong); }
+@media (hover: hover) { .nav-back:hover { color: var(--nav-text-strong); } }
 /* In a narrow window the open pill would cover the back link, so it drops below. */
 @media (max-width: 1040px) { .nav-back { top: 68px; } }
 
@@ -89,6 +91,27 @@
 @keyframes kv-draw { to { stroke-dashoffset: 0; } }
 @keyframes kv-fade { from { opacity: 0; } }
 @keyframes pill-fill { from { opacity: 0; } }
+
+/* ---- phones: tap the mark for a vertical menu (the sideways pill would be wider than the screen) ---- */
+@media (max-width: 700px) {
+  .nav-pill { flex-direction: column; align-items: stretch; border-radius: 28px; }
+  .nav-pill.is-open { transform: none; width: min(88vw, 320px); }
+  .nav-mark { order: 0; align-self: center; width: 44px; height: 44px; margin: 0; }
+  .nav-group { max-width: none; max-height: 0; flex-direction: column; align-items: stretch; gap: 0; transition: max-height 420ms var(--ease), opacity 220ms ease; }
+  .nav-group-left { order: 1; justify-content: flex-start; }
+  .nav-group-right { order: 2; }
+  .nav-pill.is-open .nav-group { max-height: 360px; }
+  .nav-pill.is-open .nav-group-left, .nav-pill.is-open .nav-group-right { max-width: none; }
+  .nav-link { min-height: 48px; display: flex; align-items: center; padding: 0 18px; font-size: 16px; border-radius: 14px; }
+  .nav-link.is-active::after { left: auto; right: 18px; bottom: auto; top: 50%; margin: -2px 0 0; }
+  .nav-resume { justify-content: center; margin: 6px 4px 6px; padding: 0 14px; min-height: 46px; }
+  /* the back link floats over the page as you scroll, so it gets the pill's own background to stay legible */
+  .nav-back {
+    min-height: 44px; display: inline-flex; align-items: center; padding: 0 16px; top: 68px;
+    background: var(--pill-bg); border: 1px solid var(--pill-line); border-radius: 999px;
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   .nav-pill, .nav-group, .nav-mark svg * { transition: none; }

@@ -11,14 +11,14 @@
 
 /* ---- featured strip: a pinned stage; scrolling down slides the cards sideways ---- */
 .ph-track { position: relative; height: 400vh; } /* three slides of travel plus the pinned screen */
-.ph-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; overflow: clip; }
+.ph-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; overflow: clip; }
 .ph-strip { display: flex; height: 100%; width: 100%; will-change: transform; }
 .project-row { flex: 0 0 100%; width: 100%; height: 100%; display: flex; align-items: center; padding-top: 6vh; }
 .project-inner {
   display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: clamp(24px, 5vw, 72px); align-items: center;
 }
-.ph-mark { position: absolute; left: 0; width: 1px; height: 1px; top: calc(var(--i) / (var(--n) - 1) * (100% - 100vh) + 1px); pointer-events: none; }
+.ph-mark { position: absolute; left: 0; width: 1px; height: 1px; top: calc(var(--i) / (var(--n) - 1) * (100% - 100vh) + 1px); top: calc(var(--i) / (var(--n) - 1) * (100% - 100svh) + 1px); pointer-events: none; }
 .ph-progress { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 5vh; height: 2px; background: var(--line); }
 .ph-progress i { position: absolute; inset: 0; background: var(--ac); transform-origin: left center; transform: scaleX(0); transition: background-color 500ms var(--ease); }
 .project-num { font: 400 clamp(56px, 8vw, 120px)/1 var(--font-display); color: var(--ac); margin: 0 0 6px; transition: color 500ms var(--ease); }
@@ -38,10 +38,11 @@
 }
 .project-open:focus-visible { outline-offset: 6px; }
 .project-arrow { display: inline-block; transition: transform var(--t-hover) ease; }
-.project-row:hover .project-arrow, .project-open:focus-visible .project-arrow { transform: translateX(5px); }
+.project-open:focus-visible .project-arrow { transform: translateX(5px); }
+@media (hover: hover) { .project-row:hover .project-arrow { transform: translateX(5px); } }
 
 .project-media { position: relative; transition: transform var(--t-hover) ease; }
-.project-row:hover .project-media { transform: translateY(-4px); }
+@media (hover: hover) { .project-row:hover .project-media { transform: translateY(-4px); } }
 .project-pic {
   display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left;
   border: 1px solid var(--line); border-radius: 6px; background: var(--line);
@@ -67,8 +68,8 @@
   background: rgba(255, 255, 255, 0.28);
   transition: transform var(--t-hover) ease, border-color var(--t-hover) ease;
 }
-.tile:hover { transform: translateY(-4px); border-color: #8c968f; }
-.tile-name { font-size: 24px; line-height: 1.15; }
+@media (hover: hover) { .tile:hover { transform: translateY(-4px); border-color: #8c968f; } }
+.tile-name { font-size: 24px; line-height: 1.15; overflow-wrap: anywhere; }
 .tile-name a { color: var(--ink); text-decoration: none; display: flex; justify-content: space-between; gap: 12px; }
 /* the whole tile is the link's click area */
 .tile-name a::after { content: ''; position: absolute; inset: 0; border-radius: 12px; }
@@ -84,14 +85,30 @@
 
 @media (max-width: 1000px) { .others-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
-@media (prefers-reduced-motion: reduce) {
-  /* no pinning: the cards stack as plain rows */
+/* Phones and reduced motion: no pinning, the cards stack as plain rows (Projects.jsx switches the same way) */
+@media (max-width: 700px), (prefers-reduced-motion: reduce) {
   .ph-track { height: auto; }
   .ph-stage { position: static; height: auto; overflow: visible; }
   .ph-strip { display: block; transform: none !important; }
   .project-row { height: auto; min-height: 84vh; padding: 7vh 0; border-top: 1px solid var(--line); }
   .ph-progress { display: none; }
   .ph-mark { top: calc(var(--i) * 100% / var(--n)); }
+}
+
+@media (max-width: 700px) {
+  .projects-head { padding: 14vh 0 4vh; }
+  .projects-big { font-size: clamp(36px, 11vw, 48px); }
+  .project-row { min-height: auto; padding: 7vh 0 8vh; }
+  .project-inner { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .project-name { font-size: clamp(36px, 11vw, 46px); }
+  .project-summary { font-size: 17px; }
+  .project-open { padding: 14px 0 8px; }
+  .project-media.is-pair { padding-bottom: 14%; }
+  .others { padding: 10vh 0 12vh; }
+  .others-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .projects, .projects-tag, .project-num, .project-meta li, .project-open, .project-pic-ui,
   .project-media, .project-arrow, .tile { transition: none; }
 }

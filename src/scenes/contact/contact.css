@@ -1,6 +1,6 @@
 /* Contact: 300vh of track = 200vh of scrolling for the dissolve, stage pinned. */
 .contact { position: relative; height: 300vh; background: var(--pale); }
-.contact-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; background: var(--pale); }
+.contact-stage { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; background: var(--pale); }
 /* Markers: links to #contact land where the terminal is showing (95% through). */
 .contact-mark { position: absolute; left: 0; width: 1px; pointer-events: none; }
 .contact-mark-intro { top: 0; height: 190vh; }
@@ -29,12 +29,14 @@
 .ct-mu { color: var(--muted); }
 .ct-key { display: inline-block; min-width: 11ch; color: var(--muted); }
 .ct-body a { color: var(--pale); text-decoration: underline; text-decoration-color: var(--green-on-dark); text-underline-offset: 4px; }
-.ct-body a:hover { color: var(--green-on-dark); }
+.ct-body a:focus-visible { color: var(--green-on-dark); }
+@media (hover: hover) { .ct-body a:hover { color: var(--green-on-dark); } }
 .ct-body a:focus-visible { outline: 2px solid var(--green-on-dark); outline-offset: 2px; }
 .ct-input { display: flex; align-items: center; gap: 8px; }
 .ct-input label { color: var(--green-on-dark); white-space: pre; }
 .ct-input input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--pale); font: inherit; caret-color: var(--green-on-dark); padding: 0; }
 
+.ct-chips { display: none; }
 .ct-acts { position: absolute; left: 50%; bottom: 6vh; transform: translateX(-50%); display: flex; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 500ms var(--ease); }
 .ct-acts.is-on { opacity: 1; pointer-events: auto; }
 .ct-btn {
@@ -42,16 +44,43 @@
   padding: 13px 18px; text-decoration: none; cursor: pointer;
   transition: border-color var(--t-hover) ease, color var(--t-hover) ease;
 }
-.ct-btn:hover, .ct-btn.is-primary { border-color: var(--green-on-dark); color: var(--green-on-dark); }
+.ct-btn.is-primary { border-color: var(--green-on-dark); color: var(--green-on-dark); }
+@media (hover: hover) { .ct-btn:hover { border-color: var(--green-on-dark); color: var(--green-on-dark); } }
 .ct-btn:focus-visible { outline: 2px solid var(--green-on-dark); outline-offset: 3px; }
 
 /* ---- footer ---- */
 .site-footer { background: #000; color: #8a948f; padding: 4vh 5vw; text-align: center; font: 400 12px/1.7 var(--font-mono); letter-spacing: 0.04em; }
 .site-footer p { max-width: 80ch; margin: 0 auto; }
 
-@media (prefers-reduced-motion: reduce) {
+/* Phones and reduced motion: a shorter dissolve (200vh of track) */
+@media (max-width: 700px), (prefers-reduced-motion: reduce) {
   .contact { height: 200vh; }
   .contact-mark-intro { height: 95vh; }
   .contact-mark-terminal { top: 95vh; }
+}
+
+/* ---- phones ---- */
+@media (max-width: 700px) {
+  .contact-lets h2 { font-size: clamp(52px, 15vw, 72px); }
+  .ct-win { top: 36%; width: calc(100vw - 2 * var(--gutter)); }
+  .ct-body { padding: 14px 12px 12px; font-size: 14px; min-height: 160px; max-height: 32svh; overscroll-behavior: contain; }
+  .ct-key { min-width: 0; }
+  /* a long prompt ("> enter your email (optional): ") sits above the input; 16px stops iOS zooming in */
+  .ct-input.is-stacked { flex-wrap: wrap; gap: 2px 8px; }
+  .ct-input.is-stacked label { flex: 1 0 100%; white-space: normal; }
+  .ct-input input { font-size: 16px; min-height: 28px; }
+  .ct-chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 12px 12px; }
+  .ct-chip {
+    font: 500 13px/1 var(--font-mono); color: var(--pale); background: transparent; border: 1px solid #5b6560;
+    border-radius: 999px; min-height: 40px; padding: 0 14px; cursor: pointer;
+  }
+  .ct-chip:focus-visible { outline: 2px solid var(--green-on-dark); outline-offset: 2px; }
+  .ct-acts { flex-wrap: wrap; justify-content: center; width: max-content; max-width: calc(100vw - 2 * var(--gutter)); bottom: 168px; } /* above the 150px axolotl */
+  .ct-btn { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; }
+  /* a slim footer, so the terminal does not slide up under the nav when the page ends */
+  .site-footer { padding: 6px var(--gutter); }
+}
+
+@media (prefers-reduced-motion: reduce) {
   .ct-win, .ct-acts { transition: none; }
 }

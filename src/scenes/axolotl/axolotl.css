@@ -18,10 +18,11 @@
 
 .axo-bubble { opacity: 0; }
 .axo-bubble-inner { transform-origin: 168px 354px; transition: transform var(--t-hover) ease; }
-.axo.is-peek .axo-peek:hover + .axo-bubble .axo-bubble-inner,
 .axo.is-peek .axo-peek:focus-visible + .axo-bubble .axo-bubble-inner { transform: scale(1.06); }
+@media (hover: hover) { .axo.is-peek .axo-peek:hover + .axo-bubble .axo-bubble-inner { transform: scale(1.06); } }
 .axo-poster-inner { transition: transform var(--t-hover) ease; }
-.axo-poster:hover .axo-poster-inner, .axo-poster:focus-visible .axo-poster-inner { transform: translateY(-3px); }
+.axo-poster:focus-visible .axo-poster-inner { transform: translateY(-3px); }
+@media (hover: hover) { .axo-poster:hover .axo-poster-inner { transform: translateY(-3px); } }
 
 /* gills sway gently while it waits (one of the few loops on the site) */
 .axo-gill { transform-box: view-box; }
@@ -40,7 +41,7 @@
 .kv-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); font: 400 12px/1 var(--font-mono); letter-spacing: 0.08em; color: var(--muted); }
 .kv-bar i { width: 16px; height: 16px; background: var(--green-on-dark); clip-path: polygon(25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%, 0 25%); }
 .kv-bar button { margin-left: auto; background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 4px 6px; }
-.kv-bar button:hover { color: var(--pale); }
+@media (hover: hover) { .kv-bar button:hover { color: var(--pale); } }
 .kv-bar button:focus-visible { outline: 2px solid var(--green-on-dark); outline-offset: 2px; }
 .kv-body { padding: 16px 18px 18px; font: 400 15px/1.7 var(--font-mono); min-height: 120px; }
 .kv-body p { margin: 0; }
@@ -59,6 +60,17 @@
 .site-footer .kv-hint button:focus-visible {
   position: static; width: auto; height: auto; overflow: visible; clip-path: none; padding: 4px;
   text-decoration: underline; text-underline-offset: 3px; outline: 2px solid var(--green-on-dark); outline-offset: 2px;
+}
+
+/* ---- phones: a smaller axolotl in the corner; the dialog sits near the top so the keyboard does not cover it ---- */
+@media (max-width: 700px) {
+  .axo { width: 150px; right: 6px; }
+  .kv-back { overscroll-behavior: contain; }
+  .kv-win { top: 14svh; transform: translateX(-50%); }
+  .kv-bar { padding: 4px 6px 4px 14px; }
+  .kv-bar button { min-width: 44px; min-height: 44px; padding: 0 10px; }
+  .kv-body { padding: 14px 14px 16px; }
+  .kv-input input { font-size: 16px; min-height: 28px; }
 }
 
 @media (prefers-reduced-motion: reduce) {

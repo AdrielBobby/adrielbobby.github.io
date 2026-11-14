@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { projects, otherProjects } from '../../data/projects.js';
 import { subscribeScroll } from '../../lib/scroll.js';
+import { usePhone } from '../../lib/phone.js';
 import './projects.css';
 
 const N = projects.length;
@@ -11,6 +12,7 @@ const clamp = (t) => Math.max(0, Math.min(1, t));
 // down slides the cards sideways), then the other projects as a tile grid.
 // The page takes on the tint and accent of the card in view.
 export default function Projects() {
+  const phone = usePhone();
   const sectionRef = useRef(null);
   const trackRef = useRef(null);
   const stageRef = useRef(null);
@@ -29,8 +31,8 @@ export default function Projects() {
       else if (section.dataset.project) delete section.dataset.project;
     };
 
-    // Reduced motion: no pinning, the cards stack and the one crossing the middle sets the tint.
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Phones and reduced motion: no pinning, the cards stack and the one crossing the middle sets the tint.
+    if (phone || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       const io = new IntersectionObserver(
         (entries) => entries.forEach((e) => {
           if (e.isIntersecting) section.dataset.project = e.target.dataset.row;
@@ -74,7 +76,7 @@ export default function Projects() {
       if (idx !== lastIdx) { lastIdx = idx; setProject(idx >= 0 ? slugs[idx] : null); }
     });
     return () => { off(); strip.removeEventListener('focusin', onFocus); };
-  }, []);
+  }, [phone]);
 
   return (
     <section ref={sectionRef} id="projects" className="projects surface surface-light" data-nav-theme="light" aria-labelledby="projects-title">

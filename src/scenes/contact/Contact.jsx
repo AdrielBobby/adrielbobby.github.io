@@ -33,9 +33,10 @@ export default function Contact() {
   const canvasRef = useRef(null);
   const letsRef = useRef(null);
   const bodyRef = useRef(null);
+  const terminalRef = useRef(null);
   const [shown, setShown] = useState(false); // the terminal window is visible
   const [ready, setReady] = useState(false); // the intro has finished typing
-  const [copied, setCopied] = useState(false);
+  const [copied, setCopied] = useState(''); // '', 'Copied' or 'Copy failed'
 
   useEffect(() => {
     const track = trackRef.current;
@@ -49,6 +50,7 @@ export default function Contact() {
       navigate: (to) => navRef.current(to),
       onReady: () => setReady(true),
     });
+    terminalRef.current = terminal;
     let W = 0, H = 0, dpr = 1, lastP = -1, started = false;
 
     const size = () => {
@@ -79,6 +81,8 @@ export default function Contact() {
       ctx.fill();
     };
     const apply = (p, underPill) => {
+      // While the visitor is typing, the on-screen keyboard resizes the window; hold the scene still.
+      if (document.activeElement?.id === 'ct-inp') return;
       if (p !== lastP) { drawDots(p); lastP = p; }
       letsRef.current.style.opacity = (1 - clamp((p - 0.12) / 0.3)).toFixed(3);
       const show = p >= 0.86;
@@ -90,7 +94,8 @@ export default function Contact() {
     };
 
     size();
-    const onResize = () => size();
+    // a phone's URL bar or keyboard fires resize without changing the stage: nothing to rebuild then
+    const onResize = () => { if (stage.clientWidth !== W || stage.clientHeight !== H) size(); };
     window.addEventListener('resize', onResize);
     const off = subscribeScroll(({ y, eased, vh }) => {
       const top = track.getBoundingClientRect().top + y;
@@ -106,8 +111,8 @@ export default function Contact() {
   }, []);
 
   const copy = () => {
-    const done = () => { setCopied(true); setTimeout(() => setCopied(false), 1500); };
-    (navigator.clipboard ? navigator.clipboard.writeText(EMAIL) : Promise.reject()).then(done, () => {});
+    const show = (t) => { setCopied(t); setTimeout(() => setCopied(''), 1800); };
+    (navigator.clipboard ? navigator.clipboard.writeText(EMAIL) : Promise.reject()).then(() => show('Copied'), () => show('Copy failed'));
   };
 
   return (
@@ -127,10 +132,16 @@ export default function Contact() {
         <div className={shown ? 'ct-win is-on' : 'ct-win'} role="region" aria-label="contact.sh terminal" inert={shown ? undefined : ''}>
           <div className="ct-bar"><i aria-hidden="true" /><span>contact.sh</span></div>
           <div ref={bodyRef} className="ct-body" aria-live="polite" />
+          {/* phones: commands you can tap instead of typing */}
+          <div className="ct-chips">
+            {['message', 'help', 'resume', 'projects', 'email'].map((c) => (
+              <button key={c} type="button" className="ct-chip" onClick={() => terminalRef.current?.runCommand(c)}>{c}</button>
+            ))}
+          </div>
         </div>
         <div className={shown && ready ? 'ct-acts is-on' : 'ct-acts'} inert={shown && ready ? undefined : ''}>
           <a className="ct-btn is-primary" href={`mailto:${EMAIL}`}>Open mail client</a>
-          <button className="ct-btn" type="button" onClick={copy}>{copied ? 'Copied' : 'Copy email'}</button>
+          <button className="ct-btn" type="button" onClick={copy}>{copied || 'Copy email'}</button>
         </div>
         <Axolotl active={ready} visible={shown && ready} />
       </div>

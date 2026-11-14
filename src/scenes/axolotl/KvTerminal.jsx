@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 
 // kv.sh: asks what kv stands for. A right answer opens the hidden page, as on
 // the previous site. This is a soft gate for fun, not security: the answer is
@@ -26,7 +27,10 @@ export default function KvTerminal() {
     const onOpen = () => {
       openerRef.current = document.activeElement;
       setPhase('input');
-      setOpen(true);
+      // Render now and focus inside the tap itself: iOS only opens the keyboard for a focus that
+      // happens in the same gesture, not one that waits for the next render.
+      flushSync(() => setOpen(true));
+      inputRef.current?.focus();
     };
     window.addEventListener('open-kv', onOpen);
     return () => { window.removeEventListener('open-kv', onOpen); clearTimeout(timerRef.current); };
@@ -43,12 +47,16 @@ export default function KvTerminal() {
     inputRef.current?.focus();
     const onKey = (e) => { if (e.key === 'Escape') close(); };
     window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
+    // the page behind does not scroll while the dialog is open
+    const html = document.documentElement;
+    const was = html.style.overflow;
+    html.style.overflow = 'hidden';
+    return () => { window.removeEventListener('keydown', onKey); html.style.overflow = was; };
   }, [open]);
 
   const submit = async (e) => {
-    if (e.key !== 'Enter') return;
-    const guess = e.target.value.trim().toLowerCase();
+    e.preventDefault();
+    const guess = (inputRef.current?.value || '').trim().toLowerCase();
     if (!guess) return;
     let right = false;
     try { right = (await sha256(guess)) === ANSWER_HASH; } catch { right = false; }
@@ -71,15 +79,15 @@ export default function KvTerminal() {
       <div className="kv-win" role="dialog" aria-modal="true" aria-label="kv.sh: what does kv stand for?">
         <div className="kv-bar">
           <i aria-hidden="true" /><span>kv.sh</span>
-          <button type="button" onClick={close} aria-label="Close">esc</button>
+          <button type="button" onClick={close} aria-label="Close">close</button>
         </div>
         <div className="kv-body" aria-live="polite">
           <p><span className="kv-pr">&gt;</span> what does kv stand for?</p>
           {phase === 'input' && (
-            <div className="kv-input">
+            <form className="kv-input" onSubmit={submit} noValidate>
               <label className="kv-pr" htmlFor="kv-inp">&gt;</label>
-              <input ref={inputRef} id="kv-inp" autoComplete="off" autoCapitalize="off" spellCheck={false} aria-label="Your answer" enterKeyHint="go" onKeyDown={submit} />
-            </div>
+              <input ref={inputRef} id="kv-inp" autoComplete="off" autoCapitalize="off" autoCorrect="off" spellCheck={false} aria-label="Your answer" enterKeyHint="go" />
+            </form>
           )}
           {phase === 'success' && (<><p className="kv-ok">&gt; access granted.</p><p className="kv-ok">&gt; initializing hidden channel...</p><p className="kv-ok">&gt; redirecting...</p></>)}
           {phase === 'fail' && (<><p className="kv-no">&gt; access denied. nice try.</p><p className="kv-no">&gt; connection terminated.</p></>)}

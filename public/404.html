@@ -2,13 +2,17 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0f1211" />
+    <style>html { background: #0f1211; }</style>
     <title>Adriel Bobby</title>
     <meta name="robots" content="noindex" />
     <script>
       // GitHub Pages serves this file for any path it has no file for, such as
       // /projects/thaalam opened directly. Remember the path, load the app at
       // the root, and src/main.jsx puts the path back before the router starts.
-      sessionStorage.setItem('spa-path', location.pathname + location.search + location.hash);
+      // (storage can throw in some private-browsing modes; the redirect still has to happen)
+      try { sessionStorage.setItem('spa-path', location.pathname + location.search + location.hash); } catch (e) {}
       location.replace('/');
     </script>
   </head>

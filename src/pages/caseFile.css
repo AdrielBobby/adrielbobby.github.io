@@ -1,6 +1,6 @@
 /* Case files: always dark graphite. Each project's accent is its light-page
    accent's hue, lightened to read at 7:1 or better on graphite. */
-.cf { --cf-ac: var(--green-on-dark); --cf-card: var(--graphite-800); --line: #2e3532; padding-top: 72px; min-height: 100vh; }
+.cf { --cf-ac: var(--green-on-dark); --cf-card: var(--graphite-800); --line: #2e3532; padding-top: 72px; min-height: 100vh; min-height: 100svh; }
 .cf[data-case='thaalam'] { --cf-ac: #cea354; }
 .cf[data-case='calm-cockpit'] { --cf-ac: #f38c58; }
 .cf[data-case='medledger'] { --cf-ac: #5cc19c; }
@@ -32,7 +32,7 @@
 
 .cf-toc { margin-top: 20px; display: grid; }
 .cf-toc a { text-decoration: none; color: var(--muted) !important; padding: 9px 0 9px 14px; border-left: 2px solid var(--line); transition: color var(--t-hover) ease, border-color var(--t-hover) ease; }
-.cf-toc a:hover { color: var(--ink) !important; }
+@media (hover: hover) { .cf-toc a:hover { color: var(--ink) !important; } }
 .cf-toc a.is-on { color: var(--cf-ac) !important; border-left-color: var(--cf-ac); }
 
 .cf-pic { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--cf-card); }
@@ -66,21 +66,48 @@
 .cf-ev { border: 1px solid var(--line); background: var(--cf-card); padding: 16px; }
 .cf-ev h3 { color: var(--cf-ac); margin: 0 0 6px; }
 .cf-ev p { font-size: 14px; color: var(--muted); margin: 0; }
-.cf-gallery { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; align-items: start; }
+.cf-gallery { list-style: none; padding: 0; margin: 18px 0 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(320px, 100%), 1fr)); gap: 14px; align-items: start; }
+.cf-pic-link { display: block; }
 .cf-gallery figure { margin: 0; }
 .cf figcaption { color: var(--muted); margin-top: 8px; font-size: 11px; }
 
 .cf-links { display: flex; flex-wrap: wrap; gap: 10px; }
 .cf .cf-btn { display: inline-block; text-decoration: none; padding: 11px 16px; font-weight: 600; font-size: 15px; border: 1px solid var(--cf-ac); color: var(--cf-ac); transition: background-color var(--t-hover) ease, color var(--t-hover) ease; }
-.cf .cf-btn:hover, .cf .cf-btn.is-solid { background: var(--cf-ac); color: var(--graphite-900); }
-.cf .cf-btn.is-solid:hover { background: transparent; color: var(--cf-ac); }
+.cf .cf-btn.is-solid { background: var(--cf-ac); color: var(--graphite-900); }
+@media (hover: hover) {
+  .cf .cf-btn:hover { background: var(--cf-ac); color: var(--graphite-900); }
+  .cf .cf-btn.is-solid:hover { background: transparent; color: var(--cf-ac); }
+}
 
 .cf-next { border-top: 1px solid var(--line); padding: 32px 0 0; display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 .cf .cf-next a { color: var(--muted); text-decoration: none; transition: color var(--t-hover) ease; }
-.cf .cf-next a:hover { color: var(--cf-ac); }
+@media (hover: hover) { .cf .cf-next a:hover { color: var(--cf-ac); } }
 
 @media (max-width: 900px) {
   .cf-layout { grid-template-columns: 1fr; }
   .cf-aside { position: static; }
   .cf-toc { display: none; }
+}
+
+/* ---- phones: one column, picture first, then the file card, then the story ---- */
+@media (max-width: 700px) {
+  .cf { padding-top: 64px; }
+  .cf-hero { padding: 48px 0 24px; }
+  .cf-hero h1 { font-size: clamp(40px, 12.4vw, 52px); }
+  .cf-layout { display: flex; flex-direction: column; align-items: stretch; gap: 0; padding: 28px 0 72px; }
+  .cf-layout > * { min-width: 0; }
+  .cf-aside, .cf-body { display: contents; }
+  .cf-lead { order: 1; margin-bottom: 24px; }
+  .cf-card { order: 2; margin-bottom: 40px; }
+  .cf-body section, .cf-next { order: 3; }
+  .cf-outcome { grid-template-columns: minmax(0, 1fr); }
+  .cf-flow { grid-template-columns: minmax(0, 1fr); }
+  .cf-flow li { border-right: 0; border-bottom: 1px solid var(--line); }
+  .cf-flow li:last-child { border-bottom: 0; }
+  .cf-flow li + li::before { content: '\2193'; left: 18px; top: -11px; }
+  .cf-decisions li { padding-left: 40px; }
+  .cf-gallery { grid-template-columns: minmax(0, 1fr); }
+  .cf .cf-btn { min-height: 46px; display: inline-flex; align-items: center; }
+  .cf-next { flex-direction: column; gap: 0; }
+  .cf .cf-next a { display: flex; align-items: center; min-height: 48px; }
 }
