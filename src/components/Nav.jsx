@@ -45,7 +45,7 @@ export default function Nav() {
         { rootMargin: `-${PILL_CENTRE}px 0px -${Math.max(window.innerHeight - PILL_CENTRE - 1, 0)}px 0px` },
       );
       activeIO = new IntersectionObserver(
-        (entries) => entries.forEach((e) => e.isIntersecting && setCurrent(e.target.id || null)),
+        (entries) => entries.forEach((e) => e.isIntersecting && setCurrent(e.target.dataset.navId || e.target.id || null)),
         { rootMargin: '-45% 0px -54% 0px' },
       );
       areas.forEach((el) => { themeIO.observe(el); activeIO.observe(el); });

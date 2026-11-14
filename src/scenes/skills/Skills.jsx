@@ -156,10 +156,6 @@ export default function Skills() {
           </div>
         </div>
 
-        <p className="sk-note">
-          Logos are from the Simple Icons set (CC0). All trademarks belong to their owners; logos only show tools I use.
-          The other icons are drawn for this site.
-        </p>
       </div>
     </section>
   );
