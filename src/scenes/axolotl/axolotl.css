@@ -1,0 +1,68 @@
+/* The axolotl is pinned to the bottom-right corner of the window, so it stays put
+   (not cut off) when the page scrolls on into the footer. It only shows once the
+   Contact terminal has finished typing; Contact.jsx turns it off if you scroll back up. */
+.axo {
+  position: fixed; right: clamp(0px, 4vw, 70px); bottom: 0; z-index: 6;
+  width: clamp(280px, 24vw, 440px); aspect-ratio: 1; pointer-events: none;
+  opacity: 0; transition: opacity 300ms var(--ease);
+}
+.axo.is-visible { opacity: 1; }
+.axo svg { width: 100%; height: 100%; display: block; overflow: hidden; }
+
+.axo.is-visible.is-peek .axo-peek { pointer-events: auto; cursor: pointer; }
+.axo.is-visible.is-done .axo-poster { pointer-events: auto; cursor: pointer; }
+/* focus rings show for keyboard focus only */
+.axo-peek:focus, .axo-poster:focus { outline: none; }
+.axo-peek:focus-visible .axo-ring { stroke: #4fb08a; stroke-width: 3; stroke-dasharray: 6 6; }
+.axo-poster:focus-visible .axo-poster-box { stroke: #4fb08a; stroke-width: 4; }
+
+.axo-bubble { opacity: 0; }
+.axo-bubble-inner { transform-origin: 168px 354px; transition: transform var(--t-hover) ease; }
+.axo.is-peek .axo-peek:hover + .axo-bubble .axo-bubble-inner,
+.axo.is-peek .axo-peek:focus-visible + .axo-bubble .axo-bubble-inner { transform: scale(1.06); }
+.axo-poster-inner { transition: transform var(--t-hover) ease; }
+.axo-poster:hover .axo-poster-inner, .axo-poster:focus-visible .axo-poster-inner { transform: translateY(-3px); }
+
+/* gills sway gently while it waits (one of the few loops on the site) */
+.axo-gill { transform-box: view-box; }
+.axo.is-alive .axo-g1 { animation: axo-sway 2.2s ease-in-out infinite alternate; }
+.axo.is-alive .axo-g2 { animation: axo-sway 1.9s ease-in-out -0.6s infinite alternate; }
+.axo.is-alive .axo-g3 { animation: axo-sway 2.5s ease-in-out -1.1s infinite alternate; }
+@keyframes axo-sway { from { transform: rotate(-5deg); } to { transform: rotate(5deg); } }
+
+/* ---- kv.sh: the "what does kv stand for?" terminal ---- */
+.kv-back { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 60; }
+.kv-win {
+  --line: #2e3532; --muted: #a3aba7;
+  position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 61;
+  width: min(560px, 92vw); background: var(--graphite-900); border: 1px solid var(--line); color: #c9cec9;
+}
+.kv-bar { display: flex; align-items: center; gap: 12px; padding: 10px 14px; border-bottom: 1px solid var(--line); font: 400 12px/1 var(--font-mono); letter-spacing: 0.08em; color: var(--muted); }
+.kv-bar i { width: 16px; height: 16px; background: var(--green-on-dark); clip-path: polygon(25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%, 0 25%); }
+.kv-bar button { margin-left: auto; background: none; border: 0; color: var(--muted); font: inherit; cursor: pointer; padding: 4px 6px; }
+.kv-bar button:hover { color: var(--pale); }
+.kv-bar button:focus-visible { outline: 2px solid var(--green-on-dark); outline-offset: 2px; }
+.kv-body { padding: 16px 18px 18px; font: 400 15px/1.7 var(--font-mono); min-height: 120px; }
+.kv-body p { margin: 0; }
+.kv-pr, .kv-ok { color: var(--green-on-dark); }
+.kv-no { color: #f2897c; }
+.kv-input { display: flex; gap: 8px; }
+.kv-input input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--pale); font: inherit; caret-color: var(--green-on-dark); padding: 0; }
+.kv-input:focus-within { box-shadow: -8px 0 0 -6px var(--green-on-dark); }
+
+/* A way into the easter egg for keyboard and screen-reader users. It is invisible
+   until it is reached with the Tab key, so there is no visible hint line. */
+.site-footer .kv-hint { margin-top: 14px; }
+.site-footer .kv-hint button {
+  position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+  background: none; border: 0; padding: 0; color: #8a948f; font: inherit; cursor: pointer;
+}
+.site-footer .kv-hint button:focus-visible {
+  position: static; width: auto; height: auto; overflow: visible; clip-path: none; padding: 4px;
+  text-decoration: underline; text-underline-offset: 3px; outline: 2px solid var(--green-on-dark); outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .axo, .axo-bubble-inner, .axo-poster-inner { transition: none; }
+  .axo.is-alive .axo-g1, .axo.is-alive .axo-g2, .axo.is-alive .axo-g3 { animation: none; }
+}

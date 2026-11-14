@@ -91,6 +91,7 @@ export default function Skills() {
         </p>
 
         <div className="sk-layout">
+          <div className="sk-side">
           <div className="sk-rail" role="tablist" aria-orientation="vertical" aria-label="Skill branches">
             {BRANCHES.map((b, i) => (
               <button
@@ -111,6 +112,13 @@ export default function Skills() {
                 <span className="sk-tab-count">{countOf(b)} skills</span>
               </button>
             ))}
+          </div>
+
+          {/* Under the branch list, so it is seen with the logos and the whole scene still fits one screen. */}
+          <p className="sk-note">
+            Logos are from the Simple Icons set (CC0). All trademarks belong to their owners and are shown
+            only to name tools I have used. The other icons are drawn for this site.
+          </p>
           </div>
 
           <div className="sk-stage">
@@ -155,7 +163,6 @@ export default function Skills() {
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -76,7 +76,7 @@
 .sk-detail p { color: var(--muted); margin-top: 4px; }
 .sk-detail p span { color: var(--ink); }
 .sk-detail .sk-hint { font: 400 12px/1.5 var(--font-mono); letter-spacing: 0.04em; margin: 0; }
-.sk-note { color: var(--muted); font-size: 13px; max-width: 78ch; margin: 6vh 0 0; }
+.sk-note { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 28px 0 0; }
 
 /* ---- arrival: lines draw in, tiles settle in once; switching branch replays a quick version ---- */
 .sk-panel.is-waiting .sk-cell, .sk-panel.is-waiting .sk-cluster h3 { opacity: 0; }

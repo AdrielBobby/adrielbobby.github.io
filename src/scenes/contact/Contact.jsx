@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { subscribeScroll } from '../../lib/scroll.js';
 import { setNavTheme } from '../../components/navTheme.js';
 import { createTerminal, EMAIL } from './terminal.js';
+import Axolotl from '../axolotl/Axolotl.jsx';
 import './contact.css';
 
 const SPACING = 16; // px between halftone dots
@@ -46,7 +47,7 @@ export default function Contact() {
       body: bodyRef.current,
       reduce,
       navigate: (to) => navRef.current(to),
-      onReady: () => { setReady(true); window.dispatchEvent(new Event('contact-ready')); },
+      onReady: () => setReady(true),
     });
     let W = 0, H = 0, dpr = 1, lastP = -1, started = false;
 
@@ -131,6 +132,7 @@ export default function Contact() {
           <a className="ct-btn is-primary" href={`mailto:${EMAIL}`}>Open mail client</a>
           <button className="ct-btn" type="button" onClick={copy}>{copied ? 'Copied' : 'Copy email'}</button>
         </div>
+        <Axolotl active={ready} visible={shown && ready} />
       </div>
     </section>
   );
