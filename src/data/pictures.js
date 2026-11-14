@@ -6,6 +6,7 @@ import calmOverview from '../assets/projects/calm-cockpit-overview.webp';
 import calmAcademics from '../assets/projects/calm-cockpit-academics.webp';
 import medOverview from '../assets/projects/medledger-overview.webp';
 import medExpiry from '../assets/projects/medledger-expiry.webp';
+import medSales from '../assets/projects/medledger-sales.webp';
 import thanganTerminal from '../assets/projects/thangan-terminal.webp';
 import thanganAsk from '../assets/projects/thangan-ask.webp';
 import thanganDiscord from '../assets/projects/thangan-discord.webp';
@@ -18,6 +19,7 @@ export const pics = {
   calmAcademics: { src: calmAcademics, w: 1600, h: 1000, alt: 'Calm Cockpit academics page: an SGPA trend chart and a semester table.' },
   medOverview: { src: medOverview, w: 1600, h: 1000, alt: 'MedLedger overview: units on hand, inventory value, expiry alerts, low stock, an expiry watchlist and recent sales.' },
   medExpiry: { src: medExpiry, w: 1600, h: 611, alt: 'MedLedger expiry centre: batches with days left and one expired batch.' },
+  medSales: { src: medSales, w: 1326, h: 420, alt: 'MedLedger sales ledger: each completed sale with its medicine, batch, customer, payment, quantity and line total.' },
   thanganTerminal: { src: thanganTerminal, w: 1467, h: 820, alt: 'Thangan in the terminal: the Thangan banner and an attendance chart against an 80% line.' },
   thanganAsk: { src: thanganAsk, w: 1600, h: 519, alt: 'Thangan answering “which subject has my lowest attendance” and the follow-up “and the third lowest?”.' },
   thanganDiscord: { src: thanganDiscord, w: 1326, h: 712, alt: 'An attendance chart sent by the Thangan Discord bot.' },

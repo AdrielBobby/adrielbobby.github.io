@@ -163,7 +163,7 @@ export const caseFiles = {
         ['Schema', '10 tables, 4 views, 4 triggers, a stored procedure and a stored function, documented in the README.'],
         ['Reproducible', 'One docker compose up starts the same Oracle 23ai database for anyone.'],
       ],
-      gallery: [[pics.medExpiry, 'The expiry centre']],
+      gallery: [[pics.medExpiry, 'The expiry centre'], [pics.medSales, 'The sales ledger and its batches']],
     },
     links: [['Source on GitHub', 'https://github.com/AdrielBobby/pharma-batch-tracker', true]],
   },

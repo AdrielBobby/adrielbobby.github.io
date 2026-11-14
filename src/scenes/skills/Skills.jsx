@@ -42,7 +42,7 @@ export default function Skills() {
       const panel = panelRef.current;
       if (!panel || replayRef.current > 0) return;
       const top = section.getBoundingClientRect().top + y - eased;
-      panel.style.setProperty('--draw', clamp((vh * 0.85 - top) / (vh * 0.7)).toFixed(4));
+      panel.style.setProperty('--draw', clamp((vh * 0.95 - top) / (vh * 1.0)).toFixed(4));
     });
   }, []);
 
