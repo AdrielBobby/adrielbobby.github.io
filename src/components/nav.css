@@ -80,14 +80,15 @@
 /* In a narrow window the open pill would cover the back link, so it drops below. */
 @media (max-width: 1040px) { .nav-back { top: 68px; } }
 
-/* ---- load animation: the outline draws round, then the tile, letters and pill fill in ---- */
-.nav-intro .kv-outline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: kv-draw 800ms ease both; animation-delay: var(--d); }
-.nav-intro .kv-tile { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 700ms); }
-.nav-intro .kv-letters { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 850ms); }
-.nav-intro .nav-pill { animation: pill-fill 350ms ease both; animation-delay: calc(var(--d) + 700ms); }
+/* ---- load animation: the pill appears first, the outline is drawn round inside it, then the tile and letters fill in ---- */
+.nav-mark svg { overflow: visible; } /* the outline is centred on the tile edge, so half of it sits outside the tile */
+.nav-intro .nav-pill { animation: pill-fill 350ms ease both; animation-delay: var(--d); }
+.nav-intro .kv-outline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: kv-draw 800ms cubic-bezier(0.45, 0, 0.25, 1) both; animation-delay: calc(var(--d) + 300ms); }
+.nav-intro .kv-tile { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 1000ms); }
+.nav-intro .kv-letters { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 1150ms); }
 @keyframes kv-draw { to { stroke-dashoffset: 0; } }
 @keyframes kv-fade { from { opacity: 0; } }
-@keyframes pill-fill { from { background-color: transparent; border-color: transparent; } }
+@keyframes pill-fill { from { opacity: 0; } }
 
 @media (prefers-reduced-motion: reduce) {
   .nav-pill, .nav-group, .nav-mark svg * { transition: none; }
