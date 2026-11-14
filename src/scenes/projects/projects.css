@@ -36,18 +36,16 @@
 
 .project-media { position: relative; transition: transform var(--t-hover) ease; }
 .project-row:hover .project-media { transform: translateY(-4px); }
-.project-ph {
-  display: grid; place-items: center; padding: 12px; text-align: center;
-  background: repeating-linear-gradient(135deg, rgba(27, 32, 30, 0.05) 0 14px, rgba(27, 32, 30, 0.09) 14px 28px);
-  border: 1px solid var(--line); color: var(--muted);
-  font: 400 11px/1.4 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+.project-pic {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left;
+  border: 1px solid var(--line); border-radius: 6px; background: var(--line);
+  box-shadow: 0 18px 40px -24px rgba(15, 18, 17, 0.45);
 }
-.project-ph-main { aspect-ratio: 4 / 3; }
 /* Thaalam: hardware photo with the UI screenshot overlapping its corner */
-.project-ph-hardware { aspect-ratio: 4 / 3; width: 82%; }
-.project-ph-ui {
-  aspect-ratio: 16 / 10; width: 64%; position: absolute; right: 0; bottom: -9%;
-  background-color: var(--bg); border-color: var(--ac); transition: border-color 500ms var(--ease);
+.project-pic-hardware { width: 82%; object-position: center; }
+.project-pic-ui {
+  width: 58%; position: absolute; right: 0; bottom: -12%;
+  border: 2px solid var(--ac); transition: border-color 500ms var(--ease);
 }
 
 /* ---- other projects ---- */
@@ -81,6 +79,6 @@
 @media (max-width: 1000px) { .others-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .projects, .projects-tag, .project-num, .project-meta li, .project-open, .project-ph-ui,
+  .projects, .projects-tag, .project-num, .project-meta li, .project-open, .project-pic-ui,
   .project-media, .project-arrow, .tile { transition: none; }
 }

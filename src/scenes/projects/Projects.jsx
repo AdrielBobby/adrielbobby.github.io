@@ -36,7 +36,7 @@ export default function Projects() {
         </header>
 
         {projects.map((p, i) => (
-          <article key={p.slug} className="project-row" data-row={p.slug} aria-labelledby={`${p.slug}-name`}>
+          <article key={p.slug} id={`project-${p.slug}`} className="project-row" data-row={p.slug} aria-labelledby={`${p.slug}-name`}>
             <div>
               <p className="project-num" aria-hidden="true">{String(i + 1).padStart(2, '0')}</p>
               <h3 id={`${p.slug}-name`} className="project-name">{p.name}</h3>
@@ -49,11 +49,17 @@ export default function Projects() {
               </Link>
             </div>
             <div className={p.media.length > 1 ? 'project-media is-pair' : 'project-media'}>
-              {/* Placeholders until Adriel's pictures arrive. */}
               {p.media.map((m) => (
-                <div key={m.kind} className={`project-ph project-ph-${m.kind}`} role="img" aria-label={`Placeholder. ${m.label}`}>
-                  <span aria-hidden="true">{m.label}</span>
-                </div>
+                <img
+                  key={m.kind}
+                  className={`project-pic project-pic-${m.kind}`}
+                  src={m.pic.src}
+                  width={m.pic.w}
+                  height={m.pic.h}
+                  alt={m.pic.alt}
+                  loading="lazy"
+                  decoding="async"
+                />
               ))}
             </div>
           </article>

@@ -1,5 +1,7 @@
+import { pics } from './pictures.js';
+
 // The four featured projects, in the order they appear on the home page.
-// Their case-file copy lives in docs/case-files.md until step 6 of the build.
+// Their case-file copy lives in caseFiles.js.
 export const projects = [
   {
     slug: 'thaalam',
@@ -7,8 +9,8 @@ export const projects = [
     summary: 'A glove that teaches chenda rhythms. On-device Gemma turns a track into a finger-by-finger lesson and coaches in Malayalam.',
     meta: ['Hackathon winner', 'Best Use of Gemma', 'Python, FastAPI, Raspberry Pi'],
     media: [
-      { kind: 'hardware', label: 'Hardware photo: glove and drums' },
-      { kind: 'ui', label: 'UI screenshot: 3D chenda' },
+      { kind: 'hardware', pic: pics.thaalamGlove },
+      { kind: 'ui', pic: pics.thaalamDashboard },
     ],
   },
   {
@@ -16,21 +18,21 @@ export const projects = [
     name: 'Calm Cockpit',
     summary: 'A personal dashboard for my own student life, built because my college portal would not show me my attendance percentage.',
     meta: ['In use', 'Built for myself', 'Flask, SQLite, Chart.js'],
-    media: [{ kind: 'main', label: 'Screenshot: attendance and timetable' }],
+    media: [{ kind: 'main', pic: pics.calmOverview }],
   },
   {
     slug: 'medledger',
     name: 'MedLedger',
     summary: 'A DBMS class microproject that grew into a pharmacy stock system. The database itself refuses to sell expired or missing stock.',
     meta: ['Complete', 'Oracle 23ai in Docker', 'React, Node, TypeScript'],
-    media: [{ kind: 'main', label: 'Screenshot or schema diagram: batches, FEFO sales' }],
+    media: [{ kind: 'main', pic: pics.medOverview }],
   },
   {
     slug: 'thangan',
     name: 'Thangan',
     summary: 'A local AI second brain that answers questions about my college life in plain English. It runs on my own machine and is strictly read-only.',
     meta: ['In progress', 'Private', 'Python, Ollama, Llama 3.1'],
-    media: [{ kind: 'main', label: 'Screenshot: terminal app' }],
+    media: [{ kind: 'main', pic: pics.thanganTerminal }],
   },
 ];
 

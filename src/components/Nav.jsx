@@ -119,7 +119,7 @@ export default function Nav() {
   return (
     <header className="nav" data-theme={override ?? theme}>
       {onCaseFile && (
-        <Link className="nav-back" to="/#projects">
+        <Link className="nav-back" to={`/#project-${pathname.split('/')[2] || ''}`}>
           <span aria-hidden="true">&larr;</span> Back to projects
         </Link>
       )}
