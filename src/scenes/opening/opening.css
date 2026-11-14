@@ -1,0 +1,17 @@
+/* About 5.6 screens of scrolling with the drawing pinned in the middle. */
+.opening { position: relative; height: 560vh; }
+.opening.is-still { height: 100vh; } /* reduced motion: just the finished logo */
+.opening-stage {
+  position: sticky; top: 0; height: 100vh; overflow: hidden;
+  display: grid; place-items: center;
+  background: var(--graphite-900);
+}
+.opening-art { width: min(92vw, 1080px); height: auto; max-height: 80vh; overflow: visible; }
+
+.opening-skip {
+  position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%);
+  font: 500 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: #a3aba7; text-decoration: none; padding: 12px 14px;
+}
+.opening-skip:hover { text-decoration: underline; }
+.opening-skip:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }

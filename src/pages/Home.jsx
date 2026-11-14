@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { projects } from '../data/projects.js';
 import { useTitle } from '../useTitle.js';
+import Opening from '../scenes/opening/Opening.jsx';
 
-// Scaffold: the six scenes in order, on their surfaces. Each one is replaced by the real scene as it is built.
+// The opening is built. The other five scenes are still scaffold placeholders,
+// each replaced by the real scene as it is built.
 const scenes = [
-  { id: 'opening', surface: 'surface-dark', label: '01 Opening', title: 'kv', note: 'The kv tile grows into the face logo here.' },
   { id: 'about', surface: 'surface-light', label: '02 Who I am', title: 'I build things end to end, then try to break them.', note: 'Cybersecurity and software student who builds things end to end.' },
   { id: 'projects', surface: 'surface-light', label: '03 Projects', title: 'Projects' },
   { id: 'skills', surface: 'surface-dark', label: '04 Skills', title: 'Skills', note: 'The six-branch skill tree goes here.' },
@@ -16,6 +17,7 @@ export default function Home() {
   useTitle('Adriel Bobby');
   return (
     <main id="main">
+      <Opening />
       {scenes.map((s) => (
         <section key={s.id} id={s.id} className={`scene surface ${s.surface}`} data-nav-theme={s.surface === 'surface-light' ? 'light' : 'dark'} aria-labelledby={`${s.id}-title`}>
           <div className="wrap">

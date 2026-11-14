@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import KvMark from './KvMark.jsx';
+import { onNavTheme } from './navTheme.js';
 import './nav.css';
 
 const LEFT = [
@@ -58,6 +59,10 @@ export default function Nav() {
     };
   }, [pathname]);
 
+  // A scene can override the colours while it is under the pill (see navTheme.js).
+  const [override, setOverride] = useState(null);
+  useEffect(() => onNavTheme(setOverride), []);
+
   // The right group is wider than the left (it holds Resume). Measure both so
   // each opens to its exact width and the pill shifts by half the difference,
   // which keeps the kv mark still at the centre of the window.
@@ -69,7 +74,7 @@ export default function Nav() {
     // for the left group, because it overflows towards the left when closed.)
     const span = (el) =>
       Math.ceil(el.lastElementChild.getBoundingClientRect().right - el.firstElementChild.getBoundingClientRect().left);
-    const measure = () => setWidths({ left: span(leftRef.current), right: span(rightRef.current) });
+    const measure = () => leftRef.current && rightRef.current && setWidths({ left: span(leftRef.current), right: span(rightRef.current) });
     measure();
     document.fonts?.ready.then(measure);
   }, []);
@@ -112,7 +117,7 @@ export default function Nav() {
   );
 
   return (
-    <header className="nav" data-theme={theme}>
+    <header className="nav" data-theme={override ?? theme}>
       {onCaseFile && (
         <Link className="nav-back" to="/#projects">
           <span aria-hidden="true">&larr;</span> Back to projects
