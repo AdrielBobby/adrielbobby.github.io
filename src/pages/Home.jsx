@@ -17,7 +17,7 @@ export default function Home() {
   return (
     <main id="main">
       {scenes.map((s) => (
-        <section key={s.id} id={s.id} className={`scene surface ${s.surface}`} aria-labelledby={`${s.id}-title`}>
+        <section key={s.id} id={s.id} className={`scene surface ${s.surface}`} data-nav-theme={s.surface === 'surface-light' ? 'light' : 'dark'} aria-labelledby={`${s.id}-title`}>
           <div className="wrap">
             <p className="label">{s.label}</p>
             <h2 id={`${s.id}-title`}>{s.title}</h2>

@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { findProject } from '../data/projects.js';
 import { useTitle } from '../useTitle.js';
 import NotFound from './NotFound.jsx';
@@ -10,12 +10,11 @@ export default function CaseFile() {
   useTitle(project ? `${project.name} | Adriel Bobby` : 'Page not found | Adriel Bobby');
   if (!project) return <NotFound />;
   return (
-    <main id="main" className="page surface surface-dark">
+    <main id="main" className="page surface surface-dark" data-nav-theme="dark">
       <div className="wrap">
         <p className="label">Case file</p>
         <h1>{project.name}</h1>
         <p className="note">This case file is not written into the site yet.</p>
-        <p className="links"><Link to="/#projects">Back to projects</Link></p>
       </div>
     </main>
   );

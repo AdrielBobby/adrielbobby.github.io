@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
+import Nav from './components/Nav.jsx';
 import Home from './pages/Home.jsx';
 import CaseFile from './pages/CaseFile.jsx';
 import NotFound from './pages/NotFound.jsx';
@@ -21,6 +22,7 @@ export default function App() {
     <>
       <a className="skip-link" href="#main">Skip to content</a>
       <ScrollOnNavigate />
+      <Nav />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:slug" element={<CaseFile />} />

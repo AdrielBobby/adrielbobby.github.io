@@ -1,0 +1,85 @@
+/* The kv pill. Fixed top-centre; dark pill on dark and green surfaces, light pill on pale grey. */
+.nav {
+  --pill-bg: rgba(26, 31, 29, 0.86);
+  --pill-line: #2e3532;
+  --nav-text: #a3aba7;
+  --nav-text-strong: #eceef2;
+  --nav-ac: #4fb08a;
+  --mark-tile: #4fb08a;
+  --mark-letters: #0f1211;
+
+  position: fixed; top: 12px; left: 0; right: 0; z-index: 50;
+  display: flex; justify-content: center;
+  pointer-events: none; /* only the pill and the back link take clicks */
+}
+.nav[data-theme='light'] {
+  --pill-bg: rgba(242, 243, 241, 0.9);
+  --pill-line: #c3c8c4;
+  --nav-text: #566059;
+  --nav-text-strong: #12141a;
+  --nav-ac: #337058;
+  --mark-tile: #337058;
+  --mark-letters: #e7e9e6;
+}
+
+.nav-pill {
+  pointer-events: auto;
+  display: inline-flex; align-items: center; padding: 5px;
+  border: 1px solid var(--pill-line); border-radius: 999px;
+  background: var(--pill-bg);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  transition: background-color var(--t-state) var(--ease), border-color var(--t-state) var(--ease), transform 420ms var(--ease);
+}
+/* Shift by half the difference between the two groups so the mark stays centred. */
+.nav-pill.is-open { transform: translateX(calc((var(--w-right, 0px) - var(--w-left, 0px)) / 2)); }
+
+/* The two groups open outward from the mark. The pill is fixed and centred,
+   so growing its width moves nothing else on the page. */
+.nav-group {
+  display: flex; align-items: center; gap: 2px;
+  max-width: 0; opacity: 0; overflow: hidden; white-space: nowrap;
+  transition: max-width 420ms var(--ease), opacity 220ms ease;
+}
+.nav-group-left { justify-content: flex-end; }
+.nav-pill.is-open .nav-group { opacity: 1; }
+.nav-pill.is-open .nav-group-left { max-width: var(--w-left, 360px); }
+.nav-pill.is-open .nav-group-right { max-width: var(--w-right, 360px); }
+
+.nav-link {
+  position: relative; flex: none;
+  font: 600 14px/1 var(--font-body); color: var(--nav-text); text-decoration: none;
+  padding: 11px 13px; border-radius: 999px;
+  transition: color var(--t-hover) ease, background-color var(--t-hover) ease;
+}
+.nav-link:hover, .nav-link:focus-visible { color: var(--nav-text-strong); }
+.nav-link.is-active { color: var(--nav-ac); }
+.nav-link.is-active::after {
+  content: ''; position: absolute; left: 50%; bottom: 4px; width: 4px; height: 4px;
+  margin-left: -2px; border-radius: 50%; background: var(--nav-ac);
+}
+.nav-resume { border: 1px solid var(--nav-ac); color: var(--nav-ac); padding: 9px 14px; margin-left: 6px; }
+.nav-resume:hover { background: var(--nav-ac); color: var(--mark-letters); }
+
+.nav-mark {
+  flex: none; width: 42px; height: 42px; padding: 0; margin: 0 3px;
+  border: 0; border-radius: 50%; background: none; cursor: pointer;
+  display: grid; place-items: center;
+}
+.nav-mark svg { width: 34px; height: 34px; }
+.nav-mark svg * { transition: fill var(--t-state) var(--ease); }
+.nav-mark:focus-visible, .nav-link:focus-visible { outline: 2px solid var(--nav-ac); outline-offset: 2px; }
+
+.nav-back {
+  pointer-events: auto;
+  position: absolute; left: var(--gutter); top: 16px;
+  font: 600 14px/1 var(--font-body); color: var(--nav-text); text-decoration: none;
+  padding: 10px 0;
+  transition: color var(--t-hover) ease;
+}
+.nav-back:hover, .nav-back:focus-visible { color: var(--nav-text-strong); }
+/* In a narrow window the open pill would cover the back link, so it drops below. */
+@media (max-width: 1040px) { .nav-back { top: 68px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-pill, .nav-group, .nav-mark svg * { transition: none; }
+}

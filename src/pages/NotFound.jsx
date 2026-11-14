@@ -4,7 +4,7 @@ import { useTitle } from '../useTitle.js';
 export default function NotFound() {
   useTitle('Page not found | Adriel Bobby');
   return (
-    <main id="main" className="page surface surface-dark">
+    <main id="main" className="page surface surface-dark" data-nav-theme="dark">
       <div className="wrap">
         <p className="label">404</p>
         <h1>That page isn't here.</h1>
