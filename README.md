@@ -17,6 +17,8 @@ A desktop-first scroll site plus four case-file pages. Plain React, no animation
 | Experience | Roles, credentials, awards and education as ruled rows, reached through a symbol ripple from Skills. |
 | Contact | A halftone dissolve to black, then a live `contact.sh` terminal. Messages post to a Formspree form. |
 
+With a mouse or trackpad the pointer is a blinking terminal caret that leaves a trail of symbols (`src/components/Cursor.jsx`); touch screens and reduced motion keep the normal cursor.
+
 Case files live at `/projects/thaalam`, `/projects/calm-cockpit`, `/projects/medledger` and `/projects/thangan`. There is also a hidden easter egg.
 
 ## Tech

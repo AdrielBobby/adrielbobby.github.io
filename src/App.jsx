@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Nav from './components/Nav.jsx';
+import Cursor from './components/Cursor.jsx';
 import Home from './pages/Home.jsx';
 import NotFound from './pages/NotFound.jsx';
 
@@ -25,6 +26,7 @@ export default function App() {
       <a className="skip-link" href="#main">Skip to content</a>
       <ScrollOnNavigate />
       <Nav />
+      <Cursor />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/projects/:slug" element={<Suspense fallback={<div className="route-loading surface surface-dark" />}><CaseFile /></Suspense>} />

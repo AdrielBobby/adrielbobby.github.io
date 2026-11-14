@@ -1,0 +1,21 @@
+/* Custom cursor: a terminal caret with a trail of symbols (Cursor.jsx).
+   Only active for a mouse or trackpad and without reduced motion (the class is added by the component). */
+html.has-cursor, html.has-cursor * { cursor: none !important; }
+/* typing areas keep the normal text cursor, and links inside them keep the pointer */
+html.has-cursor input, html.has-cursor textarea, html.has-cursor [contenteditable],
+html.has-cursor .ct-body, html.has-cursor .ct-body *, html.has-cursor .kv-body, html.has-cursor .kv-body * { cursor: text !important; }
+html.has-cursor .ct-body a, html.has-cursor .kv-body button, html.has-cursor .kv-body a { cursor: pointer !important; }
+
+.cursor-canvas { position: fixed; inset: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 9999; }
+
+.cursor-caret {
+  position: fixed; left: 0; top: 0; z-index: 10000; pointer-events: none;
+  width: 9px; height: 18px; margin: -9px 0 0 -4px;
+  background: var(--cur, #4fb08a); opacity: 0;
+}
+.cursor-caret.is-on { opacity: 1; animation: caret-blink 1.1s steps(1) infinite; }
+.cursor-caret.is-on.is-moving { animation: none; } /* solid while moving, blinking when still */
+/* over a link the block becomes [ ] */
+.cursor-caret.is-link { width: auto; height: auto; margin: -14px 0 0 -16px; background: none; font: 700 26px/1 var(--font-mono); color: var(--cur, #4fb08a); }
+.cursor-caret.is-link::before { content: '[ ]'; }
+@keyframes caret-blink { 0%, 55% { opacity: 1; } 55.01%, 100% { opacity: 0; } }

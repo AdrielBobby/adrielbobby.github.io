@@ -27,6 +27,9 @@ A technical-editorial portfolio that shows real, checkable work first and person
 
 Rhythm: light, light, dark, light, black, so no two heavy scenes touch.
 
+## 4b. Cursor
+Mouse and trackpad only (not touch screens, not with reduced motion). The pointer becomes a blinking green terminal caret (solid while moving, blinking when still) that turns into `[ ]` over links and buttons, and it leaves a trail of the site's own symbols (`. , : - + *`) as it moves: about two symbols every 4 px, 10 to 19 px tall, fading over about a second. The colour follows the surface (green on dark, deep green on pale, graphite on the opening's green tile). In typing areas (the contact and kv terminals, inputs) the normal text cursor returns and the trail pauses. Constants for density, size and fade are at the top of `src/components/Cursor.jsx`.
+
 ## 5. Navigation
 Fixed top-centre kv pill. Collapsed: the mark only. Expanded (hover or focus; click pins): About, Projects, Skills | kv | Experience, Contact, Resume (outlined, opens the PDF). Active section gets the surface accent and a dot. Pill colour follows the scene. Only the mark shows during the opening. On load the mark draws itself on once: its outline is drawn round, then the tile, letters and pill fill in (after the opening intro on the home page). On case files the same pill, Projects active, plus a back link. Prototype: `navbar-sketch.html`.
 
