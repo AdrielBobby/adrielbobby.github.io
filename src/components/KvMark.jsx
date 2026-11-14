@@ -8,8 +8,10 @@ const LETTERS =
 export default function KvMark({ className }) {
   return (
     <svg className={className} viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-      <polygon points={TILE} fill="var(--mark-tile, #4fb08a)" />
-      <path d={LETTERS} fill="var(--mark-letters, #0f1211)" />
+      <polygon className="kv-tile" points={TILE} fill="var(--mark-tile, #4fb08a)" />
+      <path className="kv-letters" d={LETTERS} fill="var(--mark-letters, #0f1211)" />
+      {/* Drawn round once on load (nav.css); the same colour as the tile afterwards, so it disappears into it. */}
+      <polygon className="kv-outline" points={TILE} fill="none" stroke="var(--mark-tile, #4fb08a)" strokeWidth="3" strokeLinejoin="round" pathLength="1" />
     </svg>
   );
 }

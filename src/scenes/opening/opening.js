@@ -157,12 +157,15 @@ export function createOpening(svg) {
 
   // Returns the page colour and the ink colour for this moment, so the scene
   // around the drawing (background, skip link, nav) can follow.
-  function render(p) {
+  // intro runs 0 to 1 on load: first green kv letters on black, then the tile blooms
+  // behind them and the letters turn black. It is 1 whenever the intro is not playing.
+  function render(p, intro = 1) {
     // 1. the green tile grows until it is the whole page
     const grow = seg(p, 0.06, 0.22);
     const sc = lerp(1, coverScale, grow * grow);
-    tile.setAttribute('transform', `translate(${cx} ${cy}) scale(${sc}) translate(${-cx} ${-cy})`);
-    tile.setAttribute('opacity', p < 0.24 ? 1 : 0);
+    const bloom = seg(intro, 0.3, 1);
+    tile.setAttribute('transform', `translate(${cx} ${cy}) scale(${(sc * lerp(0.4, 1, bloom)).toFixed(4)}) translate(${-cx} ${-cy})`);
+    tile.setAttribute('opacity', p < 0.24 ? bloom : 0);
     // 2. page colour: dark, then green once the tile covers it, then pale grey
     const toLight = seg(p, 0.82, 0.95);
     const bg = p < 0.22 ? INK : lerpColor(GREEN, LIGHT, toLight);
@@ -171,7 +174,7 @@ export function createOpening(svg) {
     [eKStem, eKHalf, eMirror, eV, eRR, eRL, eLid].forEach((e) => e.setAttribute('stroke', fg));
     const swap = seg(p, 0.19, 0.234); // the serif kv hands over to the stroke letters
     kv.setAttribute('opacity', 1 - swap);
-    kv.setAttribute('fill', fg);
+    kv.setAttribute('fill', lerpColor(GREEN, fg, seg(intro, 0.4, 0.85)));
     gLines.setAttribute('opacity', swap);
     eKStem.setAttribute('opacity', 1 - seg(p, m(0.18), m(0.32)));
     const kt = seg(p, m(0.28), m(0.56));

@@ -155,9 +155,10 @@ export default function Experience() {
           <p className="ex-lede">Roles, certifications and awards, newest first.</p>
         </div>
         <div ref={listRef}>
-          {GROUPS.map((g) => (
+          {GROUPS.map((g, gi) => (
             <section key={g.title} className="ex-group" aria-labelledby={`ex-${g.title}`}>
-              <h3 id={`ex-${g.title}`}>{g.title}</h3>
+              {/* The first group's label would repeat the scene's own 05 / Experience tag, so it is kept for screen readers only. */}
+              <h3 id={`ex-${g.title}`} className={gi === 0 ? 'visually-hidden' : undefined}>{g.title}</h3>
               <ol className="ex-rows">
                 {g.rows.map((r, i) => (
                   <li key={r.title} className="ex-row" style={{ '--i': i }}>

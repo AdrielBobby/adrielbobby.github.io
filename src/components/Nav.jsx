@@ -28,6 +28,16 @@ export default function Nav() {
   const [closed, setClosed] = useState(false);
   const navRef = useRef(null);
 
+  // Once per page load the mark draws itself on: its outline is drawn round, then the tile and
+  // the pill fill in. On the home page at the top it waits for the opening's green box to finish.
+  const [intro, setIntro] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches);
+  const [introDelay] = useState(() => (window.location.pathname === '/' && window.scrollY < 4 ? 2.1 : 0.2));
+  useEffect(() => {
+    if (!intro) return undefined;
+    const t = window.setTimeout(() => setIntro(false), (introDelay + 2) * 1000);
+    return () => window.clearTimeout(t);
+  }, [intro, introDelay]);
+
   // Two thin observation lines: one under the pill (which surface is behind
   // it, for its colours) and one near the middle of the window (which section
   // is being read, for the active link).
@@ -117,7 +127,7 @@ export default function Nav() {
   );
 
   return (
-    <header className="nav" data-theme={override ?? theme}>
+    <header className={intro ? 'nav nav-intro' : 'nav'} data-theme={override ?? theme} style={intro ? { '--d': `${introDelay}s` } : undefined}>
       {onCaseFile && (
         <Link className="nav-back" to={`/#project-${pathname.split('/')[2] || ''}`}>
           <span aria-hidden="true">&larr;</span> Back to projects

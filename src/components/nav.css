@@ -66,7 +66,7 @@
   display: grid; place-items: center;
 }
 .nav-mark svg { width: 34px; height: 34px; }
-.nav-mark svg * { transition: fill var(--t-state) var(--ease); }
+.nav-mark svg * { transition: fill var(--t-state) var(--ease), stroke var(--t-state) var(--ease); }
 .nav-mark:focus-visible, .nav-link:focus-visible { outline: 2px solid var(--nav-ac); outline-offset: 2px; }
 
 .nav-back {
@@ -79,6 +79,15 @@
 .nav-back:hover, .nav-back:focus-visible { color: var(--nav-text-strong); }
 /* In a narrow window the open pill would cover the back link, so it drops below. */
 @media (max-width: 1040px) { .nav-back { top: 68px; } }
+
+/* ---- load animation: the outline draws round, then the tile, letters and pill fill in ---- */
+.nav-intro .kv-outline { stroke-dasharray: 1; stroke-dashoffset: 1; animation: kv-draw 800ms ease both; animation-delay: var(--d); }
+.nav-intro .kv-tile { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 700ms); }
+.nav-intro .kv-letters { animation: kv-fade 350ms ease both; animation-delay: calc(var(--d) + 850ms); }
+.nav-intro .nav-pill { animation: pill-fill 350ms ease both; animation-delay: calc(var(--d) + 700ms); }
+@keyframes kv-draw { to { stroke-dashoffset: 0; } }
+@keyframes kv-fade { from { opacity: 0; } }
+@keyframes pill-fill { from { background-color: transparent; border-color: transparent; } }
 
 @media (prefers-reduced-motion: reduce) {
   .nav-pill, .nav-group, .nav-mark svg * { transition: none; }

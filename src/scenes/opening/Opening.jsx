@@ -52,11 +52,18 @@ export default function Opening() {
     let lastZ = 0;
     let lastP = -1;
     let look = null;
+    // On load the green kv letters sit on black for a beat, then the tile blooms behind them.
+    // Scrolling (or a page that opens part-way down) skips straight to the finished state.
+    let intro = reduce || window.scrollY > 4 ? 1 : 0;
+    let lastIntro = -1;
+    let last = { sc: 0, y: 0 };
     const paint = (sc, y) => {
+      last = { sc, y };
       const p = clamp(sc / FACE);
       const z = clamp((sc - Z0) / (Z1 - Z0));
       lastZ = z;
-      if (p !== lastP || !look) { look = drawing.render(p); lastP = p; }
+      if (p > 0 && intro < 1) intro = 1;
+      if (p !== lastP || intro !== lastIntro || !look) { look = drawing.render(p, intro); lastP = p; lastIntro = intro; }
       const { bg, fg, toLight, onDark } = look;
       handoff.render(z);
       stage.style.backgroundColor = bg;
@@ -69,6 +76,22 @@ export default function Opening() {
     };
 
     let off = () => {};
+    let introTimer = 0;
+    let introFrame = 0;
+    const playIntro = () => {
+      const HOLD = 900;
+      const RUN = 900;
+      introTimer = window.setTimeout(() => {
+        const t0 = performance.now();
+        const step = (now) => {
+          if (intro >= 1) return;
+          intro = clamp((now - t0) / RUN);
+          paint(last.sc, last.y);
+          if (intro < 1) introFrame = requestAnimationFrame(step);
+        };
+        introFrame = requestAnimationFrame(step);
+      }, HOLD);
+    };
     const onResize = () => {
       drawing.measure();
       lastP = -1; // the logo's size changed, so redraw it
@@ -88,11 +111,14 @@ export default function Opening() {
         const max = track.offsetHeight - vh;
         paint(max > 0 ? clamp(eased / max) : 1, y);
       });
+      if (intro < 1) { paint(0, window.scrollY); playIntro(); }
     });
     if (reduce) paint(1, Infinity);
 
     return () => {
       alive = false;
+      window.clearTimeout(introTimer);
+      cancelAnimationFrame(introFrame);
       off();
       window.removeEventListener('resize', onResize);
       setNavTheme(null, 'opening');
