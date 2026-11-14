@@ -22,6 +22,7 @@ export default function Opening() {
   const stageRef = useRef(null);
   const svgRef = useRef(null);
   const skipRef = useRef(null);
+  const cueRef = useRef(null);
   const sceneRef = useRef(null);
   const particlesRef = useRef(null);
   const halftoneRef = useRef(null);
@@ -31,6 +32,7 @@ export default function Opening() {
     const track = trackRef.current;
     const stage = stageRef.current;
     const skip = skipRef.current;
+    const cue = cueRef.current;
     const scene = sceneRef.current;
     const drawing = createOpening(svgRef.current);
     const handoff = createHandoff({
@@ -69,6 +71,9 @@ export default function Opening() {
       stage.style.backgroundColor = bg;
       scene.classList.toggle('is-live', z > 0.6); // text becomes selectable once it has arrived
       skip.style.color = onDark ? '#a3aba7' : fg;
+      // The scroll cue shows once the tile has bloomed and goes as soon as the page moves.
+      cue.style.color = onDark ? '#a3aba7' : fg;
+      cue.style.opacity = intro >= 1 ? String(1 - clamp(p / 0.03)) : '0';
       skip.style.opacity = String(1 - clamp((p - 0.86) / 0.08));
       skip.style.visibility = p > 0.94 ? 'hidden' : 'visible';
       // While the stage is under the nav pill, the pill follows the page colour.
@@ -171,6 +176,9 @@ export default function Opening() {
         </section>
 
         <canvas ref={particlesRef} className="opening-particles" aria-hidden="true" />
+        <p ref={cueRef} className="opening-cue" aria-hidden="true">
+          Scroll <span className="opening-cue-arrow">&darr;</span>
+        </p>
         <a ref={skipRef} className="opening-skip" href="#about">
           Skip intro <span aria-hidden="true">&darr;</span>
         </a>

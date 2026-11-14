@@ -25,10 +25,20 @@
 .opening-particles { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 3; }
 
 .opening-skip {
-  position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 4;
+  position: absolute; right: var(--gutter); bottom: 28px; z-index: 4;
   font: 500 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
   color: #a3aba7; text-decoration: none; padding: 12px 14px;
 }
+/* Scroll cue: bottom centre, with an arrow that bobs. */
+.opening-cue {
+  position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%); z-index: 4; margin: 0; padding: 12px 14px;
+  display: flex; align-items: center; gap: 8px; pointer-events: none;
+  font: 500 12px/1 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase;
+  color: #a3aba7; opacity: 0; transition: opacity 500ms var(--ease);
+}
+.opening-cue-arrow { display: inline-block; font-size: 15px; animation: cue-bob 1.4s ease-in-out infinite; }
+@keyframes cue-bob { 0%, 100% { transform: translateY(-2px); } 50% { transform: translateY(5px); } }
+.opening.is-still .opening-cue { display: none; }
 .opening-skip:hover { text-decoration: underline; }
 .opening-skip:focus-visible { outline: 2px solid currentColor; outline-offset: 2px; }
 
@@ -67,3 +77,8 @@
 .about-stat dt { font: 400 12px/1.4 var(--font-mono); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
 .about-tag, .about-role, .about-stat { opacity: 0; }
 .about-portrait { position: relative; width: 100%; justify-self: center; }
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-cue-arrow { animation: none; }
+  .opening-cue { transition: none; }
+}
