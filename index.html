@@ -1,40 +1,41 @@
 <!doctype html>
-<!-- 'doctype html' tells the browser to render this as modern HTML5, not legacy HTML. -->
 <html lang="en">
-  <!-- 'lang="en"' helps screen readers and search engines know the page language. -->
   <head>
-    <!-- Everything inside <head> is NOT visible on the page — it's metadata for the browser. -->
-
-    <!-- UTF-8 lets the browser display all unicode characters (emojis, special symbols, etc.) -->
     <meta charset="UTF-8" />
-
-    <!-- 'viewport' makes the page responsive on mobile.
-         width=device-width  → match the screen width instead of assuming a desktop size.
-         initial-scale=1.0   → no zoom on first load. -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Adriel Bobby</title>
+    <meta name="description" content="Adriel Bobby. Cybersecurity and software student who builds things end to end. Projects, skills, experience and contact." />
+    <meta name="theme-color" content="#0f1211" />
+    <link rel="canonical" href="https://adrielbobby.github.io/" />
 
-    <!-- 'description' is what search engines show under your site title in Google results. -->
-    <meta name="description" content="Adriel Bobby — Computer Science Engineer and Cybersecurity Enthusiast" />
+    <link rel="preload" href="/assets/young-serif-latin-400-normal-DIMmNPI9.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/assets/manrope-latin-wght-normal-DHIcAJRg.woff2" as="font" type="font/woff2" crossorigin />
 
-    <!-- The tab title shown in the browser. -->
-    <title>Adriel Bobby | Portfolio</title>
-
-    <!-- A small icon shown in the browser tab (the favicon).
-         We reference a file at /favicon.svg — Vite serves everything in public/ at the root URL. -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <script type="module" crossorigin src="/assets/index-Ccss5L6T.js"></script>
-    <link rel="modulepreload" crossorigin href="/assets/framer-BvXLqd5I.js">
-    <link rel="modulepreload" crossorigin href="/assets/react-vendor-jMYFE2Wc.js">
-    <link rel="modulepreload" crossorigin href="/assets/three-DVVXwf6U.js">
-    <link rel="stylesheet" crossorigin href="/assets/index-Dzoea9U4.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Adriel Bobby" />
+    <meta property="og:title" content="Adriel Bobby" />
+    <meta property="og:description" content="Cybersecurity and software student who builds things end to end." />
+    <meta property="og:url" content="https://adrielbobby.github.io/" />
+    <meta property="og:image" content="https://adrielbobby.github.io/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="The kv mark beside the name Adriel Bobby." />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="module" crossorigin src="/assets/index-B0B4RfSL.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DvSCHfjv.css">
   </head>
   <body>
-    <!-- This single <div id="root"> is where React will inject the entire app.
-         React replaces the empty div with all your components at runtime. -->
     <div id="root"></div>
-
-    <!-- This loads our main JavaScript file.
-         type="module" enables ES Module syntax (import/export) in the browser.
-         Vite compiles src/main.jsx and all its imports into this bundle. -->
+    <noscript>
+      <p style="font:16px/1.6 system-ui,sans-serif;max-width:60ch;margin:15vh auto;padding:0 20px">
+        Adriel Bobby: cybersecurity and software student who builds things end to end. This site needs
+        JavaScript. Projects are on <a href="https://github.com/AdrielBobby">GitHub</a>; contact me at
+        <a href="mailto:adrielbobby3@gmail.com">adrielbobby3@gmail.com</a>.
+      </p>
+    </noscript>
   </body>
 </html>
