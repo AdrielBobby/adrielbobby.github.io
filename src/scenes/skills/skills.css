@@ -69,9 +69,12 @@
 .sk-tile[aria-pressed='true'] .sk-tile-face::before { background: color-mix(in srgb, var(--c) 22%, var(--graphite-900)); }
 .sk-tile:focus-visible { outline: none; }
 .sk-tile:focus-visible .sk-tile-face { outline: 2px solid var(--ink); outline-offset: 3px; clip-path: none; border-radius: 4px; }
+/* Learning now: a dashed outline in grey, not the branch colour. */
+.sk-cell.is-learning { --c: #8d9591; }
 .sk-cell.is-learning .sk-tile-face { background: repeating-linear-gradient(90deg, var(--c) 0 5px, transparent 5px 9px); }
-.sk-cell.is-learning svg { opacity: 0.65; }
-.sk-cap { font: 400 12px/1.3 var(--font-body); text-align: center; overflow-wrap: anywhere; }
+.sk-cell.is-learning .sk-cap { color: var(--muted); }
+/* 4px wider than the tile on each side (inside the 8px gap), so a 13-letter name stays on one line */
+.sk-cap { font: 400 12px/1.3 var(--font-body); text-align: center; overflow-wrap: anywhere; margin-inline: -4px; align-self: stretch; }
 .sk-cell.is-on .sk-cap { color: var(--c); font-weight: 600; }
 
 .sk-detail { border-top: 1px solid var(--line); margin-top: 18px; padding: 12px 0 0; min-height: 64px; }
@@ -95,7 +98,6 @@
 }
 .sk-panel.is-scrub .sk-tile:focus-visible .sk-tile-face { -webkit-mask-image: none; mask-image: none; }
 .sk-panel.is-scrub .sk-tile-face svg { opacity: clamp(0, calc((var(--q) - 0.6) * 2.5), 1); }
-.sk-panel.is-scrub .sk-cell.is-learning .sk-tile-face svg { opacity: calc(clamp(0, calc((var(--q) - 0.6) * 2.5), 1) * 0.65); }
 .sk-panel.is-scrub .sk-cap { opacity: clamp(0, calc((var(--q) - 0.6) * 2.5), 1); }
 
 .sk-panel.is-entering .sk-row::before { animation: sk-draw 600ms var(--ease) both; }

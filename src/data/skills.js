@@ -1,6 +1,6 @@
-// Generated from docs/skills-scene-sketch.html. Do not edit by hand; change the sketch and regenerate.
-// 65 skills in 6 branches: 37 logos from Simple Icons 13.21.0 (CC0; trademarks
-// belong to their owners), 28 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
+// Originally generated from docs/skills-scene-sketch.html; edited by hand since (cluster fixes and learning flags), so the sketch is now out of date. Edit this file directly.
+// 66 skills in 6 branches: 37 logos from Simple Icons 13.21.0 (CC0; trademarks
+// belong to their owners), 29 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
 
 export const ICONS = {
  "python": "M14.25.18l.9.2.73.26.59.3.45.32.34.34.25.34.16.33.1.3.04.26.02.2-.01.13V8.5l-.05.63-.13.55-.21.46-.26.38-.3.31-.33.25-.35.19-.35.14-.33.1-.3.07-.26.04-.21.02H8.77l-.69.05-.59.14-.5.22-.41.27-.33.32-.27.35-.2.36-.15.37-.1.35-.07.32-.04.27-.02.21v3.06H3.17l-.21-.03-.28-.07-.32-.12-.35-.18-.36-.26-.36-.36-.35-.46-.32-.59-.28-.73-.21-.88-.14-1.05-.05-1.23.06-1.22.16-1.04.24-.87.32-.71.36-.57.4-.44.42-.33.42-.24.4-.16.36-.1.32-.05.24-.01h.16l.06.01h8.16v-.83H6.18l-.01-2.75-.02-.37.05-.34.11-.31.17-.28.25-.26.31-.23.38-.2.44-.18.51-.15.58-.12.64-.1.71-.06.77-.04.84-.02 1.27.05zm-6.3 1.98l-.23.33-.08.41.08.41.23.34.33.22.41.09.41-.09.33-.22.23-.34.08-.41-.08-.41-.23-.33-.33-.22-.41-.09-.41.09zm13.09 3.95l.28.06.32.12.35.18.36.27.36.35.35.47.32.59.28.73.21.88.14 1.04.05 1.23-.06 1.23-.16 1.04-.24.86-.32.71-.36.57-.4.45-.42.33-.42.24-.4.16-.36.09-.32.05-.24.02-.16-.01h-8.22v.82h5.84l.01 2.76.02.36-.05.34-.11.31-.17.29-.25.25-.31.24-.38.2-.44.17-.51.15-.58.13-.64.09-.71.07-.77.04-.84.01-1.27-.04-1.07-.14-.9-.2-.73-.25-.59-.3-.45-.33-.34-.34-.25-.34-.16-.33-.1-.3-.04-.25-.02-.2.01-.13v-5.34l.05-.64.13-.54.21-.46.26-.38.3-.32.33-.24.35-.2.35-.14.33-.1.3-.06.26-.04.21-.02.13-.01h5.84l.69-.05.59-.14.5-.21.41-.28.33-.32.27-.35.2-.36.15-.36.1-.35.07-.32.04-.28.02-.21V6.07h2.09l.14.01zm-6.47 14.25l-.23.33-.08.41.08.41.23.33.33.23.41.08.41-.08.33-.23.23-.33.08-.41-.08-.41-.23-.33-.33-.23-.41-.08-.41.08z",
@@ -77,7 +77,8 @@ export const BRANCHES = [
       "used": [
        "Mend Your Heart"
       ],
-      "icon": "lua"
+      "icon": "lua",
+      "learning": true
      }
     ]
    },
@@ -128,7 +129,7 @@ export const BRANCHES = [
   "colour": "#5db2f7",
   "clusters": [
    {
-    "title": "Servers",
+    "title": "Backend",
     "skills": [
      {
       "name": "Flask",
@@ -144,13 +145,6 @@ export const BRANCHES = [
        "PoolDetect"
       ],
       "icon": "fastapi"
-     },
-     {
-      "name": "Node.js",
-      "used": [
-       "MedLedger"
-      ],
-      "icon": "nodedotjs"
      },
      {
       "name": "Express",
@@ -190,14 +184,6 @@ export const BRANCHES = [
       "icon": "react"
      },
      {
-      "name": "Vite",
-      "used": [
-       "MedLedger",
-       "this portfolio"
-      ],
-      "icon": "vite"
-     },
-     {
       "name": "Chart.js",
       "used": [
        "Calm Cockpit"
@@ -214,7 +200,8 @@ export const BRANCHES = [
       "used": [
        "Thangan"
       ],
-      "icon": "discord"
+      "icon": "discord",
+      "learning": true
      }
     ]
    }
@@ -255,7 +242,12 @@ export const BRANCHES = [
        "Vibe Night team project"
       ],
       "glyph": "<path d=\"M4 5h16v11h-9l-4 4v-4H4z\"/><circle cx=\"9\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"15\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/>"
-     },
+     }
+    ]
+   },
+   {
+    "title": "LLM techniques",
+    "skills": [
      {
       "name": "Context-window management",
       "used": [
@@ -264,6 +256,12 @@ export const BRANCHES = [
       ],
       "caption": "Context window",
       "glyph": "<path d=\"M8 4H5v16h3M16 4h3v16h-3\"/><path d=\"M9 9h6M9 12h6M9 15h4\"/>"
+     },
+     {
+      "name": "Orchestration",
+      "used": [],
+      "glyph": "<circle cx=\"12\" cy=\"5\" r=\"2.5\"/><circle cx=\"5\" cy=\"19\" r=\"2\"/><circle cx=\"12\" cy=\"19\" r=\"2\"/><circle cx=\"19\" cy=\"19\" r=\"2\"/><path d=\"M12 7.5V17M12 12H5v5M12 12h7v5\"/>",
+      "learning": true
      }
     ]
    },
@@ -309,7 +307,8 @@ export const BRANCHES = [
        "Thaalam",
        "Vibe Night team project"
       ],
-      "icon": "raspberrypi"
+      "icon": "raspberrypi",
+      "learning": true
      },
      {
       "name": "ESP32",
@@ -318,6 +317,14 @@ export const BRANCHES = [
       ],
       "learning": true,
       "icon": "espressif"
+     },
+     {
+      "name": "Arduino IDE",
+      "used": [
+       "ESP32 Marauder"
+      ],
+      "learning": true,
+      "icon": "arduino"
      }
     ]
    }
@@ -358,7 +365,8 @@ export const BRANCHES = [
      {
       "name": "Burp Suite",
       "used": [],
-      "icon": "burpsuite"
+      "icon": "burpsuite",
+      "learning": true
      },
      {
       "name": "Metasploit",
@@ -516,13 +524,29 @@ export const BRANCHES = [
        "MedLedger"
       ],
       "caption": "Oracle",
-      "icon": "oracle"
+      "icon": "oracle",
+      "learning": true
      }
     ]
    },
    {
-    "title": "Tooling",
+    "title": "Runtime + tooling",
     "skills": [
+     {
+      "name": "Node.js",
+      "used": [
+       "MedLedger"
+      ],
+      "icon": "nodedotjs"
+     },
+     {
+      "name": "Vite",
+      "used": [
+       "MedLedger",
+       "this portfolio"
+      ],
+      "icon": "vite"
+     },
      {
       "name": "Git + GitHub",
       "used": [
@@ -538,19 +562,12 @@ export const BRANCHES = [
       "icon": "pytest"
      },
      {
-      "name": "Arduino IDE",
-      "used": [
-       "ESP32 Marauder"
-      ],
-      "learning": true,
-      "icon": "arduino"
-     },
-     {
       "name": "Vercel",
       "used": [
        "College Helper"
       ],
-      "icon": "vercel"
+      "icon": "vercel",
+      "learning": true
      }
     ]
    }
@@ -570,21 +587,24 @@ export const BRANCHES = [
        "RedTeam Academy"
       ],
       "caption": "Web app security",
-      "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/><rect x=\"9.5\" y=\"12\" width=\"5\" height=\"4.5\" rx=\"1\"/><path d=\"M10.5 12v-.8a1.5 1.5 0 0 1 3 0v.8\"/>"
+      "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18\"/><rect x=\"9.5\" y=\"12\" width=\"5\" height=\"4.5\" rx=\"1\"/><path d=\"M10.5 12v-.8a1.5 1.5 0 0 1 3 0v.8\"/>",
+      "learning": true
      },
      {
       "name": "Network security",
       "used": [
        "Cyberdome internship"
       ],
-      "glyph": "<circle cx=\"5\" cy=\"6\" r=\"2\"/><circle cx=\"19\" cy=\"6\" r=\"2\"/><circle cx=\"12\" cy=\"19\" r=\"2\"/><path d=\"M7 6h10M6 8l5 9M18 8l-5 9\"/>"
+      "glyph": "<circle cx=\"5\" cy=\"6\" r=\"2\"/><circle cx=\"19\" cy=\"6\" r=\"2\"/><circle cx=\"12\" cy=\"19\" r=\"2\"/><path d=\"M7 6h10M6 8l5 9M18 8l-5 9\"/>",
+      "learning": true
      },
      {
       "name": "Mobile security",
       "used": [
        "Cyberdome internship"
       ],
-      "glyph": "<rect x=\"6\" y=\"2.5\" width=\"12\" height=\"19\" rx=\"2.5\"/><path d=\"M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z\"/>"
+      "glyph": "<rect x=\"6\" y=\"2.5\" width=\"12\" height=\"19\" rx=\"2.5\"/><path d=\"M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z\"/>",
+      "learning": true
      }
     ]
    },
