@@ -1,12 +1,10 @@
-import { Link } from 'react-router-dom';
-import { projects } from '../data/projects.js';
 import { useTitle } from '../useTitle.js';
 import Opening from '../scenes/opening/Opening.jsx';
+import Projects from '../scenes/projects/Projects.jsx';
 
-// The opening and Who I am are built (they share one component). The other
-// four scenes are still scaffold placeholders, each replaced as it is built.
+// Built so far: the opening and Who I am (one component), and Projects.
+// The other three scenes are still scaffold placeholders, each replaced as it is built.
 const scenes = [
-  { id: 'projects', surface: 'surface-light', label: '03 Projects', title: 'Projects' },
   { id: 'skills', surface: 'surface-dark', label: '04 Skills', title: 'Skills', note: 'The six-branch skill tree goes here.' },
   { id: 'experience', surface: 'surface-light', label: '05 Experience', title: 'Experience', note: 'Experience, credentials, awards and education rows go here.' },
   { id: 'contact', surface: 'surface-black', label: '06 Contact', title: "Let's talk.", note: 'The dissolve and the contact.sh terminal go here.' },
@@ -17,19 +15,13 @@ export default function Home() {
   return (
     <main id="main">
       <Opening />
+      <Projects />
       {scenes.map((s) => (
         <section key={s.id} id={s.id} className={`scene surface ${s.surface}`} data-nav-theme={s.surface === 'surface-light' ? 'light' : 'dark'} aria-labelledby={`${s.id}-title`}>
           <div className="wrap">
             <p className="label">{s.label}</p>
             <h2 id={`${s.id}-title`}>{s.title}</h2>
             {s.note && <p className="note">{s.note}</p>}
-            {s.id === 'projects' && (
-              <p className="links">
-                {projects.map((p) => (
-                  <Link key={p.slug} to={`/projects/${p.slug}`}>{p.name}</Link>
-                ))}
-              </p>
-            )}
           </div>
         </section>
       ))}
