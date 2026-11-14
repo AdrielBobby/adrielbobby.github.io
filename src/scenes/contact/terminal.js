@@ -116,7 +116,8 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
       const res = await fetch(FORMSPREE, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ name: data.name, email: data.email || 'not given', message: data.message }),
+        // Formspree rejects an email field that is not a valid address, so leave it out when none was given.
+        body: JSON.stringify(data.email ? { name: data.name, email: data.email, message: data.message } : { name: data.name, message: data.message }),
       });
       if (!res.ok) throw new Error(String(res.status));
       line('message delivered ✓', 'ct-ok');
@@ -134,6 +135,7 @@ export function createTerminal({ body, onReady, navigate, reduce }) {
       if (!v) return;
       data.name = v; flow = 'email'; setPrompt('> enter your email (optional): ');
     } else if (flow === 'email') {
+      if (v && !/^\S+@\S+\.\S+$/.test(v)) { line('that does not look like an email. try again, or press enter to skip.', 'ct-er'); return; }
       data.email = v; flow = 'message'; setPrompt('> enter your message: ');
     } else if (flow === 'message') {
       if (!v) return;
