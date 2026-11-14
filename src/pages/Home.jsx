@@ -2,11 +2,11 @@ import { useTitle } from '../useTitle.js';
 import Opening from '../scenes/opening/Opening.jsx';
 import Projects from '../scenes/projects/Projects.jsx';
 import Skills from '../scenes/skills/Skills.jsx';
+import Experience from '../scenes/experience/Experience.jsx';
 
-// Built so far: the opening and Who I am (one component), Projects and Skills.
-// The other two scenes are still scaffold placeholders, each replaced as it is built.
+// Built so far: the opening and Who I am (one component), Projects, Skills and Experience.
+// Contact is still a scaffold placeholder.
 const scenes = [
-  { id: 'experience', surface: 'surface-light', label: '05 Experience', title: 'Experience', note: 'Experience, credentials, awards and education rows go here.' },
   { id: 'contact', surface: 'surface-black', label: '06 Contact', title: "Let's talk.", note: 'The dissolve and the contact.sh terminal go here.' },
 ];
 
@@ -17,6 +17,7 @@ export default function Home() {
       <Opening />
       <Projects />
       <Skills />
+      <Experience />
       {scenes.map((s) => (
         <section key={s.id} id={s.id} className={`scene surface ${s.surface}`} data-nav-theme={s.surface === 'surface-light' ? 'light' : 'dark'} aria-labelledby={`${s.id}-title`}>
           <div className="wrap">

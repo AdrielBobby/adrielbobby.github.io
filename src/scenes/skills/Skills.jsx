@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ICONS, BRANCHES } from '../../data/skills.js';
 import './skills.css';
 
@@ -38,6 +38,25 @@ export default function Skills() {
     io.observe(sectionRef.current);
     return () => io.disconnect();
   }, []);
+
+  // One branch line per visual line of tiles: find where each wrapped line of
+  // a cluster starts and put a rule through the middle of its tiles.
+  const panelRef = useRef(null);
+  useLayoutEffect(() => {
+    const panel = panelRef.current;
+    const measure = () => {
+      panel.querySelectorAll('.sk-row').forEach((row) => {
+        const tops = [...new Set([...row.children].map((c) => c.offsetTop))];
+        const line = 'linear-gradient(var(--c), var(--c))';
+        row.style.setProperty('--line-bg', tops.map(() => line).join(', '));
+        row.style.setProperty('--line-pos', tops.map((t) => `0 ${t + 29}px`).join(', '));
+      });
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(panel);
+    return () => ro.disconnect();
+  }, [current, replay]);
 
   const choose = (i, focus) => {
     if (i === current) return;
@@ -95,7 +114,7 @@ export default function Skills() {
           </div>
 
           <div className="sk-stage">
-            <div key={replay} id="sk-panel" role="tabpanel" aria-labelledby={`sk-tab-${current}`} className={panelClass} style={{ '--c': branch.colour }}>
+            <div key={replay} ref={panelRef} id="sk-panel" role="tabpanel" aria-labelledby={`sk-tab-${current}`} className={panelClass} style={{ '--c': branch.colour }}>
               {branch.clusters.map((c) => (
                 <div key={c.title} className="sk-cluster">
                   <h3>{c.title}</h3>

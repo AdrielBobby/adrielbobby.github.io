@@ -33,7 +33,17 @@
 }
 .sk-cluster h3::before { content: ''; position: absolute; left: 2px; top: 0; width: 11px; height: 11px; background: var(--c); transform: rotate(45deg); }
 .sk-row { position: relative; display: flex; flex-wrap: wrap; gap: 18px 10px; padding: 0 0 0 2px; margin: 0; list-style: none; }
-.sk-row::before { content: ''; position: absolute; left: 0; right: 0; top: 30px; height: 2px; background: var(--c); opacity: 0.45; transform-origin: left center; }
+/* The branch line runs through the middle of the tiles. When a cluster wraps onto
+   more lines, Skills.jsx measures each line and adds one rule per line, so no tile
+   is left floating (--line-bg and --line-pos; the fallback is the first line only). */
+.sk-row::before {
+  content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none;
+  background-image: var(--line-bg, linear-gradient(var(--c), var(--c)));
+  background-position: var(--line-pos, 0 29px);
+  background-size: 100% 2px; background-repeat: no-repeat;
+  opacity: 0.45; transform-origin: left center;
+}
+.sk-cell { z-index: 1; }
 .sk-cell { position: relative; width: 80px; }
 
 .sk-tile {
