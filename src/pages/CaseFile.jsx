@@ -41,7 +41,11 @@ export default function CaseFile() {
   const { slug } = useParams();
   const project = findProject(slug);
   const file = caseFiles[slug];
-  useTitle(project ? `${project.name} | Adriel Bobby` : 'Page not found | Adriel Bobby');
+  useTitle(
+    project ? `${project.name} | Adriel Bobby` : 'Page not found | Adriel Bobby',
+    file ? `${project.name}: ${file.sub}` : 'That page is not here.',
+    { noindex: !project },
+  );
   const [current, setCurrent] = useState('outcome');
   const mainRef = useRef(null);
 

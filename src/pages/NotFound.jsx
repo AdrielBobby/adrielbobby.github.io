@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { useTitle } from '../useTitle.js';
 
 export default function NotFound() {
-  useTitle('Page not found | Adriel Bobby');
+  useTitle('Page not found | Adriel Bobby', 'That page is not here.', { noindex: true });
   return (
     <main id="main" className="page surface surface-dark" data-nav-theme="dark">
       <div className="wrap">

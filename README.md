@@ -1,78 +1,69 @@
-# Adriel Bobby — Portfolio
+# Adriel Bobby: portfolio
 
-Personal portfolio of Adriel Bobby, a Computer Science Engineering student specializing in cybersecurity and ethical hacking.
+Personal portfolio of Adriel Bobby, a cybersecurity and software student who builds things end to end.
 
 **Live site:** https://adrielbobby.github.io/
 
-## Overview
+## What it is
 
-A single-page site with a terminal-inspired design that presents my background, work, and security interests.
+A desktop-first scroll site plus four case-file pages. Plain React, no animation or 3D libraries, no analytics, no cookies and no third-party requests.
 
-### Sections
+| Scene | What it does |
+| --- | --- |
+| Opening | The kv tile grows into a green page and redraws itself as a hand-drawn face logo (scroll-linked). Skip link included. |
+| Who I am | The logo breaks into `. , : - + *` symbols that settle into a symbol portrait while the headline and two stat tiles enter. |
+| Projects | Four featured projects (each opens a case file) and eleven smaller ones. The page takes each project's colour as you reach it. |
+| Skills | Six branches, 65 skills as icon tiles (37 logos from Simple Icons, 28 custom glyphs). |
+| Experience | Roles, credentials, awards and education as ruled rows. |
+| Contact | A halftone dissolve to black, then a live `contact.sh` terminal. Messages post to a Formspree form. |
 
-- **Boot sequence:** a fullscreen terminal loader that transitions into the hero.
-- **Hero:** an interactive WebGL pixel-grid background with animated entrance.
-- **About:** background, technical skills, focus areas in offensive security, web application security, and network security, and a GitHub contribution calendar.
-- **Education:** B.Tech in Computer Science Engineering at Rajagiri School of Engineering and Technology (2024–2028), plus CBSE Class X and XII.
-- **Experience:** Cybersecurity Intern at Kerala Police Cyberdome (Android malware analysis with MobSF, Frida, Genymotion, and ADB).
-- **Leadership and Communities:** Electronic Communications Coordinator and Technical Coordinator at IEEE RSET Student Branch.
-- **Certifications:** including the Certified Penetration Tester course from RedTeam Academy.
-- **Projects:** Vaccine Dispatch Tracker, ESP32 Marauder, a cybersecurity homelab, PoolDetect AI, Calm-Cockpit, and other builds.
-- **Hackathons:** prize-winning submissions, including a vertical-axis wind turbine street lamp and the KruizeX transit queue ideathon.
-- **Contact:** an interactive "Secure Uplink" console with an ASCII satellite and a decryption animation that reveals email and social links.
+Case files live at `/projects/thaalam`, `/projects/calm-cockpit`, `/projects/medledger` and `/projects/thangan`. There is also a hidden easter egg.
 
-## Tech Stack
+## Tech
 
 | Area | Tools |
 | --- | --- |
-| Framework | React 18, Vite |
-| Animation | Framer Motion, CSS animations |
-| Graphics | Three.js, postprocessing (WebGL) |
-| Data | react-github-calendar (contribution graph) |
-| Deployment | GitHub Pages via `gh-pages` |
+| Framework | React 18, Vite 7, `react-router-dom` |
+| Fonts | Young Serif, Manrope, JetBrains Mono (self-hosted, SIL OFL; licences in `src/fonts`) |
+| Icons | Simple Icons (CC0), bundled locally |
+| Hosting | GitHub Pages (`gh-pages` branch) |
 
-## Getting Started
+## Getting started
 
-**Prerequisites:** Node.js 20.19 or later and npm.
+Node.js 20.19 or later and npm.
 
 ```bash
-# Clone the repository
-git clone https://github.com/AdrielBobby/adrielbobby.github.io.git
-cd adrielbobby.github.io
-
-# Install dependencies
 npm install
-
-# Start the development server
 npm run dev
 ```
 
-## Scripts
-
 | Command | Description |
 | --- | --- |
-| `npm run dev` | Start the Vite dev server with hot reload |
-| `npm run build` | Create a production build in `dist/` |
-| `npm run preview` | Preview the production build locally |
-| `npm run deploy` | Publish `dist/` to GitHub Pages |
+| `npm run dev` | Dev server with hot reload |
+| `npm run build` | Production build in `dist/` |
+| `npm run preview` | Serve the production build locally |
+| `npm run deploy` | Build, then publish `dist/` to the `gh-pages` branch |
 
-## Project Structure
+## Structure
 
 ```
-├── public/            Static assets (resume PDF, favicon)
-├── src/
-│   ├── components/    Section and UI components
-│   ├── App.jsx        App shell and loader state machine
-│   ├── main.jsx       Entry point
-│   └── index.css      Global styles and theme variables
-├── index.html
-└── vite.config.js
+public/            Static files: resume PDF, favicons, social card, robots.txt, sitemap.xml, 404.html
+src/
+  components/      Nav, kv mark, scroll-driven helpers
+  data/            Project, case-file and skill content
+  lib/scroll.js    The one scroll hook (eased scroll for animations)
+  pages/           Home, CaseFile, NotFound
+  scenes/          One folder per scene (opening, projects, skills, experience, contact, axolotl)
+  styles/          Fonts, design tokens, base styles
+docs/              Planning notes and prototypes from the redesign (not part of the site)
 ```
 
-## Deployment
+## Deep links
 
-Run `npm run deploy` to build the site and publish `dist/` to the `gh-pages` branch.
+GitHub Pages has no server routing, so `public/404.html` stores the requested path and redirects to `/`; `src/main.jsx` restores it before the router starts.
 
-## Contact
+## Deploying
 
-Reach me through the contact section on the [live site](https://adrielbobby.github.io/).
+`npm run deploy` publishes only the built `dist/` folder. The hidden `/kv` page is a separate repository (`AdrielBobby/kv`) and is not affected.
+
+Before merging this work into `main` or pushing planning branches, remove `docs/content-inventory.md`: it holds private details and must not be published.
