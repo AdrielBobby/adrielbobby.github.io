@@ -34,8 +34,6 @@
 .ct-input { display: flex; align-items: center; gap: 8px; }
 .ct-input label { color: var(--green-on-dark); white-space: pre; }
 .ct-input input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--pale); font: inherit; caret-color: var(--green-on-dark); padding: 0; }
-/* the input has no box, so the whole row shows keyboard focus */
-.ct-input:focus-within { box-shadow: -8px 0 0 -6px var(--green-on-dark); }
 
 .ct-acts { position: absolute; left: 50%; bottom: 6vh; transform: translateX(-50%); display: flex; gap: 12px; opacity: 0; pointer-events: none; transition: opacity 500ms var(--ease); }
 .ct-acts.is-on { opacity: 1; pointer-events: auto; }

@@ -82,13 +82,17 @@ export default function Skills() {
   return (
     <section ref={sectionRef} id="skills" className="skills surface surface-dark" data-nav-theme="dark" aria-labelledby="skills-title">
       <div className="wrap">
-        <p className="sk-tag">04 / Skills</p>
-        <h2 id="skills-title" className="sk-big">What I build with.</h2>
-        <p className="sk-legend">
-          <span><i className="sk-key" aria-hidden="true" />learned to use</span>
-          <span><i className="sk-key is-learning" aria-hidden="true" />learning now</span>
-          <span>{TOTAL} skills in {BRANCHES.length} branches</span>
-        </p>
+        <header className="sk-head">
+          <div>
+            <p className="sk-tag">04 / Skills</p>
+            <h2 id="skills-title" className="sk-big">What I build with.</h2>
+          </div>
+          <p className="sk-legend">
+            <span><i className="sk-key" aria-hidden="true" />learned to use</span>
+            <span><i className="sk-key is-learning" aria-hidden="true" />learning now</span>
+            <span>{TOTAL} skills in {BRANCHES.length} branches</span>
+          </p>
+        </header>
 
         <div className="sk-layout">
           <div className="sk-side">

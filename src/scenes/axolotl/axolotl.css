@@ -48,7 +48,6 @@
 .kv-no { color: #f2897c; }
 .kv-input { display: flex; gap: 8px; }
 .kv-input input { flex: 1; min-width: 0; background: transparent; border: 0; outline: 0; color: var(--pale); font: inherit; caret-color: var(--green-on-dark); padding: 0; }
-.kv-input:focus-within { box-shadow: -8px 0 0 -6px var(--green-on-dark); }
 
 /* A way into the easter egg for keyboard and screen-reader users. It is invisible
    until it is reached with the Tab key, so there is no visible hint line. */

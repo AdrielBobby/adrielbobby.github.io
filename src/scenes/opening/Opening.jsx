@@ -65,7 +65,7 @@ export default function Opening() {
       skip.style.opacity = String(1 - clamp((p - 0.86) / 0.08));
       skip.style.visibility = p > 0.94 ? 'hidden' : 'visible';
       // While the stage is under the nav pill, the pill follows the page colour.
-      setNavTheme(y < track.offsetHeight - 40 ? (toLight > 0.5 ? 'light' : 'dark') : null);
+      setNavTheme(y < track.offsetHeight - 40 ? (toLight > 0.5 ? 'light' : 'dark') : null, 'opening');
     };
 
     let off = () => {};
@@ -95,7 +95,7 @@ export default function Opening() {
       alive = false;
       off();
       window.removeEventListener('resize', onResize);
-      setNavTheme(null);
+      setNavTheme(null, 'opening');
     };
   }, []);
 

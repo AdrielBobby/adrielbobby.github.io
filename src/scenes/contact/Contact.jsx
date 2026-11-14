@@ -86,7 +86,7 @@ export default function Contact() {
       if (show && !started) { started = true; terminal.intro(); }
       // the nav pill follows the page while this stage is under it
       // (the dots fill from the top, so the area behind the pill is black by about 30%)
-      setNavTheme(underPill ? (p > 0.3 ? 'dark' : 'light') : null);
+      setNavTheme(underPill ? (p > 0.3 ? 'dark' : 'light') : null, 'contact');
     };
 
     size();
@@ -101,7 +101,7 @@ export default function Contact() {
       off();
       window.removeEventListener('resize', onResize);
       terminal.destroy();
-      setNavTheme(null);
+      setNavTheme(null, 'contact');
     };
   }, []);
 
