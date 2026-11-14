@@ -1,0 +1,54 @@
+/* Design tokens from docs/design-brief.md. Change values there first, then here. */
+:root {
+  /* palette */
+  --graphite-900: #0f1211;
+  --graphite-800: #1a1f1d;
+  --pale: #e7e9e6;
+  --green-on-dark: #4fb08a;
+  --green-on-light: #337058;
+
+  /* type */
+  --font-display: 'Young Serif', Georgia, serif;
+  --font-body: 'Manrope', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* motion */
+  --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --t-hover: 150ms;
+  --t-state: 300ms;
+  --t-scene: 600ms;
+
+  /* layout */
+  --wrap: 1280px;
+  --gutter: clamp(16px, 5vw, 72px);
+}
+
+/* Surfaces. Light is the default; a scene picks another with a class. */
+:root,
+.surface-light {
+  --bg: var(--pale);
+  --ink: #1b201e;
+  --muted: #566059;
+  --line: #c3c8c4;
+  --ac: var(--green-on-light);
+}
+.surface-dark {
+  --bg: var(--graphite-900);
+  --ink: var(--pale);
+  --muted: #9aa39e;
+  --line: #2c3330;
+  --ac: var(--green-on-dark);
+}
+.surface-black {
+  --bg: #000;
+  --ink: var(--pale);
+  --muted: #9aa39e;
+  --line: #2c3330;
+  --ac: var(--green-on-dark);
+}
+
+/* Featured projects: a soft page tint plus an accent, taken from each project's screenshots. */
+[data-project='thaalam'] { --bg: #efe9d9; --ac: #835d00; }
+[data-project='calm-cockpit'] { --bg: #f6e6dd; --ac: #a54500; }
+[data-project='medledger'] { --bg: #dcefe7; --ac: #1e5c47; }
+[data-project='thangan'] { --bg: #e1eaf9; --ac: #2d63ba; }
