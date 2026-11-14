@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ICONS, BRANCHES } from '../../data/skills.js';
+import { subscribeScroll } from '../../lib/scroll.js';
 import './skills.css';
 
 const TOTAL = BRANCHES.reduce((n, b) => n + b.clusters.reduce((m, c) => m + c.skills.length, 0), 0);
@@ -22,26 +23,31 @@ function Icon({ skill }) {
 // icon tiles on branch lines. Selecting a tile says where the skill was used.
 export default function Skills() {
   const sectionRef = useRef(null);
+  const panelRef = useRef(null);
   const tabRefs = useRef([]);
   const [current, setCurrent] = useState(START >= 0 ? START : 0);
   const [picked, setPicked] = useState(null); // { branch, name }
-  const [arrived, setArrived] = useState(false); // the arrival plays once
   const [replay, setReplay] = useState(0); // bumps on branch switch, for the quick replay
+  const replayRef = useRef(0);
+  replayRef.current = replay;
 
+  // First arrival: the branch lines, tile outlines and icons are drawn on as the
+  // section scrolls in (--draw, 0 to 1, read by skills.css). Switching branch
+  // afterwards plays the quick replay instead.
   useEffect(() => {
-    const io = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) { setArrived(true); io.disconnect(); }
-      },
-      { threshold: 0.3 },
-    );
-    io.observe(sectionRef.current);
-    return () => io.disconnect();
+    const section = sectionRef.current;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const clamp = (t) => Math.max(0, Math.min(1, t));
+    return subscribeScroll(({ y, eased, vh }) => {
+      const panel = panelRef.current;
+      if (!panel || replayRef.current > 0) return;
+      const top = section.getBoundingClientRect().top + y - eased;
+      panel.style.setProperty('--draw', clamp((vh * 0.85 - top) / (vh * 0.7)).toFixed(4));
+    });
   }, []);
 
   // One branch line per visual line of tiles: find where each wrapped line of
   // a cluster starts and put a rule through the middle of its tiles.
-  const panelRef = useRef(null);
   useLayoutEffect(() => {
     const panel = panelRef.current;
     const measure = () => {
@@ -77,7 +83,7 @@ export default function Skills() {
     ? branch.clusters.flatMap((c) => c.skills).find((s) => s.name === picked.name)
     : null;
   let index = 0;
-  const panelClass = ['sk-panel', !arrived && 'is-waiting', arrived && 'is-entering', replay > 0 && 'is-fast'].filter(Boolean).join(' ');
+  const panelClass = replay === 0 ? 'sk-panel is-scrub' : 'sk-panel is-entering is-fast';
 
   return (
     <section ref={sectionRef} id="skills" className="skills surface surface-dark" data-nav-theme="dark" aria-labelledby="skills-title">

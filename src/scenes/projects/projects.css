@@ -2,19 +2,25 @@
 .projects {
   transition: background-color 500ms var(--ease);
 }
-.projects-head { padding: 16vh 0 6vh; }
+.projects-head { padding: 16vh 0 4vh; }
 .projects-tag {
   font: 400 12px/1.3 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase;
   color: var(--ac); margin: 0 0 18px; transition: color 500ms var(--ease);
 }
 .projects-big { font-size: clamp(44px, 6.6vw, 104px); line-height: 1.02; letter-spacing: -0.015em; max-width: 14ch; }
 
-/* ---- featured rows ---- */
-.project-row {
-  min-height: 84vh; padding: 7vh 0; border-top: 1px solid var(--line);
+/* ---- featured strip: a pinned stage; scrolling down slides the cards sideways ---- */
+.ph-track { position: relative; height: 400vh; } /* three slides of travel plus the pinned screen */
+.ph-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; overflow: clip; }
+.ph-strip { display: flex; height: 100%; width: 100%; will-change: transform; }
+.project-row { flex: 0 0 100%; width: 100%; height: 100%; display: flex; align-items: center; padding-top: 6vh; }
+.project-inner {
   display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr);
   gap: clamp(24px, 5vw, 72px); align-items: center;
 }
+.ph-mark { position: absolute; left: 0; width: 1px; height: 1px; top: calc(var(--i) / (var(--n) - 1) * (100% - 100vh) + 1px); pointer-events: none; }
+.ph-progress { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 5vh; height: 2px; background: var(--line); }
+.ph-progress i { position: absolute; inset: 0; background: var(--ac); transform-origin: left center; transform: scaleX(0); transition: background-color 500ms var(--ease); }
 .project-num { font: 400 clamp(56px, 8vw, 120px)/1 var(--font-display); color: var(--ac); margin: 0 0 6px; transition: color 500ms var(--ease); }
 .project-name { font-size: clamp(40px, 5.4vw, 84px); line-height: 1.02; letter-spacing: -0.012em; margin: 0 0 18px; }
 .project-summary { font-size: 18px; max-width: 44ch; margin: 0 0 22px; color: #2c3330; }
@@ -79,6 +85,13 @@
 @media (max-width: 1000px) { .others-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 @media (prefers-reduced-motion: reduce) {
+  /* no pinning: the cards stack as plain rows */
+  .ph-track { height: auto; }
+  .ph-stage { position: static; height: auto; overflow: visible; }
+  .ph-strip { display: block; transform: none !important; }
+  .project-row { height: auto; min-height: 84vh; padding: 7vh 0; border-top: 1px solid var(--line); }
+  .ph-progress { display: none; }
+  .ph-mark { top: calc(var(--i) * 100% / var(--n)); }
   .projects, .projects-tag, .project-num, .project-meta li, .project-open, .project-pic-ui,
   .project-media, .project-arrow, .tile { transition: none; }
 }

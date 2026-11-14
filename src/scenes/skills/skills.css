@@ -81,9 +81,23 @@
 .sk-detail .sk-hint { font: 400 12px/1.5 var(--font-mono); letter-spacing: 0.04em; margin: 0; }
 .sk-note { color: var(--muted); font-size: 12px; line-height: 1.5; margin: 28px 0 0; }
 
-/* ---- arrival: lines draw in, tiles settle in once; switching branch replays a quick version ---- */
-.sk-panel.is-waiting .sk-cell, .sk-panel.is-waiting .sk-cluster h3 { opacity: 0; }
-.sk-panel.is-waiting .sk-row::before { transform: scaleX(0); }
+/* ---- arrival ----
+   First view: scroll-linked draw-in. --draw (0 to 1, set from Skills.jsx) runs the sequence:
+   branch lines draw, then each tile's outline is drawn round (a conic mask), then icon and caption fade in.
+   Switching branch afterwards replays a quick version. */
+.sk-panel.is-scrub { --draw: 1; }
+.sk-panel.is-scrub .sk-cluster h3 { opacity: clamp(0, calc(var(--draw) * 4), 1); }
+.sk-panel.is-scrub .sk-row::before { transform: scaleX(clamp(0, calc(var(--draw) * 2.2), 1)); }
+.sk-panel.is-scrub .sk-cell { --q: clamp(0, calc((var(--draw) - 0.25) * 2.2 - var(--i) * 0.03), 1); }
+.sk-panel.is-scrub .sk-tile-face {
+  -webkit-mask-image: conic-gradient(#000 calc(clamp(0, var(--q) / 0.6, 1) * 360deg), #0000 0);
+  mask-image: conic-gradient(#000 calc(clamp(0, var(--q) / 0.6, 1) * 360deg), #0000 0);
+}
+.sk-panel.is-scrub .sk-tile:focus-visible .sk-tile-face { -webkit-mask-image: none; mask-image: none; }
+.sk-panel.is-scrub .sk-tile-face svg { opacity: clamp(0, calc((var(--q) - 0.6) * 2.5), 1); }
+.sk-panel.is-scrub .sk-cell.is-learning .sk-tile-face svg { opacity: calc(clamp(0, calc((var(--q) - 0.6) * 2.5), 1) * 0.65); }
+.sk-panel.is-scrub .sk-cap { opacity: clamp(0, calc((var(--q) - 0.6) * 2.5), 1); }
+
 .sk-panel.is-entering .sk-row::before { animation: sk-draw 600ms var(--ease) both; }
 .sk-panel.is-entering .sk-cluster h3 { animation: sk-fade 400ms var(--ease) both; }
 .sk-panel.is-entering .sk-cell { animation: sk-pop 450ms var(--ease) both; animation-delay: calc(var(--i) * 28ms + 140ms); }
@@ -96,7 +110,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .sk-panel.is-entering .sk-row::before, .sk-panel.is-entering .sk-cluster h3, .sk-panel.is-entering .sk-cell { animation: none; }
-  .sk-panel.is-waiting .sk-cell, .sk-panel.is-waiting .sk-cluster h3 { opacity: 1; }
-  .sk-panel.is-waiting .sk-row::before { transform: none; }
   .sk-tab, .sk-tile-face { transition: none; }
 }

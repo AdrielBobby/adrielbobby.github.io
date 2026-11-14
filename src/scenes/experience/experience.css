@@ -1,6 +1,8 @@
 /* Experience: pale grey, sticky headline, ruled rows that fade up once (60 ms apart). */
-.experience { padding: 16vh 0; }
-.ex-inner { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: clamp(24px, 5vw, 72px); align-items: start; }
+.experience { padding: 0; }
+/* The graphite cover for the ripple from Skills: window-sized, sticks to the window, sits over the content until cleared. */
+.ex-ripple { position: sticky; top: 0; z-index: 2; display: block; width: 100%; height: 100vh; margin-bottom: -100vh; pointer-events: none; }
+.ex-inner { position: relative; padding-block: 16vh; display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.5fr); gap: clamp(24px, 5vw, 72px); align-items: start; }
 .ex-side { position: sticky; top: 14vh; }
 .ex-tag { font: 400 12px/1.3 var(--font-mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--ac); margin: 0 0 18px; }
 .ex-big { font-size: clamp(44px, 5.6vw, 88px); line-height: 1.02; letter-spacing: -0.015em; }

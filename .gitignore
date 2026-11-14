@@ -3,3 +3,7 @@ dist
 .git
 *.local
 .DS_Store
+
+# private planning notes, never publish
+docs/content-inventory.md
+.impeccable/

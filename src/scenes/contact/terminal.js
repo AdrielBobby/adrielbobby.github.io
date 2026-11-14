@@ -8,7 +8,7 @@ const GITHUB = 'github.com/AdrielBobby';
 const LINKEDIN = 'linkedin.com/in/adrielbobby';
 const TINKER = '@adriel_bobby';
 const FORMSPREE = 'https://formspree.io/f/mdavbvzg';
-const RESUME = '/Resume_v3.pdf'; // becomes /Resume.pdf when the new resume arrives
+const RESUME = '/Resume.pdf';
 const CASE_FILES = ['thaalam', 'calm-cockpit', 'medledger', 'thangan'];
 const HELP = [
   'help      this list',

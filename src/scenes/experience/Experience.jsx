@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { subscribeScroll } from '../../lib/scroll.js';
 import './experience.css';
 
 // Facts from the resume and the Cyberdome LinkedIn post (see docs/experience-sketch.html).
@@ -37,9 +38,29 @@ const GROUPS = [
 ];
 
 // Experience: a sticky headline on the left, plain ruled rows on the right.
+
+// ---- ripple: Skills dissolves into this scene as a ring of . , : - + * symbols ----
+const CELL = 18; // px per symbol cell
+const CHARS = ['.', ',', ':', '-', '+', '*'];
+const LEVELS = 6; // alpha steps, so each (symbol, alpha) pair sets the fill style once
+const clamp01 = (t) => Math.max(0, Math.min(1, t));
+function hash(x, y) {
+  let h = (x * 374761393 + y * 668265263) | 0;
+  h = ((h ^ (h >> 13)) * 1274126177) | 0;
+  return ((h ^ (h >> 16)) >>> 0) / 4294967295;
+}
+function noise(x, y) {
+  const xi = Math.floor(x), yi = Math.floor(y), xf = x - xi, yf = y - yi;
+  const u = xf * xf * (3 - 2 * xf), v = yf * yf * (3 - 2 * yf);
+  const l = (a, b, t) => a + (b - a) * t;
+  return l(l(hash(xi, yi), hash(xi + 1, yi), u), l(hash(xi, yi + 1), hash(xi + 1, yi + 1), u), v);
+}
+
 // Each group's rows fade up once when the group is reached.
 export default function Experience() {
   const listRef = useRef(null);
+  const sectionRef = useRef(null);
+  const canvasRef = useRef(null);
 
   useEffect(() => {
     const groups = [...listRef.current.querySelectorAll('.ex-group')];
@@ -57,8 +78,76 @@ export default function Experience() {
     return () => io.disconnect();
   }, []);
 
+  // Skills becomes Experience through a ripple. A graphite cover (the same colour as the Skills
+  // scene) sits over the top of this scene; scrolling clears it outward from a point as a ring of
+  // . , : - + * symbols, revealing the pale page. Scrolling back up draws it in reverse.
+  useEffect(() => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return undefined;
+    const section = sectionRef.current;
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+    const dark = getComputedStyle(document.documentElement).getPropertyValue('--graphite-900').trim() || '#0f1211';
+    let W = 0, H = 0, dpr = 1, lastP = -1;
+    const size = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+      W = canvas.clientWidth; H = canvas.clientHeight;
+      canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+      lastP = -1;
+    };
+    const draw = (p) => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, W, H);
+      ctx.fillStyle = dark;
+      if (p >= 1) return;
+      if (p <= 0) { ctx.fillRect(0, 0, W, H); return; }
+      const cols = Math.ceil(W / CELL), rows = Math.ceil(H / CELL);
+      const ox = W * 0.5, oy = H * 0.58; // where the ripple starts
+      const maxD = Math.hypot(Math.max(ox, W - ox), Math.max(oy, H - oy));
+      const front = p * 1.4, band = 0.2;
+      const buckets = new Map();
+      ctx.beginPath();
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const cx = i * CELL + CELL / 2, cy = j * CELL + CELL / 2;
+          const d = Math.hypot(cx - ox, cy - oy) / maxD + (noise(i * 0.22, j * 0.22) - 0.5) * 0.12;
+          const s = (front - d) / band;
+          if (s >= 1) continue; // the ripple has passed: clear
+          if (s <= 0) { ctx.rect(i * CELL, j * CELL, CELL, CELL); continue; } // not reached yet: still graphite
+          const a = 1 - s; // dense next to the graphite, thinning out behind
+          const ci = Math.min(CHARS.length - 1, Math.floor(a * CHARS.length));
+          const ai = Math.min(LEVELS - 1, Math.floor(a * LEVELS));
+          const key = ci * LEVELS + ai;
+          let list = buckets.get(key);
+          if (!list) buckets.set(key, (list = []));
+          list.push(cx, cy);
+        }
+      }
+      ctx.fill();
+      ctx.font = `15px "JetBrains Mono", monospace`;
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      buckets.forEach((list, key) => {
+        ctx.globalAlpha = 0.3 + 0.7 * ((key % LEVELS) / (LEVELS - 1));
+        const ch = CHARS[Math.floor(key / LEVELS)];
+        for (let k = 0; k < list.length; k += 2) ctx.fillText(ch, list[k], list[k + 1]);
+      });
+      ctx.globalAlpha = 1;
+    };
+    size();
+    const onResize = () => size();
+    window.addEventListener('resize', onResize);
+    const off = subscribeScroll(({ y, eased, vh }) => {
+      const top = section.getBoundingClientRect().top + y - eased;
+      const p = clamp01((vh * 0.95 - top) / (vh * 1.1));
+      if (p === lastP) return;
+      lastP = p;
+      draw(p);
+    });
+    return () => { off(); window.removeEventListener('resize', onResize); };
+  }, []);
+
   return (
-    <section id="experience" className="experience surface surface-light" data-nav-theme="light" aria-labelledby="experience-title">
+    <section ref={sectionRef} id="experience" className="experience surface surface-light" data-nav-theme="light" aria-labelledby="experience-title">
+      <canvas ref={canvasRef} className="ex-ripple" aria-hidden="true" />
       <div className="wrap ex-inner">
         <div className="ex-side">
           <p className="ex-tag">05 / Experience</p>

@@ -14,7 +14,7 @@ const RIGHT = [
   { id: 'contact', label: 'Contact' },
 ];
 const IDS = [...LEFT, ...RIGHT].map((i) => i.id);
-const RESUME = '/Resume_v3.pdf'; // becomes /Resume.pdf when the new resume arrives
+const RESUME = '/Resume.pdf';
 const PILL_CENTRE = 38; // px from the top of the window to the middle of the pill
 
 export default function Nav() {

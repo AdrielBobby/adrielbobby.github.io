@@ -38,20 +38,20 @@ export const projects = [
 
 export const findProject = (slug) => projects.find((p) => p.slug === slug);
 
-// Other projects, in Adriel's order. Wording is shortened from the current site
-// (RSMS-Reimagined and SkyBrief from their GitHub pages) until Adriel rewrites it.
+// Other projects, in Adriel's order. Wording is taken from the previous site
+// (RSMS-Reimagined and SkyBrief from their GitHub pages).
 // No url means the repo is not public, so the tile has no GitHub arrow.
 const GH = 'https://github.com/AdrielBobby/';
 export const otherProjects = [
-  { name: 'ESP32 Marauder', text: 'Wi-Fi and Bluetooth pentesting toolkit built on an ESP32 with Marauder firmware, for wireless auditing.', stack: ['ESP32', 'Arduino IDE', 'Wireshark'] },
-  { name: 'PoolDetect AI', url: GH + 'ai-swimming-pool-detection', text: 'Finds swimming pools in satellite imagery with a custom OpenCV morphology approach, under 0.1 s per image on CPU.', stack: ['Python', 'OpenCV', 'NumPy'] },
-  { name: 'Mis-Communication-Nater', text: 'Experimental AI system on a Raspberry Pi where two models talk to each other instead of answering user queries.', stack: ['Raspberry Pi 4B', 'StableLM Zephyr 3B', 'LEDs'] },
-  { name: 'Mend Your Heart', url: GH + 'Mend-your-heart-game', text: 'A cozy Valentine’s Day pixel art adventure: mend a broken heart through NPC interactions, kindness and minigames.', stack: ['Love2D', 'Lua', 'Pixel art'] },
+  { name: 'ESP32 Marauder', text: 'Wi‑Fi/Bluetooth pentesting toolkit built on ESP32 with Marauder firmware for wireless auditing.', stack: ['ESP32', 'Arduino IDE', 'Wireshark'] },
+  { name: 'PoolDetect AI', url: GH + 'ai-swimming-pool-detection', text: 'End-to-end satellite image pipeline that detects swimming pools using a custom OpenCV morphology approach, sub‑0.1 s per image on CPU.', stack: ['Python', 'OpenCV', 'NumPy'] },
+  { name: 'Mis-Communication-Nater', text: 'Experimental AI communication system on Raspberry Pi where two models talk to each other instead of answering user queries.', stack: ['Raspberry Pi 4B', 'StableLM Zephyr 3B', 'LEDs'] },
+  { name: 'Mend Your Heart', url: GH + 'Mend-your-heart-game', text: 'A cozy Valentine’s Day pixel art adventure where players mend a broken heart through meaningful NPC interactions, acts of kindness, and a series of charming minigames.', stack: ['Love2D', 'Lua', 'Pixel art'] },
   { name: 'RSMS-Reimagined', url: GH + 'RSMS-Reimagined', text: 'A privacy-safe student-portal demo with timetable, attendance eligibility and a leave planner, using fictional data.', stack: ['React', 'Express', 'SQLite'] },
-  { name: 'Student Marks Tracker', url: GH + 'student-marks-tracker', text: 'Internship performance dashboard with holiday-aware mark entry, student visibility windows and scorecards with performance bands.', stack: ['TypeScript', 'SQLite'] },
-  { name: 'Spotify Tracks Data Analysis', text: 'Exploratory analysis of a Spotify tracks dataset: cleaning audio features and charting popularity, tempo, genre and correlations.', stack: ['Python', 'Pandas', 'Matplotlib', 'Seaborn'] },
-  { name: 'Pong Game', text: 'Face-powered two-player Pong that uses webcam face capture as the ball and winner animation, with a custom Tkinter GUI.', stack: ['Python', 'tkinter', 'OpenCV', 'Pillow', 'NumPy'] },
-  { name: 'Gemini Context Monitor', url: GH + 'gemini_context_monitor', text: 'Developer dashboard for real-time tracking, history and token optimisation of Gemini CLI context windows.', stack: ['Python', 'CustomTkinter', 'SQLite'] },
+  { name: 'Student Marks Tracker', url: GH + 'student-marks-tracker', text: 'An internship performance dashboard featuring holiday-aware mark entry (skipping Sundays and 2nd Saturdays), active-window student visibility, and aggregate scorecards with qualitative performance bands.', stack: ['TypeScript', 'SQLite'] },
+  { name: 'Spotify Tracks Data Analysis', text: 'Exploratory data analysis of a Spotify tracks dataset, cleaning audio‑feature data and generating insight‑driven visualisations on popularity, tempo, genre, and correlations.', stack: ['Python', 'Pandas', 'Matplotlib', 'Seaborn'] },
+  { name: 'Pong Game', text: 'Face‑powered two‑player Pong game that uses webcam face capture as the in‑game ball and winner animation, built with a custom Tkinter GUI and basic physics.', stack: ['Python', 'tkinter', 'OpenCV', 'Pillow', 'NumPy'] },
+  { name: 'Gemini Context Monitor', url: GH + 'gemini_context_monitor', text: 'A high-performance developer dashboard for real-time tracking, historical analytics, and token optimization of Gemini CLI context windows.', stack: ['Python', 'CustomTkinter', 'SQLite'] },
   { name: 'SkyBrief', url: GH + 'skybrief', text: 'A simple weather dashboard.', stack: ['HTML', 'CSS', 'JavaScript', 'Open-Meteo'] },
-  { name: 'Vaccine Dispatch Tracker', url: GH + 'vaccine-dispatch-project', text: 'Full-stack vaccine inventory and logistics system with a GUI, automated order tracking and real-time visualisation.', stack: ['Python', 'MySQL', 'CustomTkinter', 'Matplotlib'] },
+  { name: 'Vaccine Dispatch Tracker', url: GH + 'vaccine-dispatch-project', text: 'A full-stack vaccine inventory and logistics management system featuring a modern GUI, automated order tracking, and real-time data visualization.', stack: ['Python', 'MySQL', 'CustomTkinter', 'Matplotlib'] },
 ];
