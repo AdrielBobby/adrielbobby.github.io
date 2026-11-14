@@ -137,7 +137,8 @@ export default function Skills() {
                 <div key={c.title} className="sk-cluster">
                   <h3>{c.title}</h3>
                   <ul className="sk-row">
-                    {c.skills.map((s) => {
+                    {/* learned skills first, the ones still being learned at the end of the row */}
+                    {[...c.skills].sort((x, y) => Boolean(x.learning) - Boolean(y.learning)).map((s) => {
                       const on = chosen === s;
                       return (
                         <li key={s.name} className={['sk-cell', s.learning && 'is-learning', on && 'is-on'].filter(Boolean).join(' ')} style={{ '--i': index++ }}>
