@@ -14,6 +14,17 @@ if (saved) {
   if (saved.startsWith('/') && !saved.startsWith('//')) window.history.replaceState(null, '', saved);
 }
 
+// A reload starts clean: no section hash in the address, no restored scroll, back at the top.
+try {
+  if (performance.getEntriesByType('navigation')[0]?.type === 'reload') {
+    window.history.scrollRestoration = 'manual';
+    window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search);
+    window.scrollTo(0, 0);
+    // later Back/Forward steps (a case file to Projects) restore their scroll as usual
+    window.addEventListener('load', () => { window.history.scrollRestoration = 'auto'; }, { once: true });
+  }
+} catch { /* an unusual browser: keep the default behaviour */ }
+
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
