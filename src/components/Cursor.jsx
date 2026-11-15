@@ -119,12 +119,18 @@ export default function Cursor() {
       const d = Math.hypot(dx, dy);
       const n = Math.floor(d / SPACING);
       if (!n) return;
+      const ux = dx / d, uy = dy / d; // direction of travel
       for (let i = 1; i <= n; i++) {
         const t = i / n;
         for (let k = 0; k < PER_STEP; k++) {
+          let jx = (Math.random() - 0.5) * JITTER;
+          let jy = (Math.random() - 0.5) * JITTER;
+          // The scatter never lands ahead of the pointer, whichever way it moves.
+          const ahead = jx * ux + jy * uy;
+          if (ahead > 0) { jx -= 2 * ahead * ux; jy -= 2 * ahead * uy; }
           parts.push({
-            x: lx + dx * t + (Math.random() - 0.5) * JITTER,
-            y: ly + dy * t + (Math.random() - 0.5) * JITTER,
+            x: lx + dx * t + jx,
+            y: ly + dy * t + jy,
             vx: (Math.random() - 0.5) * 0.5,
             vy: -0.15 - Math.random() * 0.45,
             c: CHARS[Math.floor(Math.random() * CHARS.length)],
