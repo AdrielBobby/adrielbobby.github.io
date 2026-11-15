@@ -5,6 +5,7 @@ import './cursor.css';
 const SPACING = 4; // px of pointer travel between spawns
 const PER_STEP = 2; // symbols per spawn
 const JITTER = 16; // px of random scatter around the path
+const LAG = 2; // px the trail starts behind the pointer (more when moving left, less when moving right)
 const SIZE_MIN = 10;
 const SIZE_RANGE = 9;
 const START_ALPHA = 0.9;
@@ -128,6 +129,10 @@ export default function Cursor() {
           // The scatter never lands ahead of the pointer, whichever way it moves.
           const ahead = jx * ux + jy * uy;
           if (ahead > 0) { jx -= 2 * ahead * ux; jy -= 2 * ahead * uy; }
+          // and starts a little behind it, clear of the caret block itself
+          // (the block sits 4px left and 5px right of the pointer, so the gap differs by direction)
+          const lag = LAG - 3 * ux;
+          jx -= ux * lag; jy -= uy * lag;
           parts.push({
             x: lx + dx * t + jx,
             y: ly + dy * t + jy,
