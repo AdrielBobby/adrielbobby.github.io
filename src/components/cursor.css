@@ -15,7 +15,13 @@ html.has-cursor .ct-body a, html.has-cursor .kv-body button, html.has-cursor .kv
 }
 .cursor-caret.is-on { opacity: 1; animation: caret-blink 1.1s steps(1) infinite; }
 .cursor-caret.is-on.is-moving { animation: none; } /* solid while moving, blinking when still */
-/* over a link the block becomes [ ] */
-.cursor-caret.is-link { width: auto; height: auto; margin: -14px 0 0 -16px; background: none; font: 700 26px/1 var(--font-mono); color: var(--cur, #4fb08a); }
-.cursor-caret.is-link::before { content: '[ ]'; }
+/* over a link the block becomes [ ] brackets that wrap the thing (Cursor.jsx sets --w and --h and the position) */
+.cursor-caret.is-link { width: var(--w, 44px); height: var(--h, 26px); margin: 0; background: none; animation: none; }
+.cursor-caret.is-link::before, .cursor-caret.is-link::after {
+  content: ''; position: absolute; top: 0; bottom: 0; width: 8px; border: 3px solid var(--cur, #4fb08a);
+}
+.cursor-caret.is-link::before { left: 0; border-right: 0; }
+.cursor-caret.is-link::after { right: 0; border-left: 0; }
+/* a short glide when the brackets appear, disappear or hop to the next link; plain movement stays instant */
+.cursor-caret.is-morph { transition: transform 150ms var(--ease, ease-out), width 150ms var(--ease, ease-out), height 150ms var(--ease, ease-out); }
 @keyframes caret-blink { 0%, 55% { opacity: 1; } 55.01%, 100% { opacity: 0; } }
