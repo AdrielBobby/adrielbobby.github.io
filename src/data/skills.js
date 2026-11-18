@@ -239,7 +239,7 @@ export const BRANCHES = [
      {
       "name": "StableLM",
       "used": [
-       "Vibe Night team project"
+       "Mis-Communication-Nater"
       ],
       "glyph": "<path d=\"M4 5h16v11h-9l-4 4v-4H4z\"/><circle cx=\"9\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"12\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/><circle cx=\"15\" cy=\"10.5\" r=\"1\" fill=\"currentColor\"/>"
      }
@@ -305,7 +305,7 @@ export const BRANCHES = [
       "name": "Raspberry Pi",
       "used": [
        "Thaalam",
-       "Vibe Night team project"
+       "Mis-Communication-Nater"
       ],
       "icon": "raspberrypi",
       "learning": true
@@ -417,6 +417,7 @@ export const BRANCHES = [
      {
       "name": "Netcat",
       "used": [],
+      "learning": true,
       "glyph": "<path d=\"M5 9V4l4.5 3h5L19 4v5c1 1.2 1.5 2.6 1.5 4.2 0 4-3.6 6.8-8.5 6.8S3.5 17.2 3.5 13.2C3.5 11.6 4 10.2 5 9z\"/><circle cx=\"9\" cy=\"13\" r=\"1\" fill=\"currentColor\"/><circle cx=\"15\" cy=\"13\" r=\"1\" fill=\"currentColor\"/><path d=\"M10.5 16.5q1.5 1.2 3 0\"/>"
      },
      {
@@ -603,8 +604,7 @@ export const BRANCHES = [
       "used": [
        "Cyberdome internship"
       ],
-      "glyph": "<rect x=\"6\" y=\"2.5\" width=\"12\" height=\"19\" rx=\"2.5\"/><path d=\"M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z\"/>",
-      "learning": true
+      "glyph": "<rect x=\"6\" y=\"2.5\" width=\"12\" height=\"19\" rx=\"2.5\"/><path d=\"M12 8l3 1.2v2.6c0 2-1.4 3.2-3 4-1.6-.8-3-2-3-4V9.2z\"/>"
      }
     ]
    },

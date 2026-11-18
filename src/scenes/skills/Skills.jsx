@@ -63,10 +63,24 @@ export default function Skills() {
     const panel = panelRef.current;
     const measure = () => {
       panel.querySelectorAll('.sk-row').forEach((row) => {
-        const tops = [...new Set([...row.children].map((c) => c.offsetTop))];
-        const line = 'linear-gradient(var(--c), var(--c))';
-        row.style.setProperty('--line-bg', tops.map(() => line).join(', '));
-        row.style.setProperty('--line-pos', tops.map((t) => `0 ${t + 29}px`).join(', '));
+        const cells = [...row.children];
+        const tops = [...new Set(cells.map((c) => c.offsetTop))];
+        const solid = 'linear-gradient(var(--c), var(--c))';
+        const dashed = 'repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 11px)';
+        const bg = [];
+        const pos = [];
+        const size = [];
+        // Learning tiles sit at the end of their line: the line is solid up to the first one
+        // and dashed from there on, so the unfinished part reads as unfinished.
+        tops.forEach((t) => {
+          const first = cells.find((c) => c.offsetTop === t && c.classList.contains('is-learning'));
+          const split = first ? first.offsetLeft : row.clientWidth;
+          bg.push(solid); pos.push(`0 ${t + 29}px`); size.push(`${split}px 2px`);
+          if (first) { bg.push(dashed); pos.push(`${split}px ${t + 29}px`); size.push(`${row.clientWidth - split}px 2px`); }
+        });
+        row.style.setProperty('--line-bg', bg.join(', '));
+        row.style.setProperty('--line-pos', pos.join(', '));
+        row.style.setProperty('--line-size', size.join(', '));
       });
     };
     measure();

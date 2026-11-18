@@ -43,7 +43,7 @@
   content: ''; position: absolute; left: 0; right: 0; top: 0; bottom: 0; pointer-events: none;
   background-image: var(--line-bg, linear-gradient(var(--c), var(--c)));
   background-position: var(--line-pos, 0 29px);
-  background-size: 100% 2px; background-repeat: no-repeat;
+  background-size: var(--line-size, 100% 2px); background-repeat: no-repeat;
   opacity: 0.45; transform-origin: left center;
 }
 .sk-cell { z-index: 1; }
