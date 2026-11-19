@@ -43,6 +43,7 @@ export const findProject = (slug) => projects.find((p) => p.slug === slug);
 // No url means the repo is not public, so the tile has no GitHub arrow.
 const GH = 'https://github.com/AdrielBobby/';
 export const otherProjects = [
+  { name: 'Prem Predictor', url: GH + 'prem-predictor', text: 'A Premier League predictor that combines Elo, a Poisson goals model and logistic regression into win/draw/loss odds and a likely scoreline, with a local LLM explaining each pick. Predictions are frozen at the FPL deadline and later checked against real results and the bookmakers, so the record cannot be rewritten. Tracking since GW11.', stack: ['Python', 'FastAPI', 'scikit-learn', 'Ollama'] },
   { name: 'Disk Declutter', url: GH + 'Disk-Declutter', text: 'A Windows CLI that scans for unused apps, stale files, duplicates and cache junk, ranks them by how safe they are to clear, and moves your picks to the Recycle Bin from an interactive HTML report. An optional local LLM gives a second opinion.', stack: ['Python', 'Ollama', 'send2trash', 'pytest'] },
   { name: 'ESP32 Marauder', text: 'Wi‑Fi/Bluetooth pentesting toolkit built on ESP32 with Marauder firmware for wireless auditing.', stack: ['ESP32', 'Arduino IDE', 'Wireshark'] },
   { name: 'PoolDetect AI', url: GH + 'ai-swimming-pool-detection', text: 'End-to-end satellite image pipeline that detects swimming pools using a custom OpenCV morphology approach, sub‑0.1 s per image on CPU.', stack: ['Python', 'OpenCV', 'NumPy'] },
