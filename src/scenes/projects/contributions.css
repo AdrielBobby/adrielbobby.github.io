@@ -1,0 +1,30 @@
+/* The GitHub skyline at the end of Projects: a column of symbols per week. */
+.cx { margin-top: 12vh; padding-top: 8vh; border-top: 1px solid var(--line); }
+.cx-big { font-size: clamp(30px, 4vw, 52px); line-height: 1.05; max-width: 18ch; margin: 0 0 5vh; }
+.cx-cols { display: grid; grid-template-columns: repeat(53, minmax(0, 1fr)); height: calc(var(--rows, 9) * 16px); align-items: end; }
+.cx-col {
+  display: block; white-space: pre; text-align: center; font: 400 13px/16px var(--font-mono); color: var(--green-on-light);
+  clip-path: inset(100% 0 0 0); transition: clip-path 600ms var(--ease); transition-delay: calc(var(--i) * 14ms);
+}
+.cx.is-in .cx-col { clip-path: inset(0 0 0 0); }
+.cx-base { height: 2px; background: var(--green-on-light); opacity: 0.8; margin-top: 2px; transform-origin: left center; transform: scaleX(0); transition: transform 700ms var(--ease); }
+.cx.is-in .cx-base { transform: none; }
+.cx-months { display: grid; grid-template-columns: repeat(53, minmax(0, 1fr)); margin-top: 6px; font: 400 11px/1 var(--font-mono); letter-spacing: 0.04em; color: var(--muted); }
+.cx-months span { white-space: nowrap; }
+.cx-stats { display: flex; flex-wrap: wrap; gap: 8px 32px; list-style: none; margin: 4vh 0 0; padding: 0; font-size: 15px; color: var(--muted); }
+.cx-stats b { color: var(--ink); font-weight: 600; }
+.cx-stats a { color: var(--ink); text-decoration: none; border-bottom: 2px solid var(--green-on-light); padding-bottom: 2px; }
+.cx-note { display: none; }
+
+/* phones: the last 28 weeks, so each column is wide enough for its symbol */
+@media (max-width: 700px) {
+  .cx { margin-top: 9vh; padding-top: 6vh; }
+  .cx-cols, .cx-months { grid-template-columns: repeat(28, minmax(0, 1fr)); }
+  .cx-col:nth-child(-n + 25) { display: none; }
+  .cx-months span { display: none; }
+  .cx-note { display: block; margin: 2vh 0 0; color: var(--muted); font-size: 13px; }
+  .cx-stats { flex-direction: column; gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .cx-col, .cx-base { transition: none; clip-path: none; transform: none; }
+}

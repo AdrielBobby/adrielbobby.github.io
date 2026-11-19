@@ -44,7 +44,8 @@ npm run dev
 | `npm run dev` | Dev server with hot reload |
 | `npm run build` | Production build in `dist/` |
 | `npm run preview` | Serve the production build locally |
-| `npm run deploy` | Build, then publish `dist/` to the `gh-pages` branch |
+| `npm run contributions` | Save the last year of GitHub activity to `src/data/contributions.json` (needs the GitHub CLI, signed in) |
+| `npm run deploy` | Refresh the contributions numbers, build, then publish `dist/` to the `gh-pages` branch |
 
 ## Structure
 

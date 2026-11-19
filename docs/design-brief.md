@@ -96,3 +96,6 @@ Always dark graphite with the project accent. Sticky "file card" on the left (st
 
 ## 11. Approval
 Approved by Adriel after the axolotl was added (the brief now covers every scene). The build is a fresh React/Vite structure, section by section, in the order above. Changes to this brief are made here and in `plan.md` first.
+
+### 4d. GitHub contributions
+At the end of Projects, under the smaller builds: a skyline of the last year, one column of symbols per week (`:` body, `*` top; heights follow the square root of the week's count so quiet weeks show). The columns rise left to right when it scrolls into view. Numbers are saved in `src/data/contributions.json` by `scripts/fetch-contributions.mjs`, which runs before every deploy through the GitHub CLI (no token on the site, no request from the page; if the fetch fails the saved numbers are kept). Phones show the last 28 weeks so each column fits its symbol.

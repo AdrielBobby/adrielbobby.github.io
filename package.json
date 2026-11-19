@@ -7,7 +7,8 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "predeploy": "vite build",
+    "contributions": "node scripts/fetch-contributions.mjs",
+    "predeploy": "node scripts/fetch-contributions.mjs && vite build",
     "deploy": "gh-pages -d dist"
   },
   "dependencies": {

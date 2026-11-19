@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { projects, otherProjects } from '../../data/projects.js';
 import { subscribeScroll } from '../../lib/scroll.js';
 import { usePhone } from '../../lib/phone.js';
+import Contributions from './Contributions.jsx';
 import './projects.css';
 
 const N = projects.length;
@@ -153,6 +154,7 @@ export default function Projects() {
               </li>
             ))}
           </ul>
+          <Contributions />
         </section>
       </div>
     </section>
