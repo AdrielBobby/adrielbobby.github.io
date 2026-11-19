@@ -58,7 +58,8 @@ export const BRANCHES = [
        "Thaalam",
        "PoolDetect",
        "Vaccine Dispatch",
-       "Gemini Context Monitor"
+       "Gemini Context Monitor",
+       "Disk Declutter"
       ],
       "icon": "python"
      },
@@ -89,7 +90,8 @@ export const BRANCHES = [
       "name": "JavaScript",
       "used": [
        "Calm Cockpit",
-       "SkyBrief"
+       "SkyBrief",
+       "Disk Declutter"
       ],
       "icon": "javascript"
      },
@@ -116,7 +118,8 @@ export const BRANCHES = [
        "Calm Cockpit",
        "SkyBrief",
        "College Helper",
-       "kv"
+       "kv",
+       "Disk Declutter"
       ],
       "icon": "html5"
      }
@@ -218,14 +221,16 @@ export const BRANCHES = [
       "name": "Ollama",
       "used": [
        "Thangan",
-       "Thaalam"
+       "Thaalam",
+       "Disk Declutter"
       ],
       "icon": "ollama"
      },
      {
-      "name": "Llama 3.1",
+      "name": "Llama",
       "used": [
-       "Thangan"
+       "Thangan",
+       "Disk Declutter"
       ],
       "icon": "meta"
      },
@@ -256,6 +261,14 @@ export const BRANCHES = [
       ],
       "caption": "Context window",
       "glyph": "<path d=\"M8 4H5v16h3M16 4h3v16h-3\"/><path d=\"M9 9h6M9 12h6M9 15h4\"/>"
+     },
+     {
+      "name": "Structured output",
+      "used": [
+       "Disk Declutter"
+      ],
+      "glyph": "<path d=\"M8 4C5.5 4 6.5 8.5 4 12c2.5 3.5 1.5 8 4 8M16 4c2.5 0 1.5 4.5 4 8-2.5 3.5-1.5 8-4 8\"/><path d=\"M10 9.5h4M10 12.5h4M10 15.5h2.5\"/>",
+      "learning": true
      },
      {
       "name": "Orchestration",
@@ -558,9 +571,18 @@ export const BRANCHES = [
      {
       "name": "pytest",
       "used": [
-       "Thangan"
+       "Thangan",
+       "Disk Declutter"
       ],
       "icon": "pytest"
+     },
+     {
+      "name": "CLI tools",
+      "used": [
+       "Disk Declutter"
+      ],
+      "glyph": "<path d=\"M5 8l4 4-4 4\"/><path d=\"M12 16.5h7\"/><path d=\"M12 8h2.5M16.5 8H19\"/>",
+      "learning": true
      },
      {
       "name": "Vercel",
@@ -568,6 +590,19 @@ export const BRANCHES = [
        "College Helper"
       ],
       "icon": "vercel",
+      "learning": true
+     }
+    ]
+   },
+   {
+    "title": "Windows",
+    "skills": [
+     {
+      "name": "Windows internals",
+      "used": [
+       "Disk Declutter"
+      ],
+      "glyph": "<rect x=\"3.5\" y=\"4\" width=\"17\" height=\"16\" rx=\"2\"/><path d=\"M3.5 9h17M10 9v11\"/><circle cx=\"15.5\" cy=\"14.5\" r=\"1.5\"/>",
       "learning": true
      }
     ]
