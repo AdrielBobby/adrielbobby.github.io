@@ -57,26 +57,42 @@ export default function Skills() {
     });
   }, [phone]);
 
-  // One branch line per visual line of tiles: find where each wrapped line of
-  // a cluster starts and put a rule through the middle of its tiles.
+  // One branch line per visual line of tiles: find where each wrapped line of a cluster
+  // starts and put a rule through the middle of its tiles. When a cluster wraps, the lines
+  // are joined into one path: the line runs off the right edge of a line, drops into the
+  // gap, comes back along it and down into the start of the next line (a snake).
   useLayoutEffect(() => {
     const panel = panelRef.current;
     const measure = () => {
       panel.querySelectorAll('.sk-row').forEach((row) => {
         const cells = [...row.children];
         const tops = [...new Set(cells.map((c) => c.offsetTop))];
+        const w = row.clientWidth;
         const solid = 'linear-gradient(var(--c), var(--c))';
-        const dashed = 'repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 11px)';
+        const dashH = 'repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 11px)';
+        const dashV = 'repeating-linear-gradient(180deg, var(--c) 0 6px, transparent 6px 11px)';
         const bg = [];
         const pos = [];
         const size = [];
-        // Learning tiles sit at the end of their line: the line is solid up to the first one
-        // and dashed from there on, so the unfinished part reads as unfinished.
-        tops.forEach((t) => {
+        const layer = (g, x, y, lw, lh) => { bg.push(g); pos.push(`${x}px ${y}px`); size.push(`${lw}px ${lh}px`); };
+        // Learning tiles sit at the end of their cluster: the path is solid up to the first one
+        // and dashed from there on (every later line and join too), so the unfinished part reads as unfinished.
+        let learning = false;
+        tops.forEach((t, i) => {
+          if (i > 0) {
+            const y0 = tops[i - 1] + 29;
+            const mid = t - 8; // the middle of the 14px gap between lines (the line is 2px)
+            const v = learning ? dashV : solid;
+            const h = learning ? dashH : solid;
+            layer(v, w - 2, y0, 2, mid - y0 + 2);
+            layer(h, 0, mid, w, 2);
+            layer(v, 0, mid, 2, t + 29 - mid + 2);
+          }
           const first = cells.find((c) => c.offsetTop === t && c.classList.contains('is-learning'));
-          const split = first ? first.offsetLeft : row.clientWidth;
-          bg.push(solid); pos.push(`0 ${t + 29}px`); size.push(`${split}px 2px`);
-          if (first) { bg.push(dashed); pos.push(`${split}px ${t + 29}px`); size.push(`${row.clientWidth - split}px 2px`); }
+          const split = learning ? 0 : first ? first.offsetLeft : w;
+          if (split > 0) layer(solid, 0, t + 29, split, 2);
+          if (split < w) layer(dashH, split, t + 29, w - split, 2);
+          if (first) learning = true;
         });
         row.style.setProperty('--line-bg', bg.join(', '));
         row.style.setProperty('--line-pos', pos.join(', '));

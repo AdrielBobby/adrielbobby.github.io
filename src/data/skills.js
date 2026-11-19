@@ -1,6 +1,6 @@
 // Originally generated from docs/skills-scene-sketch.html; edited by hand since (cluster fixes and learning flags), so the sketch is now out of date. Edit this file directly.
-// 77 skills in 6 branches: 41 logos from Simple Icons 13.21.0 (CC0; trademarks
-// belong to their owners), 36 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
+// 83 skills in 6 branches: 41 logos from Simple Icons 13.21.0 (CC0; trademarks
+// belong to their owners), 42 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
 
 export const ICONS = {
  "pandas": "M16.922 0h2.623v18.104h-2.623zm-4.126 12.94h2.623v2.57h-2.623zm0-7.037h2.623v5.446h-2.623zm0 11.197h2.623v5.446h-2.623zM4.456 5.896h2.622V24H4.455zm4.213 2.559h2.623v2.57H8.67zm0 4.151h2.623v5.447H8.67zm0-11.187h2.623v5.446H8.67Z",
@@ -739,6 +739,76 @@ export const BRANCHES = [
       ],
       "caption": "Social media",
       "glyph": "<path d=\"M4 10v4h3l8 4V6L7 10z\"/><path d=\"M18 9a4 4 0 0 1 0 6M7 14l1 5h3l-1-4.5\"/>"
+     }
+    ]
+   },
+   {
+    "title": "AI + data",
+    "skills": [
+     {
+      "name": "Machine learning",
+      "used": [
+       "Prem Predictor",
+       "PoolDetect AI"
+      ],
+      "glyph": "<circle cx=\"5\" cy=\"7\" r=\"2\"/><circle cx=\"5\" cy=\"17\" r=\"2\"/><circle cx=\"12\" cy=\"12\" r=\"2\"/><circle cx=\"19\" cy=\"12\" r=\"2\"/><path d=\"M7 7l3.2 4M7 17l3.2-4M14 12h3\"/>",
+      "learning": true
+     },
+     {
+      "name": "Data analysis",
+      "used": [
+       "Spotify Tracks Data Analysis",
+       "Vaccine Dispatch Tracker",
+       "Prem Predictor"
+      ],
+      "glyph": "<path d=\"M4 20v-7M9 20V9M14 20v-5\"/><circle cx=\"16\" cy=\"9\" r=\"4\"/><path d=\"M19 12l2.5 2.5\"/>",
+      "learning": true
+     }
+    ]
+   },
+   {
+    "title": "Engineering",
+    "skills": [
+     {
+      "name": "Embedded + IoT",
+      "used": [
+       "Thaalam",
+       "ESP32 Marauder",
+       "Mis-Communication-Nater"
+      ],
+      "glyph": "<rect x=\"7\" y=\"7\" width=\"10\" height=\"10\" rx=\"1.5\"/><path d=\"M10 3v4M14 3v4M10 17v4M14 17v4M3 10h4M3 14h4M17 10h4M17 14h4\"/>",
+      "learning": true
+     },
+     {
+      "name": "Full-stack web",
+      "used": [
+       "MedLedger",
+       "RSMS-Reimagined",
+       "Calm Cockpit",
+       "Student Marks Tracker"
+      ],
+      "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M3 8h18M8 20h8M12 17v3\"/>",
+      "learning": true
+     },
+     {
+      "name": "Game development",
+      "used": [
+       "Mend Your Heart",
+       "Pong Game"
+      ],
+      "glyph": "<rect x=\"3\" y=\"8\" width=\"18\" height=\"10\" rx=\"5\"/><path d=\"M8 11v4M6 13h4\"/><circle cx=\"15.5\" cy=\"12\" r=\"1\"/><circle cx=\"17.5\" cy=\"14.5\" r=\"1\"/>",
+      "learning": true
+     },
+     {
+      "name": "Desktop + CLI apps",
+      "used": [
+       "Disk Declutter",
+       "Gemini Context Monitor",
+       "Vaccine Dispatch Tracker"
+      ],
+      "caption": "Desktop + CLI",
+      "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18M6 6.5h.01M9 6.5h.01\"/><path d=\"M7 13l2.5 2L7 17M12 17h4\"/>",
+      "learning": true
      }
     ]
    }
