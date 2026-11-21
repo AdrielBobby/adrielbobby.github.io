@@ -190,7 +190,7 @@ export default function Skills() {
                             type="button"
                             className="sk-tile"
                             aria-pressed={on}
-                            aria-label={s.caption ? `${s.name}` : undefined}
+                            aria-label={s.includes ? `${s.name}, includes ${s.includes.join(', ')}` : s.caption ? s.name : undefined}
                             onClick={() => setPicked(on ? null : { branch: current, name: s.name })}
                           >
                             <span className="sk-tile-face"><Icon skill={s} /></span>
@@ -211,6 +211,7 @@ export default function Skills() {
                     {chosen.learning ? 'Currently learning.' : 'Learned to use.'}
                     {chosen.used.length > 0 && <> Used in: <span>{chosen.used.join(', ')}</span></>}
                   </p>
+                  {chosen.includes && <p>Includes: <span>{chosen.includes.join(', ')}</span></p>}
                 </>
               ) : (
                 <p className="sk-hint">Select a tile to see where it was used.</p>
