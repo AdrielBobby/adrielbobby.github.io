@@ -1,8 +1,9 @@
 // Originally generated from docs/skills-scene-sketch.html; edited by hand since (cluster fixes and learning flags), so the sketch is now out of date. Edit this file directly.
-// 83 skills in 6 branches: 41 logos from Simple Icons 13.21.0 (CC0; trademarks
-// belong to their owners), 42 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
+// 94 skills in 6 branches: 42 logos from Simple Icons 13.21.0 (CC0; trademarks
+// belong to their owners), 52 custom glyphs drawn for this site (24-unit grid, 2-unit round stroke).
 
 export const ICONS = {
+ "opnsense": "M18.419 11.08h5.259v1.847h-5.254l1.66.885v1.847l-5.111-2.732h-.005V11.08l5.111-2.737v1.847l-1.66.89zm.005 5.54l5.255 2.808v1.841c.01 1.453-1.176 2.744-2.655 2.731H.322v-4.573l5.252-2.808H2.119v-1.847h1.297v1.719l3.216-1.719h2.395v1.846l-3.453 1.847h12.85l-3.455-1.847v-1.846h2.4l3.216 1.719v-1.719h1.297v1.847h-3.458zM3.949 20.307v-.972l-1.83.979v1.84h18.905c.481-.004.848-.393.857-.879v-.96l-1.764-.943v.936H3.949zm-.033-6.496v1.847l5.111-2.732V11.08L3.916 8.343v1.847l1.665.89H.322v1.847h5.254l-1.66.884zM23.679 0v4.572L18.42 7.386h3.462v1.847h-1.303V7.508l-3.222 1.725h-2.39V7.386l3.451-1.847H5.578l3.449 1.847v1.847H6.638L3.416 7.508v1.725H2.119V7.386h3.459L.322 4.572V2.731C.3 1.291 1.495-.012 2.976 0h20.703zm-1.798 1.846H2.976c-.488.009-.847.394-.857.88v.962l1.797.962v-.957h16.168v.956l1.797-.962V1.846z",
  "pandas": "M16.922 0h2.623v18.104h-2.623zm-4.126 12.94h2.623v2.57h-2.623zm0-7.037h2.623v5.446h-2.623zm0 11.197h2.623v5.446h-2.623zM4.456 5.896h2.622V24H4.455zm4.213 2.559h2.623v2.57H8.67zm0 4.151h2.623v5.447H8.67zm0-11.187h2.623v5.446H8.67Z",
  "numpy": "M10.315 4.876L6.3048 2.8517l-4.401 2.1965 4.1186 2.0683zm1.8381.9277l4.2045 2.1223-4.3622 2.1906-4.125-2.0718zm5.6153-2.9213l4.3193 2.1658-3.863 1.9402-4.2131-2.1252zm-1.859-.9329L12.021 0 8.1742 1.9193l4.0068 2.0208zm-3.0401 16.7443V24l4.7107-2.3507-.0053-5.3085zm4.7037-4.2057l-.0052-5.2528-4.6985 2.3356v5.2546zm5.6553-.9845v5.327l-4.0178 2.0052-.0029-5.3028zm0-1.8626V6.4214l-4.0253 2.001.0034 5.2633zM11.2062 11.571L8.0333 9.9756v6.895s-3.8804-8.2564-4.2399-8.998c-.0463-.0957-.2371-.2007-.2858-.2262C2.8118 7.2812.773 6.2485.773 6.2485V18.43l2.8204 1.5076v-6.3674s3.8392 7.3775 3.878 7.458c.0389.0807.4245.8582.8362 1.1314.5485.363 2.8992 1.7766 2.8992 1.7766z",
  "scipy": "M15.697 13.496c-.784-1.072-1.982-1.519-3.694-1.88l-1.592-.375-1.201-.515c-.631-.446-1.17-1.634-1.017-2.681a3 3 0 0 1 3.386-2.526 2.962 2.962 0 0 1 1.962 1.155L15.35 9.05c1.033 1.33 2.195 1.727 3.459 1.098l.637-.27a.22.22 0 0 1 .278.087l.127.19a.311.311 0 0 0 .156.131.326.326 0 0 0 .33-.058l1.467-1.384c.257-.22.182-.422.182-.422l-.354-.806s-.097-.193-.431-.149l-1.968.181a.327.327 0 0 0-.27.411l.071.227c.014.047.014.1-.005.148a.219.219 0 0 1-.124.125l-.556.235c-.582.341-1.244.123-1.686-.417l-.505-.67-1.438-1.91a4.421 4.421 0 0 0-2.929-1.72C9.355 3.733 7.095 5.42 6.741 7.84c-.179 1.22.187 2.375.855 3.302.485.674 1.373 1.06 1.854 1.18l1.262.36 1.208.277c.166.04.634.155.91.255.256.092.845.31 1.324.701.572.582.875 1.413.746 2.284a2.744 2.744 0 0 1-4.897 1.255l-1.726-2.292a2.294 2.294 0 0 0-1.514-.89 2.31 2.31 0 0 0-1.708.439l-3.632 2.71A11.002 11.002 0 0 1 0 12C0 5.798 5.133.768 11.465.768c4.715 0 8.761 2.788 10.523 6.77l.581-.27.393-1.072.411.144-.353.96.98.337-.148.402-1.095-.382-.603.277c.5 1.262.778 2.632.778 4.066 0 6.203-5.135 11.232-11.467 11.232a11.526 11.526 0 0 1-9.26-4.61l3.721-2.788a.855.855 0 0 1 1.163.19l1.826 2.455a4.186 4.186 0 0 0 2.673 1.502c2.302.322 4.439-1.273 4.773-3.563a4.14 4.14 0 0 0-.664-2.922",
@@ -433,6 +434,13 @@ export const BRANCHES = [
       "glyph": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"4.5\"/><path d=\"M12 12l6-6\"/><circle cx=\"12\" cy=\"12\" r=\"1\" fill=\"currentColor\"/>"
      },
      {
+      "name": "tcpdump",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<path d=\"M4 7h10M4 12h7M4 17h10\"/><circle cx=\"17\" cy=\"14\" r=\"3.5\"/><path d=\"M19.5 16.5L22 19\"/>"
+     },
+     {
       "name": "Gobuster",
       "used": [],
       "glyph": "<path d=\"M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z\"/><path d=\"M13.5 10l-3 6\"/>"
@@ -567,21 +575,67 @@ export const BRANCHES = [
      },
      {
       "name": "Kali Linux",
-      "used": [],
+      "used": [
+       "Virtual SOC Lab"
+      ],
       "icon": "kalilinux"
      },
      {
       "name": "VirtualBox",
-      "used": [],
+      "used": [
+       "Virtual SOC Lab"
+      ],
       "icon": "virtualbox"
      },
      {
       "name": "Docker",
       "used": [
        "MedLedger",
-       "Cyberdome internship"
+       "Cyberdome internship",
+       "Virtual SOC Lab"
       ],
       "icon": "docker"
+     }
+    ]
+   },
+   {
+    "title": "Defence + monitoring",
+    "skills": [
+     {
+      "name": "OPNsense",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "icon": "opnsense"
+     },
+     {
+      "name": "Suricata",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<path d=\"M2 12s4-6.5 10-6.5S22 12 22 12s-4 6.5-10 6.5S2 12 2 12z\"/><circle cx=\"12\" cy=\"12\" r=\"3\"/>"
+     },
+     {
+      "name": "Wazuh",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"13\" rx=\"2\"/><path d=\"M6 11.5h3l1.5-3 3 6 1.5-3H18\"/><path d=\"M8 20h8\"/>"
+     },
+     {
+      "name": "Squid",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<path d=\"M3 12h5M16 12h2M18 9l3 3-3 3\"/><rect x=\"8\" y=\"6\" width=\"8\" height=\"12\" rx=\"2\"/>"
+     },
+     {
+      "name": "Zenarmor",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<path d=\"M12 3l7 3v5c0 4.5-3 7.7-7 10-4-2.3-7-5.5-7-10V6z\"/><path d=\"M9 9.5h6M9 12.5h6\"/>",
+      "learning": true
      }
     ]
    }
@@ -671,6 +725,14 @@ export const BRANCHES = [
       "learning": true
      },
      {
+      "name": "Docker Compose",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<rect x=\"3\" y=\"12\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"10.5\" y=\"12\" width=\"7\" height=\"7\" rx=\"1\"/><rect x=\"7\" y=\"4.5\" width=\"7\" height=\"7\" rx=\"1\"/><path d=\"M20 15v3\"/>",
+      "learning": true
+     },
+     {
       "name": "Vercel",
       "used": [
        "College Helper"
@@ -715,7 +777,8 @@ export const BRANCHES = [
      {
       "name": "Network security",
       "used": [
-       "Cyberdome internship"
+       "Cyberdome internship",
+       "Virtual SOC Lab"
       ],
       "glyph": "<circle cx=\"5\" cy=\"6\" r=\"2\"/><circle cx=\"19\" cy=\"6\" r=\"2\"/><circle cx=\"12\" cy=\"19\" r=\"2\"/><path d=\"M7 6h10M6 8l5 9M18 8l-5 9\"/>",
       "learning": true
@@ -808,6 +871,46 @@ export const BRANCHES = [
       ],
       "caption": "Desktop + CLI",
       "glyph": "<rect x=\"3\" y=\"4\" width=\"18\" height=\"16\" rx=\"2\"/><path d=\"M3 9h18M6 6.5h.01M9 6.5h.01\"/><path d=\"M7 13l2.5 2L7 17M12 17h4\"/>",
+      "learning": true
+     }
+    ]
+   },
+   {
+    "title": "Network defence",
+    "skills": [
+     {
+      "name": "Intrusion detection",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "caption": "Intrusion detection",
+      "glyph": "<path d=\"M12 3l7 3v5c0 4.5-3 7.7-7 10-4-2.3-7-5.5-7-10V6z\"/><path d=\"M12 8.5v4M12 15.5v.5\"/>",
+      "learning": true
+     },
+     {
+      "name": "SIEM and log analysis",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "caption": "SIEM + logs",
+      "glyph": "<rect x=\"4\" y=\"3.5\" width=\"16\" height=\"17\" rx=\"2\"/><path d=\"M8 8h8M8 12h5M8 16h7\"/>",
+      "learning": true
+     },
+     {
+      "name": "Firewall administration",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "caption": "Firewalls",
+      "glyph": "<rect x=\"3\" y=\"5\" width=\"18\" height=\"14\" rx=\"1.5\"/><path d=\"M3 9.7h18M3 14.3h18M9 5v4.7M15 9.7v4.6M9 14.3V19\"/>",
+      "learning": true
+     },
+     {
+      "name": "Virtual networking",
+      "used": [
+       "Virtual SOC Lab"
+      ],
+      "glyph": "<rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"3\" stroke-dasharray=\"3 3\"/><circle cx=\"8\" cy=\"9\" r=\"1.8\"/><circle cx=\"16\" cy=\"9\" r=\"1.8\"/><circle cx=\"12\" cy=\"16\" r=\"1.8\"/><path d=\"M9.5 10l1.7 4.3M14.5 10l-1.7 4.3M10 9h4\"/>",
       "learning": true
      }
     ]

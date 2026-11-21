@@ -13,7 +13,7 @@ A scroll site plus four case-file pages, with a simpler stacked layout on phones
 | Opening | Green `kv` letters on black, then the green tile blooms behind them. Scrolling grows it into a green page that redraws itself as a hand-drawn face logo (scroll-linked). Skip link included. |
 | Who I am | The logo breaks into `. , : - + *` symbols that settle into a symbol portrait while the headline and two stat tiles enter. |
 | Projects | Four featured projects as a pinned horizontal strip (each opens a case file) and eleven smaller ones. The page takes each project's colour as you reach it. |
-| Skills | Six branches, 83 skills as icon tiles (41 logos from Simple Icons, 42 custom glyphs), drawn in on scroll. |
+| Skills | Six branches, 94 skills as icon tiles (42 logos from Simple Icons, 52 custom glyphs), drawn in on scroll. |
 | Experience | Roles, credentials, awards and education as ruled rows, reached through a symbol ripple from Skills. |
 | Contact | A halftone dissolve to black, then a live `contact.sh` terminal. Messages post to a Formspree form. |
 
